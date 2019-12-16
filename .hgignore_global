@@ -1,0 +1,10 @@
+syntax: glob
+
+*~
+.DS_Store
+.idea/
+.resin-sync.yml
+Thumbs.db
+__pycache__/
+*.pyc
+venv/
