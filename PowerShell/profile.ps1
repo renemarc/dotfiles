@@ -1,26 +1,24 @@
 #
-# PowerShell Core: CurrentUserAllHosts
+# PowerShell profile
 #
 
-# Aliases: Basic
-Set-Alias -Name c -Value "Clear-Host"
-function .. { Set-Location ".." }
-function ll { ls }
+$ColorInfo = 'DarkYellow'
+$ColorWarn = 'DarkRed'
 
-# Aliases: *nix
-Set-Alias -Name which -Value "Get-Command"
-
-# WSL Interop
-# https://github.com/mikebattista/PowerShell-WSL-Interop
-Import-WslCommand "chmod", "grep", "head", "less", "ls", "man", "ssh", "tail", "touch"
-$WslDefaultParameterValues = @{}
-$WslDefaultParameterValues["grep"] = "-E"
-$WslDefaultParameterValues["less"] = "-i"
-$WslDefaultParameterValues["ls"] = "-AFhl --color=auto"
+# Load split configuration.
+Push-Location (Split-Path -parent $profile)
+"functions","aliases","exports","extra" | Where-Object {Test-Path "$_.ps1"} | ForEach-Object -process {Invoke-Expression ". .\$_.ps1"}
+Pop-Location
 
 # Pretty development-centered prompt
 Import-Module posh-git
 Import-Module oh-my-posh
-Set-Theme Paradox-Tweak
+#Set-Theme Paradox-Tweak
+Set-Theme Paradox
 $ThemeSettings.Colors.PromptBackgroundColor = 'Blue'
-$DefaultUser = "$Env:username"
+$DefaultUser = $Env:username
+
+if (Get-Module -ListAvailable -Name WslInterop) {
+    Write-Host "Windows Subsystem for Linux (WSL) Interop enabled." -ForegroundColor ($ColorInfo,'Yellow')[!$ColorInfo]
+    Write-Host "WSL commands available:" ($WslImportedCommands | sort) -ForegroundColor ($ColorInfo,'Yellow')[!$ColorInfo]
+}
