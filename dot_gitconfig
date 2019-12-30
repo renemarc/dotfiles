@@ -1,34 +1,99 @@
-[alias]
-	co = checkout
-	ci = commit
-	st = status
-	br = branch
-	hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
-	type = cat-file -t
-	dump = cat-file -p
-	spull = !git pull && git submodule sync --recursive && git submodule update --init --recursive
-	spush = push --recurse-submodules=on-demand
-	logline = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+#
+# Git configuration file
+#
+# Sources:
+#	https://delicious-insights.com/en/posts/mastering-git-submodules/
+#   https://github.com/haacked/dotfiles
+#	https://github.com/holman/dotfiles
+#   https://github.com/jayharris/dotfiles-windows
+#   https://github.com/mathiasbynens/dotfiles
+#	https://git-scm.com/docs/git-config/
+#
+
+[apply]
+	# Detect whitespace errors when applying a patch
+	whitespace = fix
+
 [core]
+	# Disable line endings output conversion
 	autocrlf = input
+
+	# Store global exclusions into a custom file
 	excludesfile = ~/.gitignore_global
+
+	# Make `git rebase` safer on macOS
+	# See: <http://www.git-tower.com/blog/make-git-rebase-safe-on-osx/>
 	trustctime = false
+
+    # Speed up commands involving untracked files such as `git status`
+    # See: <https://git-scm.com/docs/git-update-index#_untracked_cache>
+    untrackedCache = true
+
 [diff]
+	# List submodules commits in the range
 	submodule = log
+
 [difftool "sourcetree"]
+	# Specify the command to invoke Sourcetree
 	cmd = '' \"$LOCAL\" \"$REMOTE\"
+
+	# Disable the prompt before each invocation of the diff tool
+	prompt = false
+
 [fetch]
+	# Remove any remote-tracking references that no longer exist on the remote
 	prune = true
+
 [filter "lfs"]
+	# Specify the command to convert a worktree file's content to a blob upon checkin
 	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
+
+	# Convert between Large File Storage pointer and actual content
 	process = git-lfs filter-process
+
+	# Specify the command to convert a blob object's content to a worktree file upon checkout
+	smudge = git-lfs smudge -- %f
+
+	# Turn a content that by itself is unusable into a usable content
 	required = true
+
+[help]
+	# Correct and execute mistyped commands
+	autocorrect = 1
+
+[merge]
+    # Include summaries of merged commits in newly created merge commit messages
+    log = true
+
+[mergetool]
+	# Avoid saving an `.orig` backup file after a merge
+	keepBackup = false
+
 [mergetool "sourcetree"]
+	# Specify the command to invoke Sourcetree
 	cmd = '' \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	
+	# Use the exit code of the merge command to determine the success status
 	trustExitCode = true
+
+[rebase]
+	# Create a temporary stash entry before the operation begins
+	autostash = true
+
 [status]
+	# Enable submodule summary of commits
 	submoduleSummary = true
+
 [user]
-	name = renemarc
+	# Specify the email address of the author/committer
 	email = renemarc@gmail.com
+
+	# Specify the username of the author/committer
+	name = renemarc
+
+[include]
+	# Include aliases
+	path = .git.aliases
+
+	# Include extra configuration
+	path = .local.gitconfig
