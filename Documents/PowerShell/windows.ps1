@@ -2,20 +2,20 @@
 # PowerShell Windows configuration script
 #
 
-# Changing system properties requires to be running Powershell as an administrator.
+# Changing system properties requires to be running Powershell as an admin
 #Requires -RunAsAdministrator
 
 if (!$IsWindows) {
-    Write-Host "This script is meant to be run on a Windows OS only." -ForegroundColor ($ColorWarn,'DarkRed')[!$ColorWarn]
+    Write-Host "This script is meant to be run on a Windows OS only." -ForegroundColor ($ColorWarn,"DarkRed")[!$ColorWarn]
     exit
 }
 
-Set-Variable -Name count -Value 0 -Scope Script
-if ((Get-Variable 'ColorInfo' -ErrorAction 'Ignore') -eq $null) {  
-    Set-Variable -Name ColorInfo -Value 'DarkYellow'
+if ((Get-Variable "ColorInfo" -ErrorAction "Ignore") -eq $null) {
+    Set-Variable -Name ColorInfo -Value "DarkYellow"
 }
+Set-Variable -Name count -Value 0 -Scope Script
 
-# Terminates the script and counts the actions taken.
+# Terminates the script and counts the actions taken
 function eos {
     if ($count) {
         Write-Host "Done! $count modification(s) applied." -ForegroundColor $ColorInfo
@@ -46,9 +46,9 @@ Remove-Variable -Name confirmation
 # Dependencies
 #
 
-# Install NuGet (Package manager required for WSL Interop and eventual others).
+# Install NuGet package manager required to install WSL Interop and eventual others
 # https://www.nuget.org/
-if (Get-PackageProvider -ListAvailable -Name NuGet -ErrorAction 'Ignore') {
+if (Get-PackageProvider -ListAvailable -Name NuGet -ErrorAction "Ignore") {
     Write-Host "NuGet already installed, skipping." -ForegroundColor $ColorInfo
 }
 else {
@@ -57,10 +57,10 @@ else {
     $count++
 }
 
-# Install WSL Interop (PowerShell Core only).
+# Install or update WSL Interop to skip having to prefix Linux commands with `wsl`
 # https://github.com/mikebattista/PowerShell-WSL-Interop
 if ($IsCoreCLR) {
-    if (Get-Module -ListAvailable -Name WslInterop -ErrorAction 'Ignore') {
+    if (Get-Module -ListAvailable -Name WslInterop -ErrorAction "Ignore") {
         Write-Host "Checking for WSL Interop updates..." -ForegroundColor $ColorInfo
         Update-Module WslInterop
     }
@@ -75,10 +75,10 @@ else {
     Write-Host "PowerShell version is too old, skipping WSL Interop installation." -ForegroundColor $ColorInfo
 }
 
-# Install PSReadLine (PowerShell Core only).
+# Install or update PSReadLine to allow syntax coloring of prompt (amongst others)
 # https://github.com/PowerShell/PSReadLine
 if ($IsCoreCLR) {
-    if (Get-Module -ListAvailable -Name PSReadLine -ErrorAction 'Ignore') {
+    if (Get-Module -ListAvailable -Name PSReadLine -ErrorAction "Ignore") {
         # (Get-Module -ListAvailable -Name PSReadLine).Version.Major[0]
         Write-Host "Checking for PSReadLine updates..." -ForegroundColor $ColorInfo
         Update-Module PSReadLine
@@ -91,9 +91,9 @@ if ($IsCoreCLR) {
     }
 }
 
-# Install or update Posh-Git.
+# Install or update Posh-Git to display Git status summary information in prompt
 # https://github.com/dahlbyk/posh-git
-if (Get-Module -ListAvailable -Name posh-git -ErrorAction 'Ignore') {
+if (Get-Module -ListAvailable -Name posh-git -ErrorAction "Ignore") {
     Write-Host "Checking for posh-git updates..." -ForegroundColor $ColorInfo
     Update-Module posh-git
 }
@@ -109,9 +109,9 @@ else {
     $count++
 }
 
-# Install or update Oh-My-Posh.
+# Install or update Oh-My-Posh for prompt theming
 # https://github.com/JanDeDobbeleer/oh-my-posh
-if (Get-Module -ListAvailable -Name oh-my-posh -ErrorAction 'Ignore') {
+if (Get-Module -ListAvailable -Name oh-my-posh -ErrorAction "Ignore") {
     Write-Host "Checking for oh-my-posh updates..." -ForegroundColor $ColorInfo
     Update-Module oh-my-posh
 }
@@ -122,7 +122,7 @@ else {
     $count++
 }
 
-# Verify that scoop is setup properly.
+# Verify that scoop is setup properly
 # https://github.com/lukesampson/scoop
 Write-Host "Verifying the state of Scoop..." -ForegroundColor $ColorInfo
 Get-Command -Name scoop -ErrorAction Stop
@@ -133,7 +133,7 @@ Invoke-Command -ScriptBlock { scoop checkup }
 # System tweaks
 #
 
-# Enable LongPaths support for file paths above 260 characters.
+# Enable LongPaths support for file paths above 260 characters
 # https://social.msdn.microsoft.com/Forums/en-US/fc85630e-5684-4df6-ad2f-5a128de3deef
 $property = 'HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem'
 $name = 'LongPathsEnabled'
@@ -146,5 +146,5 @@ else {
     $count++
 }
 
-# End of script.
+# Display termination message
 eos

@@ -2,8 +2,8 @@
 # PowerShell profile: functions
 #
 
-if ((Get-Variable 'ColorInfo' -ErrorAction 'Ignore') -eq $null) {  
-    Set-Variable -Name ColorInfo -Value 'DarkYellow'
+if ((Get-Variable "ColorInfo" -ErrorAction "Ignore") -eq $null) {
+    Set-Variable -Name ColorInfo -Value "DarkYellow"
 }
 
 # Keep all Scoop apps up to date
@@ -16,15 +16,20 @@ function brewery {
     scoopup
 }
 
+# Flush the DNS resolver cache
+function flushdns {
+    ipconfig /flushdns
+}
+
+# Toggle hidden files display in Explorer
 function hideFiles {
     Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "Hidden" -Value 2
 }
-
 function showFiles {
     Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "Hidden" -Value 1
 }
 
-# Import popular commands from Linux.
+# Import popular commands from Linux
 if (Get-Command Import-WslCommand -errorAction Ignore) {
     Import-WslCommand "chmod"
     Import-WslCommand "grep"
@@ -41,20 +46,20 @@ if (Get-Command Import-WslCommand -errorAction Ignore) {
     $WslDefaultParameterValues["ls"] = "-AFhl --color=auto"
 
     $WslImportedCommands = @()
-    $WslImportedCommands += 'chmod'
-    $WslImportedCommands += 'grep'
-    $WslImportedCommands += 'head'
-    $WslImportedCommands += 'less'
-    $WslImportedCommands += 'ls'
-    $WslImportedCommands += 'man'
-    $WslImportedCommands += 'ssh'
-    $WslImportedCommands += 'tail'
+    $WslImportedCommands += "chmod"
+    $WslImportedCommands += "grep"
+    $WslImportedCommands += "head"
+    $WslImportedCommands += "less"
+    $WslImportedCommands += "ls"
+    $WslImportedCommands += "man"
+    $WslImportedCommands += "ssh"
+    $WslImportedCommands += "tail"
 }
 
-# Import "touch" command from Linux.
+# Import "touch" command from Linux
 if (Get-Command Import-WslCommand -errorAction Ignore) {
     Import-WslCommand "touch"
-    $WslImportedCommands += 'touch'
+    $WslImportedCommands += "touch"
 }
 else {
     function touch {
