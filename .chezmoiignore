@@ -1,0 +1,9 @@
+# -*-mode:gotpl-*- vim:ft=gotpl
+
+#
+# Chezmoi ignore list
+#
+# This file supports Go's text/template language.
+#
+
+README.md
