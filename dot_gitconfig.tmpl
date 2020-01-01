@@ -4,106 +4,106 @@
 # Git configuration file
 #
 # Sources:
-#	https://delicious-insights.com/en/posts/mastering-git-submodules/
+#   https://delicious-insights.com/en/posts/mastering-git-submodules/
 #   https://github.com/haacked/dotfiles
-#	https://github.com/holman/dotfiles
+#   https://github.com/holman/dotfiles
 #   https://github.com/jayharris/dotfiles-windows
 #   https://github.com/mathiasbynens/dotfiles
-#	https://git-scm.com/docs/git-config/
+#   https://git-scm.com/docs/git-config/
 #
 
 [apply]
-	# Detect whitespace errors when applying a patch
-	whitespace = fix
+    # Detect whitespace errors when applying a patch
+    whitespace = fix
 
 [core]
-	# Disable line endings output conversion
-	autocrlf = input
+    # Disable line endings output conversion
+    autocrlf = input
 
-	# Store global exclusions into a custom file
-	excludesfile = ~/.gitignore_global
+    # Store global exclusions into a custom file
+    excludesfile = ~/.gitignore_global
 
-	# Make `git rebase` safer on macOS
-	# See: <http://www.git-tower.com/blog/make-git-rebase-safe-on-osx/>
-	trustctime = false
+    # Make `git rebase` safer on macOS
+    # See: <http://www.git-tower.com/blog/make-git-rebase-safe-on-osx/>
+    trustctime = false
 
     # Speed up commands involving untracked files such as `git status`
     # See: <https://git-scm.com/docs/git-update-index#_untracked_cache>
     untrackedCache = true
 
 [diff]
-	# List submodules commits in the range
-	submodule = log
+    # List submodules commits in the range
+    submodule = log
 
 [difftool "sourcetree"]
-	# Specify the command to invoke Sourcetree
-	{{ if eq .chezmoi.os "darwin" -}}
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	{{ else if eq .chezmoi.os "windows" -}}
-	cmd = '' \"$LOCAL\" \"$REMOTE\"
-	{{- end }}
+    # Specify the command to invoke Sourcetree
+    {{ if eq .chezmoi.os "darwin" -}}
+    cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+    {{ else if eq .chezmoi.os "windows" -}}
+    cmd = '' \"$LOCAL\" \"$REMOTE\"
+    {{- end }}
 
-	# Disable the prompt before each invocation of the diff tool
-	prompt = false
+    # Disable the prompt before each invocation of the diff tool
+    prompt = false
 
 [fetch]
-	# Remove any remote-tracking references that no longer exist on the remote
-	prune = true
+    # Remove any remote-tracking references that no longer exist on the remote
+    prune = true
 
 [filter "lfs"]
-	# Specify the command to convert a worktree file's content to a blob upon checkin
-	clean = git-lfs clean -- %f
+    # Specify the command to convert a worktree file's content to a blob upon checkin
+    clean = git-lfs clean -- %f
 
-	# Convert between Large File Storage pointer and actual content
-	process = git-lfs filter-process
+    # Convert between Large File Storage pointer and actual content
+    process = git-lfs filter-process
 
-	# Specify the command to convert a blob object's content to a worktree file upon checkout
-	smudge = git-lfs smudge -- %f
+    # Specify the command to convert a blob object's content to a worktree file upon checkout
+    smudge = git-lfs smudge -- %f
 
-	# Turn a content that by itself is unusable into a usable content
-	required = true
+    # Turn a content that by itself is unusable into a usable content
+    required = true
 
 [help]
-	# Correct and execute mistyped commands
-	autocorrect = 1
+    # Correct and execute mistyped commands
+    autocorrect = 1
 
 [merge]
     # Include summaries of merged commits in newly created merge commit messages
     log = true
 
 [mergetool]
-	# Avoid saving an `.orig` backup file after a merge
-	keepBackup = false
+    # Avoid saving an `.orig` backup file after a merge
+    keepBackup = false
 
 [mergetool "sourcetree"]
-	# Specify the command to invoke Sourcetree
-	{{ if eq .chezmoi.os "darwin" -}}
-	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	{{ else if eq .chezmoi.os "windows" -}}
-	cmd = '' \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	{{- end }}
-	
-	# Use the exit code of the merge command to determine the success status
-	trustExitCode = true
+    # Specify the command to invoke Sourcetree
+    {{ if eq .chezmoi.os "darwin" -}}
+    cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+    {{ else if eq .chezmoi.os "windows" -}}
+    cmd = '' \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+    {{- end }}
+
+    # Use the exit code of the merge command to determine the success status
+    trustExitCode = true
 
 [rebase]
-	# Create a temporary stash entry before the operation begins
-	autostash = true
+    # Create a temporary stash entry before the operation begins
+    autostash = true
 
 [status]
-	# Enable submodule summary of commits
-	submoduleSummary = true
+    # Enable submodule summary of commits
+    submoduleSummary = true
 
 [user]
-	# Specify the email address of the author/committer
-	email = "{{ .email }}"
+    # Specify the email address of the author/committer
+    email = "{{ .email }}"
 
-	# Specify the username of the author/committer
-	name = "{{ .name }}"
+    # Specify the username of the author/committer
+    name = "{{ .name }}"
 
 [include]
-	# Include aliases
-	path = .git.aliases
+    # Include aliases
+    path = .git.aliases
 
-	# Include extra configuration
-	path = .local.gitconfig
+    # Include extra configuration
+    path = .local.gitconfig

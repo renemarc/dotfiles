@@ -10,125 +10,125 @@
 #    path = ~/.gitconfig.aliases
 #
 # If you don't have any existing includes, you can add this via the following command
-# 
+#
 #   git config --global include.path ~/.gitconfig.aliases
 #
 
 [alias]
-	# List aliases
-	#aliases = "!git config --list | grep ^alias\\. | cut -c 7-"
-	aliases = config --get-regexp ^alias\\.
+    # List aliases
+    #aliases = "!git config --list | grep ^alias\\. | cut -c 7-"
+    aliases = config --get-regexp ^alias\\.
 
-	# Amend the currently staged files to the latest commit
-	amend = commit --amend --reuse-message=HEAD
+    # Amend the currently staged files to the latest commit
+    amend = commit --amend --reuse-message=HEAD
 
-	# List all branches
-	br = branch
+    # List all branches
+    br = branch
 
-	# Show verbose output about branches
-	branches = branch -a
+    # Show verbose output about branches
+    branches = branch -a
 
-	# Clone a repository including all submodules
-	c = clone --recursive
+    # Clone a repository including all submodules
+    c = clone --recursive
 
-	# Commit all changes
-	ca = !git add -A && git commit -av
+    # Commit all changes
+    ca = !git add -A && git commit -av
 
-	# Lists the files with the most churn
+    # Lists the files with the most churn
     churn = !git --no-pager log --name-only --oneline | grep -v ' ' | sort | uniq -c | sort -nr | head
 
-	# Commit
-	ci = commit
+    # Commit
+    ci = commit
 
-	# Switch to a branch, but don't create it
-	co = checkout
+    # Switch to a branch, but don't create it
+    co = checkout
 
-	# Show list of files in a conflict state.
+    # Show list of files in a conflict state.
     conflicts = !git diff --name-only --diff-filter=U
 
-	# List contributors with number of commits
-	contributors = shortlog --summary --numbered
+    # List contributors with number of commits
+    contributors = shortlog --summary --numbered
 
-	# Cherry pick
-	cp = cherry-pick
+    # Cherry pick
+    cp = cherry-pick
 
-	# Credit an author on the latest commit
-	credit = "!f() { git commit --amend --author \"$1 <$2>\" -C HEAD; }; f"
+    # Credit an author on the latest commit
+    credit = "!f() { git commit --amend --author \"$1 <$2>\" -C HEAD; }; f"
 
-	# Show the diff between the latest commit and the current state
-	d = !"git diff-index --quiet HEAD -- || clear; git --no-pager diff --patch-with-stat"
+    # Show the diff between the latest commit and the current state
+    d = !"git diff-index --quiet HEAD -- || clear; git --no-pager diff --patch-with-stat"
 
-	# `git di $number` shows the diff between the state `$number` revisions ago and the current state
-	di = !"d() { git diff --patch-with-stat HEAD~$1; }; git diff-index --quiet HEAD -- || clear; d"
+    # `git di $number` shows the diff between the state `$number` revisions ago and the current state
+    di = !"d() { git diff --patch-with-stat HEAD~$1; }; git diff-index --quiet HEAD -- || clear; d"
 
-	# Discard changes to a file
+    # Discard changes to a file
     discard = checkout --
 
-	# Remove branches that have already been merged with master
-	# a.k.a. ‘delete merged’
-	dm = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
+    # Remove branches that have already been merged with master
+    # a.k.a. ‘delete merged’
+    dm = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
 
-	# Pretty-print object's content
-	dump = cat-file -p
+    # Pretty-print object's content
+    dump = cat-file -p
 
-	# Find branches containing commit
-	fb = "!f() { git branch -a --contains $1; }; f"
+    # Find branches containing commit
+    fb = "!f() { git branch -a --contains $1; }; f"
 
-	# Find commits by source code
-	fc = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short -S$1; }; f"
+    # Find commits by source code
+    fc = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short -S$1; }; f"
 
-	# Find commits by commit message
-	fm = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short --grep=$1; }; f"
+    # Find commits by commit message
+    fm = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short --grep=$1; }; f"
 
-	# Find tags containing commit
-	ft = "!f() { git describe --always --contains $1; }; f"
+    # Find tags containing commit
+    ft = "!f() { git describe --always --contains $1; }; f"
 
-	# Switch to a branch, creating it if necessary
-	go = "!f() { git checkout -b \"$1\" 2> /dev/null || git checkout \"$1\"; }; f"
+    # Switch to a branch, creating it if necessary
+    go = "!f() { git checkout -b \"$1\" 2> /dev/null || git checkout \"$1\"; }; f"
 
-	# Ignore case and skip binary files
+    # Ignore case and skip binary files
     grep = grep -Ii
 
-	# View abbreviated SHA, description, and history graph of the latest 20 commits
-	l = log --pretty=oneline -n 20 --graph --abbrev-commit
+    # View abbreviated SHA, description, and history graph of the latest 20 commits
+    l = log --pretty=oneline -n 20 --graph --abbrev-commit
 
-	# View abbreviated SHA, description, history graph, time, and author of all commits
-	ll = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+    # View abbreviated SHA, description, history graph, time, and author of all commits
+    ll = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
 
-	# View abbreviated SHA, date, description, history graph, and author of all commits
-	lo = log --pretty=format:\"%Cred%h%Creset %Cgreen%ad%Creset | %s%C(auto)%d%Creset %C(bold blue)<%an>%Creset\" --graph --date=short
+    # View abbreviated SHA, date, description, history graph, and author of all commits
+    lo = log --pretty=format:\"%Cred%h%Creset %Cgreen%ad%Creset | %s%C(auto)%d%Creset %C(bold blue)<%an>%Creset\" --graph --date=short
 
-	# Write dangling objects to lost and found
+    # Write dangling objects to lost and found
     lost = fsck --lost-found
 
-	# Pull in remote changes for the current repository and all its submodules
-	p = git pull --recurse-submodules
+    # Pull in remote changes for the current repository and all its submodules
+    p = git pull --recurse-submodules
 
-	# Abort rebase
+    # Abort rebase
     rba = rebase --abort
 
     # Stage modified files and continue rebase
     rbc = "!f(){ git add -A && git rebase --continue; }; f"
 
-	# Interactive rebase with the given number of latest commits
-	reb = "!r() { git rebase -i HEAD~$1; }; r"
+    # Interactive rebase with the given number of latest commits
+    reb = "!r() { git rebase -i HEAD~$1; }; r"
 
-	# Show verbose output about remotes
-	remotes = remote -v
+    # Show verbose output about remotes
+    remotes = remote -v
 
-	# Restore savepoint
-	restore = "!f(){ git add -A && git commit -qm 'RESTORE SAVEPOINT'; git reset $1 --hard; }; f"
+    # Restore savepoint
+    restore = "!f(){ git add -A && git commit -qm 'RESTORE SAVEPOINT'; git reset $1 --hard; }; f"
 
-	# Remove the old tag with this name and tag the latest commit with it.
-	retag = "!r() { git tag -d $1 && git push origin :refs/tags/$1 && git tag $1; }; r"
+    # Remove the old tag with this name and tag the latest commit with it.
+    retag = "!r() { git tag -d $1 && git push origin :refs/tags/$1 && git tag $1; }; r"
 
-	# Interactive rebase
-	ri = "!f(){ git fetch origin && git rebase --interactive origin/${1-master}; }; f"
+    # Interactive rebase
+    ri = "!f(){ git fetch origin && git rebase --interactive origin/${1-master}; }; f"
 
-	# View the current working tree status using the short format
-	s = status -sb
+    # View the current working tree status using the short format
+    s = status -sb
 
-	# Save savepoint
+    # Save savepoint
     save = !git add -A && git commit -m 'SAVEPOINT'
 
     # Set origin remote
@@ -137,28 +137,28 @@
     # Set upstream remote
     set-upstream = remote set-url upstream
 
-	# Pull remota and auto-update local submodules
-	spull = !git pull && git submodule sync --recursive && git submodule update --init --recursive
+    # Pull remota and auto-update local submodules
+    spull = !git pull && git submodule sync --recursive && git submodule update --init --recursive
 
-	# Push to remote, including all its submodules recursively
-	spush = push --recurse-submodules=on-demand
+    # Push to remote, including all its submodules recursively
+    spush = push --recurse-submodules=on-demand
 
-	# View the current working tree status
-	st = status
+    # View the current working tree status
+    st = status
 
-	# List stashes
-	stashes = stash list
+    # List stashes
+    stashes = stash list
 
-	# Bring in remote changes and sync back
-	sync = !git pull --rebase && git push
+    # Bring in remote changes and sync back
+    sync = !git pull --rebase && git push
 
-	# Show verbose output about tags
-	tags = tag -l
+    # Show verbose output about tags
+    tags = tag -l
 
-	# Show object type
-	type = cat-file -t
+    # Show object type
+    type = cat-file -t
 
-	# Undo Commit; leaves files. Only for non-public commits
+    # Undo Commit; leaves files. Only for non-public commits
     uncommit = reset --soft HEAD^
 
     # Undo last commit
