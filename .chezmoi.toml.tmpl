@@ -1,0 +1,18 @@
+# -*-mode:ini-*- vim:ft=dosini
+
+#
+# Chezmoi initialisation file
+#
+# This template file will have chezmoi prompt for templatable values when
+# doing a `chezmoi init`.
+# Those values are then stored in `~/.config/chezmoi/chezmoi.toml`
+#
+# Sources:
+#	https://github.com/twpayne/chezmoi/blob/master/docs/HOWTO.md
+#
+
+{{- $email := promptString "Git email address for the author/committer" -}}
+{{- $name := promptString "Git username for the author/committer" -}}
+[data]
+    email = "{{ $email }}"
+    name = "{{ $name }}"

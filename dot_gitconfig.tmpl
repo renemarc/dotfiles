@@ -37,7 +37,11 @@
 
 [difftool "sourcetree"]
 	# Specify the command to invoke Sourcetree
+	{{ if eq .chezmoi.os "darwin" -}}
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	{{ else if eq .chezmoi.os "windows" -}}
 	cmd = '' \"$LOCAL\" \"$REMOTE\"
+	{{- end }}
 
 	# Disable the prompt before each invocation of the diff tool
 	prompt = false
@@ -73,7 +77,11 @@
 
 [mergetool "sourcetree"]
 	# Specify the command to invoke Sourcetree
+	{{ if eq .chezmoi.os "darwin" -}}
+	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	{{ else if eq .chezmoi.os "windows" -}}
 	cmd = '' \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	{{- end }}
 	
 	# Use the exit code of the merge command to determine the success status
 	trustExitCode = true
@@ -88,10 +96,10 @@
 
 [user]
 	# Specify the email address of the author/committer
-	email = renemarc@gmail.com
+	email = "{{ .email }}"
 
 	# Specify the username of the author/committer
-	name = renemarc
+	name = "{{ .name }}"
 
 [include]
 	# Include aliases
