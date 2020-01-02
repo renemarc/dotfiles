@@ -21,5 +21,5 @@ $DefaultUser = $Env:username
 # Display if/which WSL Interop commands are imported
 if (Get-Module -ListAvailable -Name WslInterop) {
     Write-Host "Windows Subsystem for Linux (WSL) Interop enabled." -ForegroundColor $ColorInfo
-    Write-Host "WSL commands available: $($WslImportedCommands | sort)" -ForegroundColor $ColorInfo
+    Write-Host "WSL commands available:`n`t$($WslImportedCommands | sort)" -ForegroundColor $ColorInfo
 }

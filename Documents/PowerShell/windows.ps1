@@ -27,19 +27,22 @@ function eos {
 }
 
 # Are you sure?
-Write-Host "This script will perform the following non-destructive adjustements to the system (if required):" -ForegroundColor $ColorInfo
-Write-Host "    - Install package provider NuGet" -ForegroundColor $ColorInfo
-Write-Host "    - Install/update module WSL Interop (on PowerShell Core only)" -ForegroundColor $ColorInfo
-Write-Host "    - Install/update module PSReadLine (on PowerShell Core only)" -ForegroundColor $ColorInfo
-Write-Host "    - Install/update module posh-git" -ForegroundColor $ColorInfo
-Write-Host "    - Install/update module oh-my-posh" -ForegroundColor $ColorInfo
-Write-Host "    - Enable LongPaths support for file paths above 260 characters" -ForegroundColor $ColorInfo
+$hereString = @"
+This script will perform the following non-destructive adjustements to the system (if required):
+    - Install package provider NuGet
+    - Install/update module WSL Interop (on PowerShell Core only
+    - Install/update module PSReadLine (on PowerShell Core only)
+    - Install/update module posh-git
+    - Install/update module oh-my-posh
+    - Enable LongPaths support for file paths above 260 characters
+"@
+Write-Host $hereString -ForegroundColor $ColorInfo
 $confirmation = Read-Host -Prompt "Do you want to proceed? [y/N]"
 if ($confirmation -notMatch '^y(es)?$') {
     eos
     exit
 }
-Remove-Variable -Name confirmation
+Remove-Variable -Name ("confirmation", "hereString")
 
 
 #
