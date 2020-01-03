@@ -32,9 +32,13 @@ Set-Alias -Name dcomp -Value "$Env:Programfiles\Docker\Docker\resources\bin\dock
 # Text editors
 Set-Alias -Name subl -Value "$Env:Programfiles\Sublime Text 3\subl.exe"
 
-# Paths
-function archives { Set-Location "~\Archives" }
+# Paths: generic
 function docs { Set-Location "~\Documents" }
 function dl { Set-Location "~\Downloads" }
 function dt { Set-Location "~\Desktop" }
+
+# Paths: custom
+function archives { Set-Location "~\Archives" }
+function chezmoiconf { Set-Location "~\.local\share\chezmoi"}
 function repos { Set-Location "~\Code" }
+function sublimeconf { Set-Location "~\AppData\Roaming\Sublime Text 3\Packages\User"}

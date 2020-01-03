@@ -26,7 +26,7 @@ alias fgrep='fgrep --color=auto'
 alias brewery='brew update && brew upgrade && brew cleanup'
 alias showFiles='defaults write com.apple.finder AppleShowAllFiles YES; killall Finder /System/Library/CoreServices/Finder.app'
 alias hideFiles='defaults write com.apple.finder AppleShowAllFiles NO; killall Finder /System/Library/CoreServices/Finder.app'
-alias flushDNS='sudo killall -HUP mDNSResponder'
+alias flushdns='sudo killall -HUP mDNSResponder'
 
 # Aliases: Development
 alias d='docker'
@@ -34,6 +34,17 @@ alias dokcer='docker'
 alias dcomp='docker-compose'
 alias dwipe="docker kill $(docker ps -a -q) || docker rm $(docker ps -a -q) || docker ps -a"
 alias g='git'
+
+# Paths: Generic
+alias docs='cd ~/Documents'
+alias dl='~/Downloads'
+alias dt='~/Desktop'
+
+# Paths: Custom
+alias archives='~/Archives'
+alias chezmoiconf='~/.local/share/chezmoi'
+alias repos='~/Code'
+alias sublimeconf='~/Library/Application\ Support/Sublime\ Text\ 3/Packages/User'
 
 # Hitting CTRL+S after using CTRL+R (reverse search) will forward search if you pass over an element.
 [[ $- == *i* ]] && stty -ixon
