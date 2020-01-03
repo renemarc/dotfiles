@@ -11,8 +11,9 @@
 #   https://github.com/twpayne/chezmoi/blob/master/docs/HOWTO.md
 #
 
-{{- $email := promptString "Git email address for the author/committer" -}}
-{{- $name := promptString "Git username for the author/committer" -}}
+{{- $email := promptString "Git email address for the author/committer" }}
+{{- $name := promptString "Git username for the author/committer" }}
+
 [data]
     email = "{{ $email }}"
     name = "{{ $name }}"
