@@ -1,0 +1,156 @@
+#!/bin/bash
+# -*-mode:bash-*- vim:ft=bash
+
+# Bash: shell options and environment variables
+# =============================================================================
+
+export PATH="/usr/local/sbin:$PATH"
+
+
+# Globbing
+# -----------------------------------------------------------------------------
+
+# Case-insensitive globbing
+shopt -s nocaseglob;
+
+# Do not autocomplete when accidentally pressing Tab on an empty line
+shopt -s no_empty_cmd_completion;
+
+# Do not overwrite files when redirecting using ">" (override this with ">|")
+set -o noclobber;
+
+# Prefer English and use UTF-8.
+if command -v locale > /dev/null; then
+    printf -v available_locales ' %s ' $(locale -a);
+    for lang in en_US en_GB en; do
+        for locale in "$lang".{UTF-8,utf8}; do
+            if [[ "$available_locales" =~ " $locale " ]]; then
+                export LC_ALL="$locale";
+                export LANG="$lang";
+                break 2;
+            fi;
+        done;
+    done;
+    unset available_locales lang locale;
+fi;
+
+
+# Prompt
+# -----------------------------------------------------------------------------
+
+# Make prompt informative and colorful.
+# format: [01 Jan, 14:00:00] user@laptop:~/.local/share/chezmoi
+export PS1="\[\033[31m\][\D{%d %b}, \t] \[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h:\[\033[33;1m\]\w\[\033[m\]\$ ";
+export SUDO_PS1="\n[\t] \[\e[33;01;41m\]\u@\H\[\e[0m\]:\$PWD\n";
+
+# Colors for dark Terminal theme
+export CLICOLOR=1;
+export LSCOLORS=GxFxCxDxBxegedabagaced;
+
+
+# History
+# -----------------------------------------------------------------------------
+
+# Keep invalid history operation entries
+shopt -s histreedit;
+
+# Keep a reasonably long history
+export HISTSIZE=4096;
+
+# Keep even more history lines inside the file, so we can still look up
+# previous commands without needlessly cluttering the current shell's history.
+export HISTFILESIZE=16384;
+
+# Ignore commands that start with spaces, and ignore consecutive duplicates
+export HISTCONTROL=ignorespace:ignoredups;
+
+# Keep track of the time the commands were executed.
+# The xterm colour escapes require special care when piping; e.g. "| less -R".
+export HISTTIMEFORMAT="%Y-%m-%d %H:%M:%S  ";
+
+# Go up (CTRL+R) and down (CTRL+S) shell history
+[[ $- == *i* ]] && stty -ixon
+
+
+# Development environments
+# -----------------------------------------------------------------------------
+
+# Dev Desktop
+export PATH="$PATH:/Applications/DevDesktop/tools"
+export PATH="$PATH:/Applications/DevDesktop/drush_9"
+
+# Drush completions
+# . ~/.drush/drush.bashrc
+
+# Drush prompt customizations
+# . ~/.drush/drush.prompt.sh
+
+# Homebrew completions
+if type brew 2&>/dev/null; then
+    for completion_file in $(brew --prefix)/etc/bash_completion.d/*; do
+        source "$completion_file"
+    done
+fi
+
+# Node Version Manager
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
+# Node completions
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
+# Python version management
+if command -v pyenv > /dev/null; then
+    eval "$(pyenv init -)"
+fi
+
+# Python completions
+if command -v pipenv > /dev/null; then
+    eval "$(pipenv --completion)"
+fi
+
+# Python global pip3 commands
+gpip3(){
+    PIP_REQUIRE_VIRTUALENV="0" pip3 "$@"
+}
+
+# Ruby version management
+if command -v rbenv > /dev/null; then
+    eval "$(rbenv init -)"
+fi
+
+# Ruby gems to PATH
+if which ruby >/dev/null && which gem >/dev/null; then
+    PATH="$(ruby -r rubygems -e 'puts Gem.user_dir')/bin:$PATH"
+fi
+
+# Hosts
+#if [[ -e ~/.ssh/known_hosts ]]; then
+#  complete -W "$(echo `cat ~/.ssh/known_hosts | cut -f 1 -d ' ' | sed -e s/,.*//g | uniq | grep -v "\["`;)" ssh
+#fi
+_complete_hosts () {
+    COMPREPLY=()
+    cur="${COMP_WORDS[COMP_CWORD]}"
+    host_list=`{
+        for c in /etc/ssh_config /etc/ssh/ssh_config ~/.ssh/config
+        do [ -r $c ] && sed -n -e 's/^Host[[:space:]]//p' -e 's/^[[:space:]]*HostName[[:space:]]//p' $c
+        done
+        for k in /etc/ssh_known_hosts /etc/ssh/ssh_known_hosts ~/.ssh/known_hosts
+        do [ -r $k ] && egrep -v '^[#\[]' $k|cut -f 1 -d ' '|sed -e 's/[,:].*//g'
+        done
+        sed -n -e 's/^[0-9][0-9\.]*//p' /etc/hosts; }|tr ' ' '\n'|grep -v '*'`
+    COMPREPLY=( $(compgen -W "${host_list}" -- $cur))
+    return 0
+}
+complete -F _complete_hosts ssh
+complete -F _complete_hosts sshs
+complete -F _complete_hosts host
+complete -F _complete_hosts telnet
+complete -F _complete_hosts ping
+
+
+# Continuous development
+# -----------------------------------------------------------------------------
+
+# Travis CI completions
+[ -f ~/.travis/travis.sh ] && source ~/.travis/travis.sh

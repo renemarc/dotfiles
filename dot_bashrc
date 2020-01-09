@@ -1,0 +1,11 @@
+# -*-mode:bash-*- vim:ft=bash
+
+#
+# Bash: Non-login shell configuration
+#
+
+# Load split configuration for easier maintenance
+for file in "$(dirname "$BASH_SOURCE")"/.bash/{shell,aliases,functions,prompt,extra}; do
+    [ -r "$file" ] && source "$file";
+done;
+unset file;

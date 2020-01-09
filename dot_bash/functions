@@ -1,0 +1,57 @@
+#!/bin/bash
+# -*-mode:bash-*- vim:ft=bash
+
+#
+# Bash: functions
+#
+
+# Repeat a command
+# Syntax: "repeat [X] [command]"
+function repeat()
+{
+    local i max
+    max=$1; shift;
+    for ((i=1; i <= max ; i++)); do  # --> C-like syntax
+        eval "$@";
+    done
+}
+
+# Extract files
+# Syntax: "extract [file]"
+function extract () {
+    if [ -f $1 ] ; then
+        case $1 in
+            *.tar.bz2) tar xjf $1    ;;
+            *.tar.gz)  tar xzf $1    ;;
+            *.bz2)     bunzip2 $1    ;;
+            *.rar)     rar x $1      ;;
+            *.gz)      gunzip $1     ;;
+            *.tar)     tar xf $1     ;;
+            *.tbz2)    tar xjf $1    ;;
+            *.tgz)     tar xzf $1    ;;
+            *.zip)     unzip $1      ;;
+            *.Z)       uncompress $1 ;;
+            *)         echo "'$1' cannot be extracted via extract()" ;;
+        esac
+    else
+        echo "'$1' is not a valid file"
+    fi
+}
+
+# Change directory to the current Finder directory
+function cdf() {
+    target=`osascript -e 'tell application "Finder" to if (count of Finder windows) > 0 then get POSIX path of (target of front Finder window as text)'`
+    if [ "$target" != "" ]; then
+        cd "$target"; pwd
+    else
+        echo 'No Finder window found' >&2
+    fi
+}
+
+# update_bash-it
+function update_bash-it() {
+    CM="$(chezmoi source-path)"
+    curl -s -L -o ${CM}/bash-it-master.tar.gz https://github.com/Bash-it/bash-it/archive/master.tar.gz
+    chezmoi import --strip-components 1 --destination ${HOME}/.bash-it ${CM}/bash-it-master.tar.gz
+    rm ${CM}/bash-it-master.tar.gz
+}

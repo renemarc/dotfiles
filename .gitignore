@@ -2,4 +2,6 @@
 # Git ignore list (repo)
 #
 
+*.gz
+dot_bash-it
 PowerShell/Modules
