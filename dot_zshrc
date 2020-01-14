@@ -3,6 +3,12 @@
 # Hide default user from local prompt
 export DEFAULT_USER="${USER}"
 
+# Disable autosuggestion for large buffers.
+export ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE="20"
+
+# Enable aynchronous mode
+export ZSH_AUTOSUGGEST_USE_ASYNC=true
+
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -52,7 +58,7 @@ DISABLE_AUTO_UPDATE="true"
 # ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
-# COMPLETION_WAITING_DOTS="true"
+COMPLETION_WAITING_DOTS="true"
 
 # Uncomment the following line if you want to disable marking untracked files
 # under VCS as dirty. This makes repository status check for large repositories
@@ -76,25 +82,27 @@ DISABLE_AUTO_UPDATE="true"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-    colored-man-pages  # Adds colors to man pages
-    common-aliases     # Aliases for many commonly used commands
-    composer           # Aliases for [Composer](https://getcomposer.org/)
-    cp                 # Secure `cpv` function that uses `rsync`
-    docker             # Aliases for [Docker](https://www.docker.com/)
-    docker-compose     # Aliases for [Docker-Compose](https://docs.docker.com/compose/)
-    dotenv             # Load project ENV variables from folder `.env` files
-    extract            # Multi-format decompression function `x`
-    history            # Aliases for `history` command
-    pj                 # Project Jump folder shortcuts
-    rsync              # Aliases for `rsync` command
-    sublime            # Aliases for [Sublime Text](https://www.sublimetext.com/)
-    symfony2           # Completion for [Symfony 2](https://symfony.com/)
-    systemadmin        # Utilities for SysAdmins.
-    z                  # Tracks your most used directories.
+    colored-man-pages       # Adds colors to man pages
+    common-aliases          # Aliases for many commonly used commands
+    composer                # Aliases for [Composer](https://getcomposer.org/)
+    cp                      # Secure `cpv` function that uses `rsync`
+    docker                  # Aliases for [Docker](https://www.docker.com/)
+    docker-compose          # Aliases for [Docker-Compose](https://docs.docker.com/compose/)
+    dotenv                  # Load project ENV variables from folder `.env` files
+    extract                 # Multi-format decompression function `x`
+    history                 # Aliases for `history` command
+    pj                      # Project Jump folder shortcuts
+    rsync                   # Aliases for `rsync` command
+    sublime                 # Aliases for [Sublime Text](https://www.sublimetext.com/)
+    symfony2                # Completion for [Symfony 2](https://symfony.com/)
+    systemadmin             # Utilities for SysAdmins.
+    z                       # Tracks your most used directories.
+    zsh-autosuggestions     # Command suggestions based on history and completions (https://github.com/zsh-users/zsh-autosuggestions)
+    zsh-syntax-highlighting # Fish shell like syntax highlighting (https://github.com/zsh-users/zsh-syntax-highlighting)
 )
 if [[ "$OSTYPE" =~ ^darwin ]]; then
     plugins+=(
-        osx            # Utilities for macOS
+        osx                 # Utilities for macOS
     )
 fi
 # (debian, dnf, fedora, ubuntu)
@@ -136,6 +144,8 @@ export LANG=en_US.UTF-8
 ##
 ## Custom
 ##
+
+alias chezmoiconf="cd $(chezmoi source-path)"
 
 if command -v chezmoi > /dev/null; then
     alias chezmoiconfig="cd $(chezmoi source-path)"
