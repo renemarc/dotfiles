@@ -6,5 +6,5 @@
 # This file supports Go's text/template language.
 #
 
-bash-it-master.tar.gz
+*.gz
 README.md
