@@ -1,6 +1,12 @@
+{{ if eq .chezmoi.os "windows" -}}
+@REM -*-mode:bat-*- vim:ft=bat
 @echo off
 
+REM
 REM Copy Hyper configuration file to final destination on Windows
+REM
+REM This file is parsed and run automatically after each `chezmoi apply`.
+REM
 
 REM Hyper has not been installed
 IF NOT EXIST %APPDATA%\Hyper\ (
@@ -19,6 +25,6 @@ IF %errorlevel% == 0 (
     exit 0
 )
 
-exit 0
 REM Files are different or destination does not exist
 xcopy /fvy %userprofile%\.hyper.js %APPDATA%\Hyper\
+{{- end }}
