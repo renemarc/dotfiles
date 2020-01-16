@@ -1,6 +1,9 @@
+// -*-mode:javascript-*- vim:ft=javascript
 //
 // Hyper HTML/JS/CSS Terminal
 // https://hyper.is/
+//
+// On Windows, this file will be copied to `$Env:AppData/Hyper/.hyper.js`
 //
 // Future versions of Hyper may add additional config options,
 // which will not automatically be merged into this file.
@@ -16,7 +19,7 @@ module.exports = {
     fontSize: 12,
 
     // font family with optional fallbacks
-    fontFamily: 'SauceCodePro Nerd Font Mono, Menlo, "DejaVu Sans Mono", Consolas, "Lucida Console", monospace',
+    fontFamily: '"SauceCodePro Nerd Font Mono", "Delugia Nerd Font", Menlo, "DejaVu Sans Mono", Consolas, "Lucida Console", monospace',
 
     // default font weight: 'normal' or 'bold'
     fontWeight: 'normal',
@@ -107,15 +110,25 @@ module.exports = {
     //
     // PowerShell on Windows
     // - Example: `C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe`
+    {{ if eq .chezmoi.os "darwin" -}}
     // shell: '/bin/bash', // macOS Bash
     // shell: '/bin/zsh', // macOS Zsh
     // shell: '/usr/local/bin/bash', // Homebrew Bash
     // shell: '/usr/local/bin/pwsh', // Homebrew PowerShell Core
+    {{ else if eq .chezmoi.os "windows" -}}
+    // shell: 'C:\\WINDOWS\\system32\\cmd.exe', // Windows Command Prompt
+    // shell: 'C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe', // Windows PowerShell
+    shell: 'C:\\Program Files\\PowerShell\\6\\pwsh.exe', // Windows PowerShell Core
+    {{- end }}
 
     // for setting shell arguments (i.e. for using interactive shellArgs: `['-i']`)
     // by default `['--login']` will be used
+    {{ if eq .chezmoi.os "darwin" -}}
+    shellArgs: ['--login'], // Bash/Zsh
     // shellArgs: [], // Powershell Core
-    shellArgs: ['--login'],
+    {{ else if eq .chezmoi.os "windows" -}}
+    shellArgs: [], // Powershell Core
+    {{- end }}
 
     // for environment variables
     env: {},
