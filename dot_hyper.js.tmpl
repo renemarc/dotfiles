@@ -16,10 +16,14 @@ module.exports = {
     updateChannel: 'stable',
 
     // default font size in pixels for all tabs
+    {{ if eq .chezmoi.os "darwin" -}}
     fontSize: 12,
+    {{ else -}}
+    fontSize: 14,
+    {{- end }}
 
     // font family with optional fallbacks
-    fontFamily: '"SauceCodePro Nerd Font Mono", "Delugia Nerd Font", Menlo, "DejaVu Sans Mono", Consolas, "Lucida Console", monospace',
+    fontFamily: '"SauceCodePro NF", "SauceCodePro Nerd Font Mono", "Delugia Nerd Font", Menlo, "DejaVu Sans Mono", Consolas, "Lucida Console", monospace',
 
     // default font weight: 'normal' or 'bold'
     fontWeight: 'normal',
