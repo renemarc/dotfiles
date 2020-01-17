@@ -203,6 +203,7 @@ alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
 alias firefox='/Applications/Firefox.app/Contents/MacOS/Firefox'
 alias plistbuddy='/usr/libexec/PlistBuddy'
 alias safari='/Applications/Safari.app/Contents/MacOS/Safari'
+alias ss='eval "$(starship init bash)"'
 alias subl='/Applications/Sublime\ Text.app/Contents//MacOS/Sublime\ Text'
 
 # Paths: Generic
