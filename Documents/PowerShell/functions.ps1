@@ -76,3 +76,12 @@ else {
         }
     }
 }
+
+# Create directory and change to it
+function mkcd {
+    if (!(Test-Path -path $args[0])) {
+        mkdir $args[0]
+    }
+    cd $args[0] -passthru
+}
+Set-Alias -Name take -Value mkcd

@@ -60,3 +60,9 @@ function repeat() {
     done
 }
 alias r=repeat
+
+# Create directory and change to it
+function mkcd() {
+    mkdir -p "$@" && cd "$_";
+}
+alias take=mkcd

@@ -147,6 +147,7 @@ export LANG=en_US.UTF-8
 
 alias chezmoiconf="cd $(chezmoi source-path)"
 alias ss='eval "$(starship init zsh)"'
+alias mkcd=take # take() is a standard part of Oh-My-Zsh
 
 if command -v chezmoi > /dev/null; then
     alias chezmoiconfig="cd $(chezmoi source-path)"
