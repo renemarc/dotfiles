@@ -5,7 +5,7 @@
 # Bash: functions
 #
 
-# Extract for common file formats
+# Extract common file formats
 # https://github.com/xvoland/Extract
 # Syntax: "extract [file]"
 function extract {

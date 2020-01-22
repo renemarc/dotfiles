@@ -5,7 +5,7 @@
 #
 
 # Load split configuration for easier maintenance
-for file in "$(dirname "$BASH_SOURCE")"/.bash/{shell,aliases,functions,prompt,extra}; do
+for file in "$(dirname "$BASH_SOURCE")"/.bash/{shell,prompt,aliases,functions,extra}; do
     [ -r "$file" ] && source "$file";
 done;
 unset file;

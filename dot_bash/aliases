@@ -5,32 +5,29 @@
 # Bash: aliases
 #
 
-# Enable simple aliases to be sudo'ed. ("sudone"?)
-# http://www.gnu.org/software/bash/manual/bashref.html#Aliases says: "If the
-# last character of the alias value is a space or tab character, then the next
-# command word following the alias is also checked for alias expansion."
-alias sudo='sudo ';
+# Redefine standard commands to improve their behavior
+# -----------------------------------------------------------------------------
 
-# Make default commands verbose
+# Start calculator with math support
+alias bc='bc -l'
+
+# Make file commands verbose
 alias cp='cp -v';
 alias mv='mv -v';
-#alias rm='rm -v';
 
-#
-# Easier navigation
-#
-alias cd..='cd ..'
-alias ..='cd ..'
-alias ...='cd ../../../'
-alias ....='cd ../../../../'
-alias .....='cd ../../../../'
-alias .4='cd ../../../../'
-alias .5='cd ../../../../..'
-alias -- -='cd -'
+# Display drives and space in human readable format
+alias df='df -h'
 
-#
-# Directory browsing
-#
+# Colorize diff output (requires colordiff package)
+command -v colordiff &> /dev/null && alias diff='colordiff'
+
+# Prints disk usage per directory non-recursively, in human readable format
+alias du='du -h -d1'
+
+# Colorize the `grep` output
+alias grep='grep --color=auto'
+alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
 
 # Colorize listings
 if ls --color > /dev/null 2>&1; then # GNU `ls`
@@ -41,14 +38,63 @@ else # macOS `ls`
     export LSCOLORS='BxBxhxDxfxhxhxhxhxcxcx'
 fi
 
-# Always use human sizes,  classifications, and color output for `ls`
+# Always use human sizes, classifications, and color output for `ls`
 alias ls="command ls -Fh ${colorflag}"
 
-# List directories only, in long format
-alias lsd="ls -l | grep --color=never '^d'"
+# Create parent directories on demand
+alias mkdir='mkdir -pv'
 
-# List hidden files in long format
-alias lsh="ls -dlA .?*"
+# Make mount command output pretty and human readable format
+alias mount='mount | column -t'
+
+# Disable wrapping of long lines in Nano
+alias nano='nano -w';
+
+# Stop ping after sending 4 ECHO_REQUEST packets
+alias ping='ping -c 4'
+
+# Improve top
+if type 'atop' &> /dev/null; then
+    alias top='atop'
+fi
+
+# Enable simple aliases to be sudo'ed. ("sudone"?)
+# http://www.gnu.org/software/bash/manual/bashref.html#Aliases says: "If the
+# last character of the alias value is a space or tab character, then the next
+# command word following the alias is also checked for alias expansion."
+alias sudo='sudo ';
+
+# Resume wget by default
+alias wget='wget -c'
+
+
+# Easier navigation
+# -----------------------------------------------------------------------------
+
+# Go to last used directory
+alias -- -='cd -'
+alias cd- -='cd -'
+
+# Go up a directory
+alias cd..='cd ..'
+alias ..='cd ..'
+
+# Go up two directories
+alias ...='cd ../../../'
+
+# Go up three directories
+alias ....='cd ../../../../'
+
+# Go up four directories
+alias .....='cd ../../../../'
+alias .4='cd ../../../../'
+
+# Go up five directories
+alias .5='cd ../../../../..'
+
+
+# Directory browsing
+# -----------------------------------------------------------------------------
 
 # List visible files in long format
 alias l="ls -l"
@@ -56,26 +102,59 @@ alias l="ls -l"
 # List all files in long format, excluding . and ..
 alias ll="ls -lA"
 
-# Colorize the `grep` output
-alias grep='grep --color=auto'
-alias fgrep='fgrep --color=auto'
-alias egrep='egrep --color=auto'
+# List directories only, in long format
+alias lsd="ls -l | grep --color=never '^d'"
 
-# List drive mounts
-if [[ "$OSTYPE" =~ ^darwin ]]; then
-    alias mnt='mount | grep -E ^/dev | column -t'
-else
-    alias mnt="mount | awk -F' ' '{ printf \"%s\t%s\n\",\$1,\$3; }' | column -t | egrep ^/dev/ | sort"
-fi
+# List hidden files in long format
+alias lsh="ls -dlA .?*"
 
-#
-# IP addresses
-#
-alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
-alias localip="ipconfig getifaddr en0"
-alias ips="ifconfig -a | grep -o 'inet6\? \(addr:\)\?\s\?\(\(\([0-9]\+\.\)\{3\}[0-9]\+\)\|[a-fA-F0-9:]\+\)' | awk '{ sub(/inet6? (addr:)? ?/, \"\"); print }'"
 
-# Flush Directory Service cache
+# General aliases
+# -----------------------------------------------------------------------------
+
+# Clear screen
+alias c='clear'
+
+# Search history
+alias h='history'
+alias gh='history | grep'
+
+# Set editors and defaults
+alias edit='vim'
+alias svi='sudo vi'
+alias vi=vim
+alias vis='vim "+set si"'
+
+# Reload the shell (i.e. invoke as a login shell)
+alias reload="exec ${SHELL} -l"
+
+# Reload configuration
+alias resource='source ~/.bash_profile'
+
+
+# Time
+# -----------------------------------------------------------------------------
+
+# Echo date and time in "YYYY-MM-DD hh:mm:ss" format
+alias now='date +"%Y-%m-%d %T"'
+
+# Echo date in "YYYY-MM-DD" format
+alias nowdate='date +"%Y-%m-%d"'
+
+# Echo time in "hh:mm:ss" format
+alias nowtime='date +"%T"'
+
+# Get week number
+alias week='date +%V'
+
+
+# Networking
+# -----------------------------------------------------------------------------
+
+# Ping 100 times without waiting 1 second between ECHO_REQUEST packets
+alias fastping='ping -c 100 -s.2'
+
+# Flush the DNS cache
 if [[ "$OSTYPE" =~ ^darwin ]]; then
     alias flushdns='dscacheutil -flushcache; sudo killall -HUP mDNSResponder;echo DNS cache flushed'
 else
@@ -85,27 +164,101 @@ fi
 # Show active network interfaces
 alias ifactive="ifconfig | pcregrep -M -o '^[^\t:]+:([^\n]|\n\t)*status: active'"
 
-# Canonical hex dump; some systems have this symlinked
-command -v hd > /dev/null || alias hd="hexdump -C"
+# Get external IP address
+alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
 
-#
-# Generate hashes
-#
-command -v md5sum > /dev/null || alias md5sum='md5'
-command -v sha1 > /dev/null || alias sha1='openssl sha1'
-command -v sha1sum > /dev/null || alias sha1sum='shasum'
-alias sha='shasum -a 256 '
+# Get all IP addresses
+alias ips="ifconfig -a | grep -o 'inet6\? \(addr:\)\?\s\?\(\(\([0-9]\+\.\)\{3\}[0-9]\+\)\|[a-fA-F0-9:]\+\)' | awk '{ sub(/inet6? (addr:)? ?/, \"\"); print }'"
 
-# Toggle hidden files in Finder
+# Get local IP address
+alias localip="ipconfig getifaddr en0"
+
+# Send HTTP requests
+[[ "$OSTYPE" =~ ^darwin ]] && for method in GET HEAD POST PUT DELETE TRACE OPTIONS; do
+    alias "${method}"="lwp-request -m '${method}'"
+done
+unset method;
+
+
+# Sysadmin
+# -----------------------------------------------------------------------------
+
+# Power management
+alias halt='sudo /sbin/halt'
+alias poweroff='sudo /sbin/poweroff'
+alias shutdown='sudo /sbin/shutdown'
+alias sleep="pmset sleep now"
+alias reboot='sudo /sbin/reboot'
+
+# Lock the screen ...when going Away From Keyboard (AFK)
+alias afk="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
+
+# List drive mounts
 if [[ "$OSTYPE" =~ ^darwin ]]; then
-    alias hide='defaults write com.apple.finder AppleShowAllFiles -bool false && killall Finder'
-    alias show='defaults write com.apple.finder AppleShowAllFiles -bool true && killall Finder'
+    alias mnt='mount | grep -E ^/dev | column -t'
+else
+    alias mnt="mount | awk -F' ' '{ printf \"%s\t%s\n\",\$1,\$3; }' | column -t | egrep ^/dev/ | sort"
 fi
 
-# Toggle all desktop icons
+# Print each $PATH entry on a separate line
+alias path='echo -e ${PATH//:/\\n}'
+
+# Update apps and packages
+alias brewery='brew update && brew upgrade && brew cleanup'
+alias update='brew update && brew upgrade --all && brew cask update && brew cleanup && brew cask cleanup'
+
+
+# Applications
+# -----------------------------------------------------------------------------
+
+# Open file/URL (in) Browsers
+alias browse='open'
+alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
+alias firefox='/Applications/Firefox.app/Contents/MacOS/Firefox'
+alias safari='/Applications/Safari.app/Contents/MacOS/Safari'
+
+# Enter the Starship cross-shell prompt
+alias ss='eval "$(starship init bash)"'
+
+# Open (in) Sublime Text
+alias subl='/Applications/Sublime\ Text.app/Contents//MacOS/Sublime\ Text'
+
+
+# Development
+# -----------------------------------------------------------------------------
+
+# Docker
+alias d='docker'
+alias dokcer='docker'
+alias dcomp='docker-compose'
+alias dwipe="docker kill $(docker ps -a -q) || docker rm $(docker ps -a -q) || docker ps -a"
+alias dockerstop='docker-compose stop'
+alias dockerup='docker-compose up -d'
+alias dockerrm='docker-compose rm --all'
+
+# Git
+alias g='git'
+
+# Python: activate virtual environment venv
+alias va='source ./venv/bin/activate'
+
+# Python: create virtual environment venv
+alias ve='python3 -m venv ./venv'
+
+
+# macOS
+# -----------------------------------------------------------------------------
+
+# Toggle display of desktop icons
 if [[ "$OSTYPE" =~ ^darwin ]]; then
     alias hidedesktop='defaults write com.apple.finder CreateDesktop -bool false && killall Finder'
     alias showdesktop='defaults write com.apple.finder CreateDesktop -bool true && killall Finder'
+fi
+
+# Toggle hidden files in Finder
+if [[ "$OSTYPE" =~ ^darwin ]]; then
+    alias hidefiles='defaults write com.apple.finder AppleShowAllFiles -bool false && killall Finder'
+    alias showfiles='defaults write com.apple.finder AppleShowAllFiles -bool true && killall Finder'
 fi
 
 # Toggle Spotlight
@@ -114,146 +267,66 @@ if [[ "$OSTYPE" =~ ^darwin ]]; then
     alias spoton='sudo mdutil -a -i on'
 fi
 
-# Merge PDF files, preserving hyperlinks
-# Usage: `mergepdf input{1,2,3}.pdf`
-alias mergepdf='gs -q -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -sOutputFile=_merged.pdf'
+
+# Common paths
+# -----------------------------------------------------------------------------
+
+# User paths
+alias dl='cd ~/Downloads'
+alias docs='cd ~/Documents'
+alias dt='cd ~/Desktop'
+
+
+# Configuration paths
+# -----------------------------------------------------------------------------
+
+# Go to Chezmoi's local repo
+alias chezmoiconf='cd ~/.local/share/chezmoi'
+
+# Go to Sublime Text's local repo
+alias sublimeconf='cd ~/Library/Application\ Support/Sublime\ Text\ 3/Packages/User'
+
+
+
+# Custom paths
+# -----------------------------------------------------------------------------
+
+# Paths: Code
+alias archives='cd ~/Archives'
+alias repos='cd ~/Code'
+
+
+# Varia
+# -----------------------------------------------------------------------------
+
+# Display copy progress bar
+alias cpv='rsync -ah --info=progress2'
+
+# Canonical hex dump; some systems have this symlinked
+command -v hd > /dev/null || alias hd="hexdump -C"
+
+# Generate hashes
+command -v md5sum > /dev/null || alias md5sum='md5'
+alias sha='shasum -a 256 '
+command -v sha1 > /dev/null || alias sha1='openssl sha1'
+command -v sha1sum > /dev/null || alias sha1sum='shasum'
 
 # Intuitive map function
 # For example, to list all directories that contain a certain file:
 # find . -name .gitattributes | map dirname
 alias map="xargs -n1"
 
-# Send HTTP requests
-[[ "$OSTYPE" =~ ^darwin ]] && for method in GET HEAD POST PUT DELETE TRACE OPTIONS; do
-    alias "${method}"="lwp-request -m '${method}'"
-done
-unset method;
-
-# Lock the screen ...when going Away From Keyboard (AFK)
-alias afk="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
-
-# Reload the shell (i.e. invoke as a login shell)
-alias reload="exec ${SHELL} -l"
-
-# Print each PATH entry on a separate line
-alias path='echo -e ${PATH//:/\\n}'
-
-# Aliases: System
-alias brewery='brew update && brew upgrade && brew cleanup'
-#alias update='brew update && brew upgrade --all && brew cask update && brew cleanup && brew cask cleanup'
-
-# Clear screen
-alias c='clear'
-
-# Shorthands
-alias h='history'
-alias gh='history|grep'
-alias j='jobs -l'
-
-# Get week number
-alias week='date +%V'
-
-# Start calculator with math support
-alias bc='bc -l'
-
-# Make mount command output pretty and human readable format
-alias mount='mount |column -t'
-
-# Time shortcuts
-alias now='date +"%Y-%m-%d %T"'
-alias nowtime='date +"%T"'
-alias nowdate='date +"%Y-%m-%d"'
-
-# Set editors and defaults
-alias edit='vim'
-alias nano='nano -w';
-alias svi='sudo vi'
-alias vi=vim
-alias vis='vim "+set si"'
-
-# Control output of networking tool called ping
-# Stop after sending count ECHO_REQUEST packets #
-alias ping='ping -c 5'
-# Do not wait interval 1 second, go fast #
-alias fastping='ping -c 100 -s.2'
-
-# reboot / halt / poweroff
-alias reboot='sudo /sbin/reboot'
-alias poweroff='sudo /sbin/poweroff'
-alias halt='sudo /sbin/halt'
-alias shutdown='sudo /sbin/shutdown'
-alias sleep="pmset sleep now"
-
-# Resume wget by default
-alias wget='wget -c'
-
-# Aliases: Development
-alias d='docker'
-alias dokcer='docker'
-alias dcomp='docker-compose'
-alias dwipe="docker kill $(docker ps -a -q) || docker rm $(docker ps -a -q) || docker ps -a"
-alias g='git'
-
-alias dockerstop='docker-compose stop'
-alias dockerup='docker-compose up -d'
-alias dockerrm='docker-compose rm --all'
-
-# Apps
-alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
-alias firefox='/Applications/Firefox.app/Contents/MacOS/Firefox'
-alias plistbuddy='/usr/libexec/PlistBuddy'
-alias safari='/Applications/Safari.app/Contents/MacOS/Safari'
-alias ss='eval "$(starship init bash)"'
-alias subl='/Applications/Sublime\ Text.app/Contents//MacOS/Sublime\ Text'
-
-# Paths: Generic
-alias docs='cd ~/Documents'
-alias dl='cd ~/Downloads'
-alias dt='cd ~/Desktop'
-
-# Paths: Custom
-alias archives='cd ~/Archives'
-alias chezmoiconf='cd ~/.local/share/chezmoi'
-alias repos='cd ~/Code'
-alias sublimeconf='cd ~/Library/Application\ Support/Sublime\ Text\ 3/Packages/User'
-
-# Improve top
-if type 'atop' &> /dev/null; then
-    alias top='atop'
-fi
-
-# Colorize diff output (requires colordiff package)
-command -v colordiff &> /dev/null && alias diff='colordiff'
-
-# Python: create virtual environment venv
-alias ve='python3 -m venv ./venv'
-
-# Python: activate virtual environment venv
-alias va='source ./venv/bin/activate'
-
-# Display copy progress bar
-alias cpv='rsync -ah --info=progress2'
-
-# Prints disk usage per directory in human readable form
-alias d="du -h -d1"
-
-# Display drives and space in human readable format:
-alias df="df -h"
-
-# Reload bash configuration
-alias reload='source ~/.bash_profile'
-
-# Extract the contents of a .tar file.
-alias untar='tar -xvf'
+# Merge PDF files, preserving hyperlinks
+# Usage: `mergepdf input{1,2,3}.pdf`
+alias mergepdf='gs -q -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -sOutputFile=_merged.pdf'
 
 
+# Ideas
+# -----------------------------------------------------------------------------
 
-#
-# TODO
-#
+#alias j='jobs -l'
 
-#Create parent directories on demand
-#alias mkdir='mkdir -pv'
+#alias plistbuddy='/usr/libexec/PlistBuddy'
 
 # URL-encode strings
 #alias urldecode='perl -pe "s/\%(\w\w)/chr hex $1/ge"'
