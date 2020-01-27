@@ -30,8 +30,8 @@ These are custom aliases and commands shared amongst different shells. Bash comm
 | Bash | PowerShell | Zsh | Command | Description |
 |:----:|:----------:|:---:|---------|-------------|
 | ✅   | ✅         | ✅ | `~`      | Go to user home directory.
-| ✅   | ❌         | ✅ | `--`<br>`cd-` | Go to last used directory.
-| ✅   | ❔         | ✅ | `..`<br>`cd..` | Go up a directory.
+| ✅   | ❌         | ✅ | `cd-`    | Go to last used directory.
+| ✅   | ✅         | ✅ | `..`<br>`cd..` | Go up a directory.
 | ✅   | ✅         | ✅ | `...`    | Go up two directories.
 | ✅   | ✅         | ✅ | `....`   | Go up three directories.
 | ✅   | ✅         | ✅ | `.....`  | Go up four directories.
@@ -42,9 +42,19 @@ These are custom aliases and commands shared amongst different shells. Bash comm
 | Bash | PowerShell | Zsh | Command | Description |
 |:----:|:----------:|:---:|---------|-------------|
 | ✅   | ✅         | ✅  | `l`     | List visible files in long format.
-| ✅   | ✅         | ✅  | `ll`    | List all files in long format, excluding . and ..
-| ✅   | ❔         | ❔  | `lsd`   | List only directories in long format.
-| ✅   | ❔         | ✅  | `lsh`   | List only hidden files in long format.
+| ✅   | ✅         | ✅  | `ll`    | List all files in long format, excluding `.` and `..`.
+| ✅   | ✅         | ❔  | `lsd`    | List only directories in long format.
+| ✅   | ✅         | ✅  | `lsh`   | List only hidden files in long format.
+
+
+### File management
+
+| Bash | PowerShell | Zsh | Command | Description |
+|:----:|:----------:|:---:|---------|-------------|
+| ✅   | ✅         | ❌  | `cpv`   | Copy a file securely.
+| ❌   | ✅         | ❌  | `fd`    | Find directory.
+| ❌   | ✅         | ❌  | `ff`    | Find file.
+| ❌   | ✅         | ❌  | `mirror` | Mirror directories.
 
 
 ### General aliases
@@ -52,8 +62,8 @@ These are custom aliases and commands shared amongst different shells. Bash comm
 | Bash | PowerShell | Zsh | Command | Description |
 |:----:|:----------:|:---:|---------|-------------|
 | ✅   | ✅         | ✅  | `c`     | Clear screen.
-| ✅   | ❌         | ✅  | `h`     | Alias for `history`.
-| ✅   | ❌         | ❌  | `gh`    | Grep history.
+| ✅   | ✅         | ✅  | `h`     | Display/Search global history.<br>_Usage: `h`_<br>_Usage: `h cd`_
+| ✅   | ✅         | ✅  | `hsession` | Display/Search session history.<br>_Usage: `h`_<br>_Usage: `h cd`_
 | ✅   | ❌         | ✅  | `reload` | Reload the shell.
 | ✅   | ❌         | ✅  | `resource` | Reload configuration.
 
@@ -64,17 +74,19 @@ These are custom aliases and commands shared amongst different shells. Bash comm
 |:----:|:----------:|:---:|---------|-------------|
 | ✅   | ❌         | ✅  | `extract`<br>`x` | Extract common file formats.
 | ✅   | ✅         | ✅  | `mkcd`<br>`take` | Create directory and change to it.
-| ✅   | ❌         | ✅  | `repeat`<br>`r` | Repeat a command `x` times.<br>_Usage: `repeat 5 echo hello`_.
+| ✅   | ✅         | ✅  | `repeat`<br>`r` | Repeat a command `x` times.<br>_Usage: `repeat 5 echo hello`_.
 
 
 ### Time
 
 | Bash | PowerShell | Zsh | Command | Description |
 |:----:|:----------:|:---:|---------|-------------|
-| ✅   | ❌         | ❌  | `now`   | Echo date and time in `YYYY-MM-DD hh:mm:ss` format.
-| ✅   | ❌         | ❌  | `nowdate` | Echo date in `YYYY-MM-DD` format.
-| ✅   | ❌         | ❌  | `nowtime` | Echo time in `hh:mm:ss` format.
-| ✅   | ❌         | ❌  | `week`  | Get week number.
+| ✅   | ✅         | ❌  | `now`<br>`unow` | Display local/UTC date and time in ISO-8601 format `YYYY-MM-DDThh:mm:ss`.
+| ✅   | ✅         | ❌  | `nowdate`<br>`unowdate` | Display local/UTC date in `YYYY-MM-DD` format.
+| ✅   | ✅         | ❌  | `nowtime`<br>`unowtime` | Display local/UTC time in `hh:mm:ss` format.
+| ✅   | ✅         | ❌  | `timestamp` | Display Unix time stamp.
+| ✅   | ✅         | ❌  | `week`  | Get week number in ISO-9601 format `YYYY-Www`.
+| ✅   | ✅         | ❌  | `weekday` | Get weekday number.
 
 
 ### Networking
@@ -84,59 +96,70 @@ These are custom aliases and commands shared amongst different shells. Bash comm
 | ✅   | ❌         | ❌  | `fastping` | Ping 100 times without waiting 1 second between ECHO_REQUEST packets.
 | ✅   | ✅         | ✅  | `flushdns` | Flush the DNS cache.
 | ✅   | ❌         | ❌  | `ifactive` | Show active network interfaces.
-| ✅   | ❌         | ❌  | `ip`    | Get external IP address.
-| ✅   | ❌         | ❌  | `ips`   | Get all IP addresses.
-| ✅   | ❌         | ❌  | `localip` | Get local IP address.
-| ✅   | ❌         | ❌  | `GET`<br>`HEAD`<br>`POST`<br>`PUT`<br>`DELETE`<br>`TRACE`<br>`OPTIONS` | Send HTTP requests.<br>_Usage: `GET http://example.com`_
+| ✅   | ✅         | ❌  | `ip`    | Get external IP address.
+| ✅   | ✅         | ❌  | `ips`   | Get all IP addresses.
+| ✅   | ✅         | ❌  | `localip` | Get local IP address.
+| ✅   | ✅         | ❌  | `GET`<br>`HEAD`<br>`POST`<br>`PUT`<br>`DELETE`<br>`TRACE`<br>`OPTIONS` | Send HTTP requests.<br>_Usage: `GET http://example.com`_
+
+
+### Power management
+
+| Bash | PowerShell | Zsh | Command | Description |
+|:----:|:----------:|:---:|---------|-------------|
+| ✅   | ✅         | ❌  | `hibernate` | Go to sleep.
+| ✅   | ✅         | ❌  | `lock`  | Lock the session.
+| ✅   | ✅         | ❌  | `poweroff` | Shut down the system.
+| ✅   | ✅         | ❌  | `reboot` | Restart the system.
 
 
 ### Sysadmin
 
 | Bash | PowerShell | Zsh | Command | Description |
 |:----:|:----------:|:---:|---------|-------------|
-| ✅   | ❌         | ❌  | `halt`  | Stop all CPU functions, but keep it powered on.
-| ✅   | ❌         | ❌  | `poweroff` | Power off the system using an ACPI signal.
-| ✅   | ❌         | ❌  | `shutdown` | Schedule the system to be powered down.
-| ✅   | ❌         | ❌  | `sleep` | Go to sleep.
-| ✅   | ❌         | ❌  | `reboot` | Restart the system.
-| ✅   | ❌         | ❌  | `afk`   | Lock the screen.
-| ✅   | ❌         | ❌  | `mnt`   | List drive mounts.
-| ✅   | ❌         | ✅  | `path`  | Print each $PATH entry on a separate line.
+| ✅   | ✅         | ❌  | `mnt`   | List drive mounts.
+| ✅   | ✅         | ✅  | `path`  | Print each $PATH entry on a separate line.
 | ✅   | ❌         | ❌  | `brewery` | Keep all [Homebrew](https://brew.sh/) apps up to date.
-| ❌   | ✅         | ❌  | `scoopup` | Keep all [Scoop](https://scoop.sh/) apps up to date.
-| ❌   | ✅         | ❌  | `update` | Update apps and packages.
+| ❌   | ✅         | ❌  | `update` | Keep all apps and packages up to date.
 
 
 ### Applications
 
 | Bash | PowerShell | Zsh | Command | Description |
 |:----:|:----------:|:---:|---------|-------------|
-| ✅   | ❌         | ❌  | `browse` | Open file/URL in default browser.<br>_Usage: `open http://example.com`_
-| ✅   | ❌         | ❌  | `chrome` | Open file/URL in [Chrome](https://www.google.com/chrome/).
-| ✅   | ❌         | ❌  | `firefox` | Open file/URL in [Firefox](https://www.mozilla.org/en-CA/firefox/).
-| ✅   | ✅         | ✅  | `subl`  | Open in [Sublime Text](https://www.sublimetext.com/).
+| ✅   | ✅         | ❌  | `browse` | Open file/URL in default browser.<br>_Usage: `open http://example.com`_
+| ✅   | ✅         | ❌  | `chrome` | Open file/URL in [Chrome](https://www.google.com/chrome/).
+| ❌   | ✅         | ❌  | `edge` | Open file/URL in [Microsoft Edge](https://www.microsoft.com/en-us/edge).
+| ✅   | ✅         | ❌  | `firefox` | Open file/URL in [Firefox](https://www.mozilla.org/en-CA/firefox/).
+| ✅   | ❔         | ❌  | `opera` | Open file/URL in [Opera](https://www.opera.com/).
+| ✅   | ❔         | ❌  | `safari` | Open file/URL in [Safari](https://www.apple.com/ca/safari/).
 | ✅   | ✅         | ✅  | `ss`    | Enter the [Starship 🚀](https://starship.rs) cross-shell prompt.
+| ✅   | ✅         | ✅  | `subl`<br>`st`  | Open in [Sublime Text](https://www.sublimetext.com/).
 
 
 ### Development
 
 | Bash | PowerShell | Zsh | Command | Description |
 |:----:|:----------:|:---:|---------|-------------|
-| ✅   | ✅         | ✅  | `d`     | 🐳 Alias for [`docker`](https://www.docker.com/).
+| ✅   | ✅         | ✅  | `dk`    | 🐳 Alias for [`docker`](https://www.docker.com/).
 | ✅   | ✅         | ✅  | `dco`   | 🐳 Alias for [`docker-compose`](https://docs.docker.com/compose/).
 | ✅   | ✅         | ✅  | `g`     | :octocat: Alias for [`git`](https://git-scm.com/).
-| ✅   | ❌         | ❌  | `va`    | 🐍 Python: activate [virtual environment venv](https://docs.python.org/3/tutorial/venv.html).
-| ✅   | ❌         | ❌  | `ve`    | 🐍 Python: create [virtual environment venv](https://docs.python.org/3/tutorial/venv.html).
+| ✅   | ✅         | ❌  | `va`    | 🐍 Python: activate [virtual environment venv](https://docs.python.org/3/tutorial/venv.html).
+| ✅   | ✅         | ❌  | `ve`    | 🐍 Python: create [virtual environment venv](https://docs.python.org/3/tutorial/venv.html).
 
 
 ### macOS
 
 | Bash | PowerShell | Zsh | Command | Description |
 |:----:|:----------:|:---:|---------|-------------|
-| ✅   | ❌         | ❌  | `hidedesktop`<br>`showdesktop` | Toggle display of desktop icons.
-| ✅   | ✅         | ✅  | `hidefiles`<br>`showfiles` | Toggle hidden files display in [Finder](https://support.apple.com/en-ca/HT201732).
-| ✅   | ❌         | ❌  | `safari` | Open file/URL in [Safari](https://www.apple.com/ca/safari/).<br>_Usage: `safari http://example.com`_
-| ✅   | ❌         | ❌  | `spotoff`<br>`spoton` | Toggle [Spotlight](https://support.apple.com/en-ca/HT204014).
+| ✅   | ❔         | ❌  | `hidedesktop`<br>`showdesktop` | Toggle display of desktop icons.
+| ✅   | ❔         | ✅  | `hidefiles`<br>`showfiles` | Toggle hidden files display in [Finder](https://support.apple.com/en-ca/HT201732).
+| ✅   | ❔         | ❌  | `spotoff`<br>`spoton` | Toggle [Spotlight](https://support.apple.com/en-ca/HT204014).
+
+### Windows
+
+| Bash | PowerShell | Zsh | Command | Description |
+|:----:|:----------:|:---:|---------|-------------|
+| ❌   | ✅         | ❌  | `hidefiles`<br>`showfiles` | Toggle hidden files display in [Finder](https://support.apple.com/en-ca/HT201732).
 
 
 ### Common paths
@@ -168,7 +191,6 @@ These are custom aliases and commands shared amongst different shells. Bash comm
 
 | Bash | PowerShell | Zsh | Command | Description |
 |:----:|:----------:|:---:|---------|-------------|
-| ✅   | ❌         | ❌  | `cpv`   | Display copy progress bar.
 | ✅   | ❌         | ❌  | `hd`    | Canonical hex dump.
 | ✅   | ❌         | ❌  | `md5sum` | Calculate 128-bit MD5 sum hashes.
 | ✅   | ❌         | ❌  | `sha`   | Calculate SHA sum hashes.
@@ -180,6 +202,7 @@ These are custom aliases and commands shared amongst different shells. Bash comm
 ## Inspirations
 
 - [Digital Ocean: What are your favorite bash aliases?](https://www.digitalocean.com/community/questions/what-are-your-favorite-bash-aliases)
+- [GitHub: Jay Harris' Windows dotfiles](https://github.com/jayharris/dotfiles-windows)
 - [GitHub: Jan Moesen's dotfiles](https://github.com/janmoesen/tilde)
 - [GitHub: Mathias Bynens' dotfiles](https://github.com/mathiasbynens/dotfiles)
 - [nixCraft: 30 Handy Bash Shell Aliases For Linux / Unix / Mac OS X](https://www.cyberciti.biz/tips/bash-aliases-mac-centos-linux-unix.html)
