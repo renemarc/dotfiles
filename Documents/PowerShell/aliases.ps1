@@ -2,6 +2,7 @@
 # PowerShell profile: aliases
 #
 
+# Create missing $IsWindows if running Powershell 5 or below
 if (! Test-Path variable:global:IsWindows) {
     Set-Variable IsWindows -Scope Global -Value ([System.Environment]::OSVersion.Platform -eq "Win32NT")
 }
@@ -86,7 +87,7 @@ function ff {
 Set-Alias -Name "mirror" -Value "Mirror-Path"
 
 
-# General aliases
+# General
 # -----------------------------------------------------------------------------
 
 # Clear screen
@@ -94,12 +95,15 @@ Set-Alias -Name "c" -Value "Clear-Host"
 
 # Display/Search global history
 function h {
-    Get-Content (Get-PSReadlineOption).HistorySavePath | ? {$_ -Like "*$args*"} | Get-Unique
+    $pattern = '*' + $args + '*'
+    Get-Content (Get-PSReadlineOption).HistorySavePath | ? {$_ -Like $pattern} | Get-Unique
 }
+del alias:h
 
 # Display/Search session history
-function hsession {
-    Get-History | Where-Object {$_.CommandLine -like "*$args*"}
+function hs {
+    $pattern = '*' + $args + '*'
+    Get-History | Where-Object {$_.CommandLine -like $pattern}
 }
 
 # Creates directory and change to it
@@ -167,9 +171,18 @@ function weekday {
 
 # Flush the DNS cache
 function flushdns {
-    ipconfig /flushdns
+    if ($IsMacOS) {
+        dscacheutil -flushcache
+        sudo killall -HUP mDNSResponder
+    }
+    elseif ($IsLinux) {
+        sudo /etc/init.d/dns-clean restart
+    }
+    else {
+        ipconfig /flushdns
+    }
+    Write-Host "DNS cache flushed."
 }
-
 
 # Show active network interfaces
 #alias ifactive="ifconfig | pcregrep -M -o '^[^\t:]+:([^\n]|\n\t)*status: active'"
@@ -181,13 +194,23 @@ function ip {
 
 # Get all IP addresse
 function ips {
-    Get-NetIPAddress | Where-Object {$_.AddressState -eq "Preferred"} | Sort-object IPAddress | Format-Table -Wrap -AutoSize
+    if ($IsWindows) {
+        Get-NetIPAddress | Where-Object {$_.AddressState -eq "Preferred"} | Sort-object IPAddress | Format-Table -Wrap -AutoSize
+    }
+    else {
+        ifconfig -a | grep -o 'inet6\? \(addr:\)\?\s\?\(\(\([0-9]\+\.\)\{3\}[0-9]\+\)\|[a-fA-F0-9:]\+\)' | awk '{ sub(/inet6? (addr:)? ?/, \"\"); print }'
+    }
 }
 
 # Get local IP address
 function localip {
-    $IPAddress = Get-WmiObject Win32_NetworkAdapterConfiguration | Where-Object {$_.Ipaddress.length -gt 1}
-    $IPAddress.ipaddress[0]
+    if ($IsWindows) {
+        $IPAddress = Get-WmiObject Win32_NetworkAdapterConfiguration | Where-Object {$_.Ipaddress.length -gt 1}
+        $IPAddress.ipaddress[0]
+    }
+    else {
+        ipconfig getifaddr en0
+    }
 }
 
 # Send HTTP requests
@@ -205,19 +228,58 @@ function OPTIONS {Invoke-RestMethod -Method OPTIONS @args}
 
 # Lock the session
 function lock {
-    Invoke-Command {rundll32.exe user32.dll,LockWorkStation}
+    if ($IsWindows) {
+        Invoke-Command {rundll32.exe user32.dll,LockWorkStation}
+    }
+    elseif ($IsMacOS) {
+        pmset displaysleepnow
+    }
+    elseif (Get-Command "vlock" -ErrorAction "Ignore") {
+        vlock --all
+    }
+    elseif (Get-Command "gnome-screensaver-command" -ErrorAction "Ignore") {
+        gnome-screensaver-command --lock
+    }
 }
 
 # Go to sleep
 function hibernate {
-    shutdown.exe /h
+    if ($IsMacOS) {
+        pmset sleep now
+    }
+    elseif ($IsLinux) {
+        systemctl suspend
+    }
+    else {
+        shutdown.exe /h
+    }
 }
 
 # Restart the system
-Set-Alias -Name "reboot" -Value Restart-Computer
+function reboot {
+    if ($IsMacOS) {
+        osascript -e 'tell application "System Events" to restart'
+    }
+    elseif ($IsLinux) {
+        sudo /sbin/reboot
+    }
+    else {
+        Restart-Computer
+    }
+}
 
 # Shut down the system
-Set-Alias -Name "poweroff" -Value Stop-Computer
+function poweroff {
+    if ($IsMacOS) {
+        osascript -e 'tell application "System Events" to shut down'
+    }
+    elseif ($IsLinux) {
+        sudo /sbin/poweroff
+    }
+    else {
+        Stop-Computer
+    }
+}
 
 
 # Sysadmin
@@ -226,21 +288,35 @@ Set-Alias -Name "poweroff" -Value Stop-Computer
 # List drive mounts
 # http://lifeofageekadmin.com/display-mount-points-drives-using-powershell/
 function mnt {
-    $Capacity = @{Name="Capacity(GB)";Expression={[math]::round(($_.Capacity/ 1073741824))}}
-    $FreeSpace = @{Name="FreeSpace(GB)";Expression={[math]::round(($_.FreeSpace / 1073741824),1)}}
-    $Usage = @{Name="Usage";Expression={-join([math]::round(100-((($_.FreeSpace / 1073741824)/($_.Capacity / 1073741824)) * 100),0),'%')};Alignment="Right"}
-
-    if ($IsCoreCLR) {
-        $volumes = Get-CimInstance -ClassName Win32_Volume
+    if ($IsMacOS) {
+        mount | grep -E ^/dev | column -t
+    }
+    elseif ($IsLinux) {
+        mount | awk -F" " "{ printf \"%s\t%s\n\",\$1,\$3; }" | column -t | egrep ^/dev/ | sort
     }
     else {
-        $volumes = Get-WmiObject Win32_Volume
+        $Capacity = @{Name="Capacity(GB)";Expression={[math]::round(($_.Capacity/ 1073741824))}}
+        $FreeSpace = @{Name="FreeSpace(GB)";Expression={[math]::round(($_.FreeSpace / 1073741824),1)}}
+        $Usage = @{Name="Usage";Expression={-join([math]::round(100-((($_.FreeSpace / 1073741824)/($_.Capacity / 1073741824)) * 100),0),'%')};Alignment="Right"}
+
+        if ($IsCoreCLR) {
+            $volumes = Get-CimInstance -ClassName Win32_Volume
+        }
+        else {
+            $volumes = Get-WmiObject Win32_Volume
+        }
+        $volumes | Where name -notlike \\?\Volume* | Format-Table DriveLetter, Label, FileSystem, $Capacity, $FreeSpace, $Usage, PageFilePresent, IndexingEnabled, Compressed
     }
-    $volumes | Where name -notlike \\?\Volume* | Format-Table DriveLetter, Label, FileSystem, $Capacity, $FreeSpace, $Usage, PageFilePresent, IndexingEnabled, Compressed
 }
 
 # Print each $PATH entry on a separate line
-Set-Alias -Name "path" -Value "$ENV:PATH.split(';')"
+function path {
+    $separator = ';'
+    if (!$IsWindows) {
+        $separator = ':'
+    }
+    ${ENV:PATH}.split($separator)
+}
 
 # Keep all apps and packages up to date
 Set-Alias -Name "update" -Value Update-Packages
@@ -251,25 +327,48 @@ Set-Alias -Name "update" -Value Update-Packages
 
 # Open file/URL (in) Browsers
 function browse {
-    start $args
+    if ($IsWindows) {
+        start $args
+    }
+    else {
+        open $args
+    }
 }
 function chrome {
-    Start-Process "chrome" $args
+    $process = "chrome"
+    if ($IsMacOS) {
+        $process = "/Applications/Firefox.app/Contents/MacOS/Firefox"
+    }
+    Start-Process $process $args
 }
 function edge {
-    Start microsoft-edge:$args
+    if ($IsMacOS) {
+        $process = "/Applications/Microsoft\ Edge.app/Contents/MacOS/Microsoft\ Edge"
+        Start-Process $process $args
+    }
+    else {
+        Start microsoft-edge:$args
+    }
 }
 function firefox {
-    Start-Process "firefox" $args
+    $process = "firefox"
+    if ($IsMacOS) {
+        $process = "/Applications/Firefox.app/Contents/MacOS/Firefox"
+    }
+    Start-Process $process $args
 }
 function iexplore {
     Start-Process "iexplore" $args
 }
 function opera {
-    Start-Process "opera" $args
+    $process = "opera"
+    if ($IsMacOS) {
+        $process = "/Applications/Opera.app/Contents/MacOS/Opera"
+    }
+    Start-Process $process $args
 }
 function safari {
-    Start-Process "safari" $args
+    Start-Process "/Applications/Safari.app/Contents/MacOS/Safari" $args
 }
 
 # Enter the Starship cross-shell prompt (https://starship.rs)
@@ -286,15 +385,33 @@ Set-Alias -Name "st" -Value "${Env:Programfiles}\Sublime Text 3\subl.exe"
 # -----------------------------------------------------------------------------
 
 # Docker (https://www.docker.com/)
-Set-Alias -Name "dk" -Value "${Env:Programfiles}\Docker\Docker\resources\bin\docker.exe"
-Set-Alias -Name "dco" -Value "${Env:Programfiles}\Docker\Docker\resources\bin\docker-compose.exe"
+function dk {
+    $process = "docker"
+    if ($IsWindows) {
+        $process = "${Env:Programfiles}\Docker\Docker\resources\bin\docker.exe"
+    }
+    Invoke-Expression "$process $args"
+}
+function dco {
+    $process = "docker-compose"
+    if ($IsWindows) {
+        $process = "${Env:Programfiles}\Docker\Docker\resources\bin\docker-compose.exe"
+    }
+    Invoke-Expression "$process $args"
+}
 #alias dwipe="docker kill $(docker ps -a -q) || docker rm $(docker ps -a -q) || docker ps -a"
 #alias dockerstop='docker-compose stop'
 #alias dockerup='docker-compose up -d'
 #alias dockerrm='docker-compose rm --all'
 
 # Git (https://git-scm.com/)
-Set-Alias -Name "g" -Value "${Env:Programfiles}\Git\cmd\git.exe"
+function g {
+    $process = "git"
+    if ($IsWindows) {
+        $process = "${Env:Programfiles}\Git\cmd\git.exe"
+    }
+    Invoke-Expression "$process $args"
+}
 
 # Python: activate virtual environment (https://docs.python.org/3/tutorial/venv.html)
 function va {
@@ -313,26 +430,26 @@ function ve {
 if ($IsMacOS) {
     # Toggle display of desktop icons
     function hidedesktop {
-        Invoke-Command 'defaults write com.apple.finder CreateDesktop -bool false && killall Finder'
+        Invoke-Expression 'defaults write com.apple.finder CreateDesktop -bool false; killall Finder'
     }
     function showdesktop {
-        Invoke-Command 'defaults write com.apple.finder CreateDesktop -bool true && killall Finder'
+        Invoke-Expression 'defaults write com.apple.finder CreateDesktop -bool true; killall Finder'
     }
 
     # Toggle hidden files in Finder
     function hidefiles {
-        Invoke-Command 'defaults write com.apple.finder AppleShowAllFiles -bool false && killall Finder'
+        Invoke-Expression 'defaults write com.apple.finder AppleShowAllFiles -bool false; killall Finder'
     }
     function showfiles {
-        Invoke-Command 'defaults write com.apple.finder AppleShowAllFiles -bool true && killall Finder'
+        Invoke-Expression 'defaults write com.apple.finder AppleShowAllFiles -bool true; killall Finder'
     }
 
     # Toggle Spotlight
     function spotoff {
-        Invoke-Command 'sudo mdutil -a -i off'
+        Invoke-Expression 'sudo mdutil -a -i off'
     }
     function spoton {
-        Invoke-Command 'sudo mdutil -a -i on'
+        Invoke-Expression 'sudo mdutil -a -i on'
     }
 }
 

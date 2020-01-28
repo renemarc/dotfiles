@@ -110,7 +110,7 @@ else {
 }
 
 # Creates directory and change to it
-function New-Item-Set-Location2 {
+function New-Item-Set-Location {
     <#
     .SYNOPSIS
         Makes a directory and change to it
@@ -189,44 +189,11 @@ function Mirror-Path {
 }
 
 
-# Sysadmin
+# General
 # -----------------------------------------------------------------------------
 
-
-# Keep all apps and packages up to date
-function Update-Packages {
-    Write-Host "Updating system modules..." -ForegroundColor $ColorInfo
-    Update-Module
-
-    Write-Host "Updating help..." -ForegroundColor $ColorInfo
-    Update-Help -Force
-
-    if (Get-Command 'choco' -ErrorAction "Ignore") {
-        Write-Host "Updating packages with Chocolatey..." -ForegroundColor $ColorInfo
-        choco upgrade all
-    }
-
-    if (Get-Command 'scoop' -ErrorAction "Ignore") {
-        Write-Host "Updating packages with Scoop..." -ForegroundColor $ColorInfo
-        scoop update *
-        scoop cleanup *
-    }
-
-    # if (Get-Command 'gem' -ErrorAction "Ignore") {
-    #     Write-Host "Updating Ruby gems..." -ForegroundColor $ColorInfo
-    #     gem update --system
-    #     gem update
-    # }
-
-    # if (Get-Command 'npm' -ErrorAction "Ignore") {
-    #     Write-Host "Updating Node.js packages with npm..." -ForegroundColor $ColorInfo
-    #     npm install npm -g
-    #     npm update -g
-    # }
-}
-Set-Alias -Name "update" -Value Update-Packages
-
-
+# Repeat a command
+# Syntax: "repeat [X] [command]"
 function Repeat-Command {
     $max, $command = $args
     if ($command) {
@@ -235,7 +202,6 @@ function Repeat-Command {
         }
     }
 }
-
 
 function Repeat-Command-Borked {
     <#
@@ -266,3 +232,55 @@ function Repeat-Command-Borked {
         Invoke-Command -ScriptBlock $Command
     }
 }
+
+
+# Sysadmin
+# -----------------------------------------------------------------------------
+
+
+# Keep all apps and packages up to date
+function Update-Packages {
+    <#
+    .SYNOPSIS
+        Keeps all apps and packages up to date
+    .DESCRIPTION
+        Looks for updates for system modules and help, when proceeds to
+        updating any packages by these optional managers: Chocolatey, Choco,
+        npm, RubyGems.
+    .INPUTS
+       None
+    .OUTPUTS
+       None
+    #>
+
+    Write-Host "Updating system modules..." -ForegroundColor $ColorInfo
+    Update-Module
+
+    Write-Host "Updating help..." -ForegroundColor $ColorInfo
+    Update-Help -Force
+
+    if (Get-Command 'choco' -ErrorAction "Ignore") {
+        Write-Host "Updating packages with Chocolatey..." -ForegroundColor $ColorInfo
+        choco upgrade all
+    }
+
+    if (Get-Command 'scoop' -ErrorAction "Ignore") {
+        Write-Host "Updating packages with Scoop..." -ForegroundColor $ColorInfo
+        scoop update *
+        scoop cleanup *
+    }
+
+    if (Get-Command 'npm' -ErrorAction "Ignore") {
+        Write-Host "Updating Node.js packages with npm..." -ForegroundColor $ColorInfo
+        # npm install npm -g
+        npm update -g
+    }
+
+    if (Get-Command 'gem' -ErrorAction "Ignore") {
+        Write-Host "Updating Ruby gems..." -ForegroundColor $ColorInfo
+        gem update --system
+        gem update
+        gem cleanup
+    }
+}
+Set-Alias -Name "update" -Value Update-Packages
