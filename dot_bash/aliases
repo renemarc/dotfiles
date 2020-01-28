@@ -72,8 +72,7 @@ alias wget='wget -c'
 # -----------------------------------------------------------------------------
 
 # Go to last used directory
-alias -- -='cd -'
-alias cd- -='cd -'
+alias cd-='cd -'
 
 # Go up a directory
 alias cd..='cd ..'
@@ -109,6 +108,19 @@ alias lsd="ls -l | grep --color=never '^d'"
 alias lsh="ls -dlA .?*"
 
 
+# File management
+# -----------------------------------------------------------------------------
+
+# Copy a file securely
+alias cpv='rsync -ah --info=progress2'
+
+# Find directory
+alias fd='find . -type d -name'
+
+# Find file
+alias ff='find . -type f -name'
+
+
 # General aliases
 # -----------------------------------------------------------------------------
 
@@ -116,8 +128,8 @@ alias lsh="ls -dlA .?*"
 alias c='clear'
 
 # Search history
-alias h='history'
-alias gh='history | grep'
+alias h='history_search' # see file `functions`
+alias hs='history_session_search' # see file `functions`
 
 # Set editors and defaults
 alias edit='vim'
@@ -129,23 +141,32 @@ alias vis='vim "+set si"'
 alias reload="exec ${SHELL} -l"
 
 # Reload configuration
-alias resource='source ~/.bash_profile'
+alias resource="source ${HOME}/.bash_profile"
 
 
 # Time
 # -----------------------------------------------------------------------------
 
-# Echo date and time in "YYYY-MM-DD hh:mm:ss" format
-alias now='date +"%Y-%m-%d %T"'
+# Display local/UTC date and time in ISO-8601 format `YYYY-MM-DDThh:mm:ss`
+alias now='date +"%Y-%m-%dT%H:%M:%S"'
+alias unow='date -u +"%Y-%m-%dT%H:%M:%S"'
 
-# Echo date in "YYYY-MM-DD" format
+# Display date in `YYYY-MM-DD` format
 alias nowdate='date +"%Y-%m-%d"'
+alias unowdate='date -u +"%Y-%m-%d"'
 
-# Echo time in "hh:mm:ss" format
+# Display time in `hh:mm:ss` format
 alias nowtime='date +"%T"'
+alias unowtime='date -u +"%T"'
 
-# Get week number
-alias week='date +%V'
+# Display Unix time stamp
+alias timestamp='date -u +%s'
+
+# Get week number in ISO-8601 format `YYYY-Www`
+alias week='date +"%Y-W%V"'
+
+# Get weekday number
+alias weekday='date +"%u"'
 
 
 # Networking
@@ -162,7 +183,7 @@ else
 fi
 
 # Show active network interfaces
-alias ifactive="ifconfig | pcregrep -M -o '^[^\t:]+:([^\n]|\n\t)*status: active'"
+#alias ifactive="ifconfig | pcregrep -M -o '^[^\t:]+:([^\n]|\n\t)*status: active'"
 
 # Get external IP address
 alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
@@ -174,24 +195,49 @@ alias ips="ifconfig -a | grep -o 'inet6\? \(addr:\)\?\s\?\(\(\([0-9]\+\.\)\{3\}[
 alias localip="ipconfig getifaddr en0"
 
 # Send HTTP requests
-[[ "$OSTYPE" =~ ^darwin ]] && for method in GET HEAD POST PUT DELETE TRACE OPTIONS; do
+command -v lwp-request &> /dev/null && for method in GET HEAD POST PUT DELETE TRACE OPTIONS; do
     alias "${method}"="lwp-request -m '${method}'"
 done
 unset method;
 
 
-# Sysadmin
+# Power management
 # -----------------------------------------------------------------------------
 
-# Power management
-alias halt='sudo /sbin/halt'
-alias poweroff='sudo /sbin/poweroff'
-alias shutdown='sudo /sbin/shutdown'
-alias sleep="pmset sleep now"
-alias reboot='sudo /sbin/reboot'
+# Lock the session
+if [[ "$OSTYPE" =~ ^darwin ]]; then
+    alias lock='pmset displaysleepnow'
+elif command -v vlock &> /dev/nul; then
+    alias lock='vlock --all'
+elif command -v gnome-screensaver-command &> /dev/nul; then
+    alias lock='gnome-screensaver-command --lock'
+fi
 
-# Lock the screen ...when going Away From Keyboard (AFK)
-alias afk="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
+# Hibernate the system
+if [[ "$OSTYPE" =~ ^darwin ]]; then
+    # alias sleep="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
+    alias hibernate="pmset sleep now"
+else
+    alias hibernate="systemctl suspend"
+fi
+
+# Restart the system
+if [[ "$OSTYPE" =~ ^darwin ]]; then
+    alias reboot="osascript -e 'tell application "System Events" to restart'"
+else
+    alias reboot='sudo /sbin/reboot'
+fi
+
+# Shut down the system
+if [[ "$OSTYPE" =~ ^darwin ]]; then
+    alias poweroff="osascript -e 'tell application "System Events" to shut down'"
+else
+    alias poweroff='sudo /sbin/poweroff'
+fi
+
+
+# Sysadmin
+# -----------------------------------------------------------------------------
 
 # List drive mounts
 if [[ "$OSTYPE" =~ ^darwin ]]; then
@@ -204,8 +250,8 @@ fi
 alias path='echo -e ${PATH//:/\\n}'
 
 # Update apps and packages
-alias brewery='brew update && brew upgrade && brew cleanup'
-alias update='brew update && brew upgrade --all && brew cask update && brew cleanup && brew cask cleanup'
+#alias brewery='brew update && brew upgrade && brew cleanup'
+#alias update='brew update && brew upgrade && brew cask upgrade && brew cleanup'
 
 
 # Applications
@@ -213,24 +259,26 @@ alias update='brew update && brew upgrade --all && brew cask update && brew clea
 
 # Open file/URL (in) Browsers
 alias browse='open'
-alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
-alias firefox='/Applications/Firefox.app/Contents/MacOS/Firefox'
-alias safari='/Applications/Safari.app/Contents/MacOS/Safari'
+alias chrome='open -a Google\ Chrome'
+alias edge='open -a Microsoft\ Edge'
+alias firefox='open -a Firefox'
+alias opera='open -a Opera'
+alias safari='open -a Safari'
 
 # Enter the Starship cross-shell prompt
 alias ss='eval "$(starship init bash)"'
 
 # Open (in) Sublime Text
 alias subl='/Applications/Sublime\ Text.app/Contents//MacOS/Sublime\ Text'
+alias st='/Applications/Sublime\ Text.app/Contents//MacOS/Sublime\ Text'
 
 
 # Development
 # -----------------------------------------------------------------------------
 
 # Docker
-alias d='docker'
-alias dokcer='docker'
-alias dcomp='docker-compose'
+alias dk='docker'
+alias dco='docker-compose'
 alias dwipe="docker kill $(docker ps -a -q) || docker rm $(docker ps -a -q) || docker ps -a"
 alias dockerstop='docker-compose stop'
 alias dockerup='docker-compose up -d'
@@ -249,20 +297,16 @@ alias ve='python3 -m venv ./venv'
 # macOS
 # -----------------------------------------------------------------------------
 
-# Toggle display of desktop icons
 if [[ "$OSTYPE" =~ ^darwin ]]; then
+    # Toggle display of desktop icons
     alias hidedesktop='defaults write com.apple.finder CreateDesktop -bool false && killall Finder'
     alias showdesktop='defaults write com.apple.finder CreateDesktop -bool true && killall Finder'
-fi
 
-# Toggle hidden files in Finder
-if [[ "$OSTYPE" =~ ^darwin ]]; then
+    # Toggle hidden files in Finder
     alias hidefiles='defaults write com.apple.finder AppleShowAllFiles -bool false && killall Finder'
     alias showfiles='defaults write com.apple.finder AppleShowAllFiles -bool true && killall Finder'
-fi
 
-# Toggle Spotlight
-if [[ "$OSTYPE" =~ ^darwin ]]; then
+    # Toggle Spotlight
     alias spotoff='sudo mdutil -a -i off'
     alias spoton='sudo mdutil -a -i on'
 fi
@@ -272,19 +316,23 @@ fi
 # -----------------------------------------------------------------------------
 
 # User paths
-alias dl='cd ~/Downloads'
-alias docs='cd ~/Documents'
-alias dt='cd ~/Desktop'
+alias dl="cd ${HOME}/Downloads"
+alias docs="cd ${HOME}/Documents"
+alias dt="cd ${HOME}/Desktop"
 
 
 # Configuration paths
 # -----------------------------------------------------------------------------
 
 # Go to Chezmoi's local repo
-alias chezmoiconf='cd ~/.local/share/chezmoi'
+if command -v chezmoi > /dev/null; then
+    alias chezmoiconf="cd $(chezmoi source-path)"
+else
+    alias chezmoiconf="cd ${HOME}/.local/share/chezmoi"
+fi
 
 # Go to Sublime Text's local repo
-alias sublimeconf='cd ~/Library/Application\ Support/Sublime\ Text\ 3/Packages/User'
+alias sublimeconf="cd ${HOME}/Library/Application\ Support/Sublime\ Text\ 3/Packages/User"
 
 
 
@@ -292,15 +340,12 @@ alias sublimeconf='cd ~/Library/Application\ Support/Sublime\ Text\ 3/Packages/U
 # -----------------------------------------------------------------------------
 
 # Paths: Code
-alias archives='cd ~/Archives'
-alias repos='cd ~/Code'
+alias archives="cd ${HOME}/Archives"
+alias repos="cd ${HOME}/Code"
 
 
 # Varia
 # -----------------------------------------------------------------------------
-
-# Display copy progress bar
-alias cpv='rsync -ah --info=progress2'
 
 # Canonical hex dump; some systems have this symlinked
 command -v hd > /dev/null || alias hd="hexdump -C"

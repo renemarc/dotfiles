@@ -5,19 +5,38 @@
 # Bash: functions
 #
 
+# Search history for a string, or list all history
+# Syntax: "historysearch <string>"
+function history_search() {
+    if [ -z "$1" ]; then
+        history
+    else
+        history | grep "$1"
+    fi
+}
+
+# Search session history for a string, or list all session history
+# Syntax: "historysessionsearch <string>"
+function history_session_search() {
+    prefix=$(date +"$HISTTIMEFORMAT")
+    offset=$((8 + ${#prefix}))
+    comm -23 <(history | cut -c ${offset}-) ${HISTFILE:-"~/.bash_history"} | grep "$1"
+}
+
 # Extract common file formats
 # https://github.com/xvoland/Extract
-# Syntax: "extract [file]"
+# Syntax: "extract file1"
 function extract {
- if [ -z "$1" ]; then
-    # display usage if no parameters given
-    echo "Usage: extract <path/file_name>.<zip|rar|bz2|gz|tar|tbz2|tgz|Z|7z|xz|ex|tar.bz2|tar.gz|tar.xz>"
-    echo "       extract <path/file_name_1.ext> [path/file_name_2.ext] [path/file_name_3.ext]"
- else
+    if [ -z "$1" ]; then
+        echo "Usage: extract <path/file_name>.<zip|rar|bz2|gz|tar|tbz2|tgz|Z|7z|xz|ex|tar.bz2|tar.gz|tar.xz>"
+        echo "       extract <path/file_name_1.ext> [path/file_name_2.ext] [path/file_name_3.ext]"
+        return 0
+    fi
+
     for n in "$@"
     do
-      if [ -f "$n" ] ; then
-          case "${n%,}" in
+    if [ -f "$n" ] ; then
+        case "${n%,}" in
             *.cbt|*.tar.bz2|*.tar.gz|*.tar.xz|*.tbz2|*.tgz|*.txz|*.tar)
                          tar xvf "$n"       ;;
             *.lzma)      unlzma ./"$n"      ;;
@@ -40,29 +59,98 @@ function extract {
                          echo "extract: '$n' - unknown archive method"
                          return 1
                          ;;
-          esac
-      else
-          echo "'$n' - file does not exist"
-          return 1
-      fi
+        esac
+    else
+        echo "'$n' - file does not exist"
+        return 1
+    fi
     done
-fi
+
 }
 alias x=extract
 
 # Repeat a command
-# Syntax: "repeat [X] [command]"
+# Syntax: "repeat <count> <command>"
 function repeat() {
+    if [ -z "$1" ] || [ "$#" -lt 2 ]; then
+        echo "Usage: repeat <count> <command> ..."
+        echo "Help: repeat runs a command x number of times."
+        return $#
+    fi
+
     local i max
     max=$1; shift;
-    for ((i=1; i <= max ; i++)); do  # --> C-like syntax
+    for ((i=1; i <= max ; i++)); do
         eval "$@";
     done
 }
 alias r=repeat
 
 # Create directory and change to it
+# Syntax: "mkcd <directory>"
 function mkcd() {
-    mkdir -p "$@" && cd "$_";
+    if [ -z "$1" ]; then
+        echo "Usage: mkcd <path>"
+        echo "Help: mkcd creates a directory if it doesn't exist, then changes to it."
+        return 0
+    fi
+
+    mkdir -p -- "$@" && cd -P -- "$_";
 }
 alias take=mkcd
+
+# Keep all apps and packages up to date
+# Syntax: "update [all]"
+function update() {
+    if command -v softwareupdate &> /dev/null; then
+        echo 'Checking for system updates...'
+        softwareupdate -l -i -a
+    fi
+
+    if command -v brew &> /dev/null; then
+        echo 'Updating packages with Homebrew...'
+        brew update
+        brew upgrade
+        brew cask update
+        brew cleanup
+    fi
+
+    if [[ "$1" == 'all' ]]
+        if command -v mas &> /dev/null; then
+            echo 'Updating App Store applications...'
+            mas upgrade
+        fi
+    fi
+
+    if ! [[ "$OSTYPE" =~ ^darwin ]]; then
+        if command -v apt &> /dev/null; then
+            echo 'Updating packages with apt...'
+            apt update
+            apt full-upgrade
+            apt autoremove
+            apt clean
+            apt autoclean
+        fi
+
+        if command -v apt-get &> /dev/null; then
+            echo 'Updating packages with apt-get...'
+            apt-get update
+            apt-get upgrade
+            apt-get dist-upgrade
+        fi
+    fi
+
+    if command -v npm &> /dev/null; then
+        echo 'Updating Node.js packages with npm...'
+        which npm
+        npm update -g
+    fi
+
+    if command -v npm &> /dev/null; then
+        echo 'Updating Ruby gems...'
+        which gem
+        gem update --system
+        gem update
+        gem cleanup
+    fi
+}

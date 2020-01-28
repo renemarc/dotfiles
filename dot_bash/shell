@@ -80,10 +80,10 @@ export PATH="$PATH:/Applications/DevDesktop/tools"
 export PATH="$PATH:/Applications/DevDesktop/drush_9"
 
 # Drush completions
-# . ~/.drush/drush.bashrc
+# . ${HOME}/.drush/drush.bashrc
 
 # Drush prompt customizations
-# . ~/.drush/drush.prompt.sh
+# . ${HOME}/.drush/drush.prompt.sh
 
 # Homebrew completions
 if type brew 2&>/dev/null; then
@@ -132,10 +132,10 @@ _complete_hosts () {
     COMPREPLY=()
     cur="${COMP_WORDS[COMP_CWORD]}"
     host_list=`{
-        for c in /etc/ssh_config /etc/ssh/ssh_config ~/.ssh/config
+        for c in /etc/ssh_config /etc/ssh/ssh_config ${HOME}/.ssh/config
         do [ -r $c ] && sed -n -e 's/^Host[[:space:]]//p' -e 's/^[[:space:]]*HostName[[:space:]]//p' $c
         done
-        for k in /etc/ssh_known_hosts /etc/ssh/ssh_known_hosts ~/.ssh/known_hosts
+        for k in /etc/ssh_known_hosts /etc/ssh/ssh_known_hosts ${HOME}/.ssh/known_hosts
         do [ -r $k ] && egrep -v '^[#\[]' $k|cut -f 1 -d ' '|sed -e 's/[,:].*//g'
         done
         sed -n -e 's/^[0-9][0-9\.]*//p' /etc/hosts; }|tr ' ' '\n'|grep -v '*'`
@@ -153,4 +153,4 @@ complete -F _complete_hosts ping
 # -----------------------------------------------------------------------------
 
 # Travis CI completions
-[ -f ~/.travis/travis.sh ] && source ~/.travis/travis.sh
+[ -f ${HOME}/.travis/travis.sh ] && source ${HOME}/.travis/travis.sh

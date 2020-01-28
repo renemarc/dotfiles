@@ -2,7 +2,7 @@
 
 Works with Bash, Zsh and PowerShell 5/Core, and is managed using [chezmoi](https://www.chezmoi.io/)
 
-Tested on Mac and Windows, along with partial Linux support.
+Tested on  macOS and ⊞ Windows, along with partial 🐧 Linux support.
 
 ## Shells supported
 
@@ -51,9 +51,9 @@ These are custom aliases and commands shared amongst different shells. Bash comm
 
 | Bash | PowerShell | Zsh | Command | Description |
 |:----:|:----------:|:---:|---------|-------------|
-| ✅   | ✅         | ❌  | `cpv`   | Copy a file securely.
-| ❌   | ✅         | ❌  | `fd`    | Find directory.
-| ❌   | ✅         | ❌  | `ff`    | Find file.
+| ✅   | ✅         | ✅  | `cpv`   | Copy a file securely.
+| ✅   | ✅         | ✅  | `fd`    | Find directory.
+| ✅   | ✅         | ✅  | `ff`    | Find file.
 | ❌   | ✅         | ❌  | `mirror` | Mirror directories.
 
 
@@ -63,7 +63,7 @@ These are custom aliases and commands shared amongst different shells. Bash comm
 |:----:|:----------:|:---:|---------|-------------|
 | ✅   | ✅         | ✅  | `c`     | Clear screen.
 | ✅   | ✅         | ✅  | `h`     | Display/Search global history.<br>_Usage: `h`_<br>_Usage: `h cd`_
-| ✅   | ✅         | ✅  | `hsession` | Display/Search session history.<br>_Usage: `h`_<br>_Usage: `h cd`_
+| ✅   | ✅         | ❌  | `hs`    | Display/Search session history.<br>_Usage: `hs`_<br>_Usage: `hs cd`_
 | ✅   | ❌         | ✅  | `reload` | Reload the shell.
 | ✅   | ❌         | ✅  | `resource` | Reload configuration.
 
@@ -81,12 +81,12 @@ These are custom aliases and commands shared amongst different shells. Bash comm
 
 | Bash | PowerShell | Zsh | Command | Description |
 |:----:|:----------:|:---:|---------|-------------|
-| ✅   | ✅         | ❌  | `now`<br>`unow` | Display local/UTC date and time in ISO-8601 format `YYYY-MM-DDThh:mm:ss`.
+| ✅   | ✅         | ❌  | `now`<br>`unow` | Display local/UTC date and time in [ISO 8601](https://xkcd.com/1179/) format `YYYY-MM-DDThh:mm:ss`.
 | ✅   | ✅         | ❌  | `nowdate`<br>`unowdate` | Display local/UTC date in `YYYY-MM-DD` format.
 | ✅   | ✅         | ❌  | `nowtime`<br>`unowtime` | Display local/UTC time in `hh:mm:ss` format.
 | ✅   | ✅         | ❌  | `timestamp` | Display Unix time stamp.
-| ✅   | ✅         | ❌  | `week`  | Get week number in ISO-9601 format `YYYY-Www`.
-| ✅   | ✅         | ❌  | `weekday` | Get weekday number.
+| ✅   | ✅         | ❌  | `week`  | Display week number in [ISO 9601](https://en.wikipedia.org/wiki/ISO_8601#Week_dates) format `YYYY-Www`.
+| ✅   | ✅         | ❌  | `weekday` | Display weekday number.
 
 
 ### Networking
@@ -95,7 +95,7 @@ These are custom aliases and commands shared amongst different shells. Bash comm
 |:----:|:----------:|:---:|---------|-------------|
 | ✅   | ❌         | ❌  | `fastping` | Ping 100 times without waiting 1 second between ECHO_REQUEST packets.
 | ✅   | ✅         | ✅  | `flushdns` | Flush the DNS cache.
-| ✅   | ❌         | ❌  | `ifactive` | Show active network interfaces.
+| ❌   | ❌         | ❌  | `ifactive` | Show active network interfaces.
 | ✅   | ✅         | ❌  | `ip`    | Get external IP address.
 | ✅   | ✅         | ❌  | `ips`   | Get all IP addresses.
 | ✅   | ✅         | ❌  | `localip` | Get local IP address.
@@ -117,9 +117,8 @@ These are custom aliases and commands shared amongst different shells. Bash comm
 | Bash | PowerShell | Zsh | Command | Description |
 |:----:|:----------:|:---:|---------|-------------|
 | ✅   | ✅         | ❌  | `mnt`   | List drive mounts.
-| ✅   | ✅         | ✅  | `path`  | Print each $PATH entry on a separate line.
-| ✅   | ❌         | ❌  | `brewery` | Keep all [Homebrew](https://brew.sh/) apps up to date.
-| ❌   | ✅         | ❌  | `update` | Keep all apps and packages up to date.
+| ✅   | ✅         | ✅  | `path`  | Print each `$PATH` entry on a separate line.
+| ✅   | ✅         | ❌  | `update` | Keep all apps and packages up to date.
 
 
 ### Applications
@@ -128,10 +127,11 @@ These are custom aliases and commands shared amongst different shells. Bash comm
 |:----:|:----------:|:---:|---------|-------------|
 | ✅   | ✅         | ❌  | `browse` | Open file/URL in default browser.<br>_Usage: `open http://example.com`_
 | ✅   | ✅         | ❌  | `chrome` | Open file/URL in [Chrome](https://www.google.com/chrome/).
-| ❌   | ✅         | ❌  | `edge` | Open file/URL in [Microsoft Edge](https://www.microsoft.com/en-us/edge).
+| ✅   | ✅         | ❌  | `edge` | Open file/URL in [Microsoft Edge](https://www.microsoft.com/en-us/edge).
 | ✅   | ✅         | ❌  | `firefox` | Open file/URL in [Firefox](https://www.mozilla.org/en-CA/firefox/).
-| ✅   | ❔         | ❌  | `opera` | Open file/URL in [Opera](https://www.opera.com/).
-| ✅   | ❔         | ❌  | `safari` | Open file/URL in [Safari](https://www.apple.com/ca/safari/).
+| ✅   | ✅         | ❌  | `iexplore` | Open file/URL in [Internet Explorer](https://www.microsoft.com/ie). ⊞
+| ✅   | ✅         | ❌  | `opera` | Open file/URL in [Opera](https://www.opera.com/).
+| ✅   | ✅         | ❌  | `safari` | Open file/URL in [Safari](https://www.apple.com/ca/safari/). 
 | ✅   | ✅         | ✅  | `ss`    | Enter the [Starship 🚀](https://starship.rs) cross-shell prompt.
 | ✅   | ✅         | ✅  | `subl`<br>`st`  | Open in [Sublime Text](https://www.sublimetext.com/).
 
@@ -147,19 +147,19 @@ These are custom aliases and commands shared amongst different shells. Bash comm
 | ✅   | ✅         | ❌  | `ve`    | 🐍 Python: create [virtual environment venv](https://docs.python.org/3/tutorial/venv.html).
 
 
-### macOS
+###  macOS
 
 | Bash | PowerShell | Zsh | Command | Description |
 |:----:|:----------:|:---:|---------|-------------|
-| ✅   | ❔         | ❌  | `hidedesktop`<br>`showdesktop` | Toggle display of desktop icons.
-| ✅   | ❔         | ✅  | `hidefiles`<br>`showfiles` | Toggle hidden files display in [Finder](https://support.apple.com/en-ca/HT201732).
-| ✅   | ❔         | ❌  | `spotoff`<br>`spoton` | Toggle [Spotlight](https://support.apple.com/en-ca/HT204014).
+| ✅   | ✅         | ❌  | `hidedesktop`<br>`showdesktop` | Toggle display of desktop icons.
+| ✅   | ✅         | ✅  | `hidefiles`<br>`showfiles` | Toggle hidden files display in [Finder](https://support.apple.com/en-ca/HT201732).
+| ✅   | ✅         | ❌  | `spotoff`<br>`spoton` | Toggle [Spotlight](https://support.apple.com/en-ca/HT204014).
 
-### Windows
+### ⊞ Windows
 
 | Bash | PowerShell | Zsh | Command | Description |
 |:----:|:----------:|:---:|---------|-------------|
-| ❌   | ✅         | ❌  | `hidefiles`<br>`showfiles` | Toggle hidden files display in [Finder](https://support.apple.com/en-ca/HT201732).
+| ❌   | ✅         | ❌  | `hidefiles`<br>`showfiles` | Toggle hidden files display in [File Explorer](https://support.microsoft.com/en-ca/help/4026617/windows-10-windows-explorer-has-a-new-name).
 
 
 ### Common paths
