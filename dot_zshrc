@@ -84,7 +84,6 @@ COMPLETION_WAITING_DOTS="true"
 plugins=(
     colored-man-pages       # Adds colors to man pages
     common-aliases          # Aliases for many commonly used commands
-    composer                # Aliases for [Composer](https://getcomposer.org/)
     cp                      # Secure `cpv` function that uses `rsync`
     docker                  # Aliases for [Docker](https://www.docker.com/)
     docker-compose          # Aliases for [Docker-Compose](https://docs.docker.com/compose/)
@@ -94,12 +93,13 @@ plugins=(
     pj                      # Project Jump folder shortcuts
     rsync                   # Aliases for `rsync` command
     sublime                 # Aliases for [Sublime Text](https://www.sublimetext.com/)
-    symfony2                # Completion for [Symfony 2](https://symfony.com/)
     systemadmin             # Utilities for SysAdmins.
     z                       # Tracks your most used directories.
     zsh-autosuggestions     # Command suggestions based on history and completions (https://github.com/zsh-users/zsh-autosuggestions)
     zsh-syntax-highlighting # Fish shell like syntax highlighting (https://github.com/zsh-users/zsh-syntax-highlighting)
 )
+#    composer                # Aliases for [Composer](https://getcomposer.org/)
+#    symfony2                # Completion for [Symfony 2](https://symfony.com/)
 if [[ "$OSTYPE" =~ ^darwin ]]; then
     plugins+=(
         osx                 # Utilities for macOS
@@ -150,9 +150,9 @@ alias ss='eval "$(starship init zsh)"'
 alias mkcd=take # take() is a standard part of Oh-My-Zsh
 
 if command -v chezmoi > /dev/null; then
-    alias chezmoiconfig="cd $(chezmoi source-path)"
+    alias chezmoiconf="cd $(chezmoi source-path)"
 else
-    alias chezmoiconfig="cd ${HOME}/.local/share/chezmoi"
+    alias chezmoiconf="cd ${HOME}/.local/share/chezmoi"
 fi
 
 alias reload="source ${HOME}/.zshrc"
