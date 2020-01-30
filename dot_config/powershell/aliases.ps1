@@ -3,7 +3,7 @@
 #
 
 # Create missing $IsWindows if running Powershell 5 or below
-if (! Test-Path variable:global:IsWindows) {
+if (!(Test-Path variable:global:IsWindows)) {
     Set-Variable IsWindows -Scope Global -Value ([System.Environment]::OSVersion.Platform -eq "Win32NT")
 }
 
