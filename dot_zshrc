@@ -145,17 +145,9 @@ export LANG=en_US.UTF-8
 ## Custom
 ##
 
-alias chezmoiconf="cd $(chezmoi source-path)"
-alias ss='eval "$(starship init zsh)"'
-alias mkcd=take # take() is a standard part of Oh-My-Zsh
-
-if command -v chezmoi > /dev/null; then
-    alias chezmoiconf="cd $(chezmoi source-path)"
-else
-    alias chezmoiconf="cd ${HOME}/.local/share/chezmoi"
-fi
-
-alias reload="source ${HOME}/.zshrc"
+# Load cross-compatible Bash functions and aliases
+source ${HOME}/.bash/functions
+source ${HOME}/.bash/aliases
 
 # Node Version Manager
 export NVM_DIR="$HOME/.nvm"

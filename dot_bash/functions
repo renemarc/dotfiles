@@ -115,7 +115,7 @@ function update() {
         brew cleanup
     fi
 
-    if [[ "$1" == 'all' ]]
+    if [[ "$1" == 'all' ]]; then
         if command -v mas &> /dev/null; then
             echo 'Updating App Store applications...'
             mas upgrade

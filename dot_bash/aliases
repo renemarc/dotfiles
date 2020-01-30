@@ -141,7 +141,11 @@ alias vis='vim "+set si"'
 alias reload="exec ${SHELL} -l"
 
 # Reload configuration
-alias resource="source ${HOME}/.bash_profile"
+if [ -n "$ZSH_VERSION" ]; then
+    alias resource="source ${HOME}/.zshrc"
+else
+    alias resource="source ${HOME}/.bash_profile"
+fi
 
 
 # Time
@@ -223,14 +227,14 @@ fi
 
 # Restart the system
 if [[ "$OSTYPE" =~ ^darwin ]]; then
-    alias reboot="osascript -e 'tell application "System Events" to restart'"
+    alias reboot="osascript -e 'tell application \"System Events\" to restart'"
 else
     alias reboot='sudo /sbin/reboot'
 fi
 
 # Shut down the system
 if [[ "$OSTYPE" =~ ^darwin ]]; then
-    alias poweroff="osascript -e 'tell application "System Events" to shut down'"
+    alias poweroff="osascript -e 'tell application \"System Events\" to shut down'"
 else
     alias poweroff='sudo /sbin/poweroff'
 fi
@@ -266,7 +270,15 @@ alias opera='open -a Opera'
 alias safari='open -a Safari'
 
 # Enter the Starship cross-shell prompt
-alias ss='eval "$(starship init bash)"'
+if [ -n "$ZSH_VERSION" ]; then
+    if typeset -f prompt_powerlevel9k_teardown > /dev/null; then
+        alias ss='prompt_powerlevel9k_teardown && eval "$(starship init zsh)"'
+    else
+        alias ss='eval "$(starship init zsh)"'
+    fi
+else
+    alias ss='eval "$(starship init bash)"'
+fi
 
 # Open (in) Sublime Text
 alias subl='/Applications/Sublime\ Text.app/Contents//MacOS/Sublime\ Text'
