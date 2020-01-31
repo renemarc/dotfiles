@@ -509,3 +509,41 @@ function repos { Set-Location "${HOME}\Code" }
 
 # Varia
 # -----------------------------------------------------------------------------
+
+# Display detailed weather and forecast
+function Get-Weather-Forecast {
+    <#
+    .SYNOPSIS
+        Display detailed weather and forecast
+    .DESCRIPTION
+        Fetches the weather information from wttr.in for terminal display.
+    .INPUTS
+        None
+    .OUTPUTS
+        String
+    .LINK
+        https://wttr.in
+    #>
+
+    Get-Weather 'nF'
+}
+Set-Alias -Name "forecast" -Value Get-Weather-Forecast -Description "Display detailed weather and forecast."
+
+# Display current weather
+function Get-Weather-Current {
+    <#
+    .SYNOPSIS
+        Display current weather
+    .DESCRIPTION
+        Fetches the weather information from wttr.in for terminal display.
+    .INPUTS
+        None
+    .OUTPUTS
+        String
+    .LINK
+        https://wttr.in
+    #>
+
+    Get-Weather 'format=%l:+(%C)+%c++%t+[%h,+%w]'
+}
+Set-Alias -Name "weather" -Value Get-Weather-Current -Description "Display current weather."

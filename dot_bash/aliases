@@ -377,6 +377,19 @@ alias map="xargs -n1"
 # Usage: `mergepdf input{1,2,3}.pdf`
 alias mergepdf='gs -q -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -sOutputFile=_merged.pdf'
 
+# Display detailed weather and forecast
+if command -v curl > /dev/null; then
+    alias forecast='curl --compressed --max-time 5 --url "https://wttr.in?nF"'
+else
+    alias forecast='wget -qO- --compression=auto --timeout=5 "https://wttr.in?nF"'
+fi
+
+# Display current weather
+if command -v curl > /dev/null; then
+    alias weather='curl --compressed --max-time 5 --url "https://wttr.in/?format=%l:+(%C)+%c++%t+\[%h,+%w\]"'
+else
+    alias weather='wget -qO- --compression=auto --timeout=5 "https://wttr.in/?format=%l:+(%C)+%c++%t+\[%h,+%w\]"'
+fi
 
 # Ideas
 # -----------------------------------------------------------------------------

@@ -237,7 +237,6 @@ function Repeat-Command-Borked {
 # Sysadmin
 # -----------------------------------------------------------------------------
 
-
 # Keep all apps and packages up to date
 function Update-Packages {
     <#
@@ -284,3 +283,49 @@ function Update-Packages {
     }
 }
 Set-Alias -Name "update" -Value Update-Packages
+
+
+# Varia
+# -----------------------------------------------------------------------------
+
+# Display the current weather and forecast
+function Get-Weather {
+    <#
+    .SYNOPSIS
+        Display the current weather and forecast
+    .DESCRIPTION
+        Fetches the weather information from https://wttr.in for terminal
+        display.
+    .PARAMETER Request
+        The full URL to the wttr request.
+    .PARAMETER Timeout
+        The number of seconds to wait for a response.
+    .EXAMPLE
+        Get-Weather nF 10
+    .INPUTS
+        String
+    .OUTPUTS
+        String
+    .LINK
+        https://github.com/chubin/wttr.in
+    .LINK
+        https://wttr.in
+    #>
+    param (
+        [Parameter(Mandatory=$false)]
+        [string]$Request,
+
+        [Parameter(Mandatory=$false)]
+        [PSDefaultValue(Help = '5')]
+        [int]$Timeout = 5
+    )
+
+    if ($Request) {
+        $Request = '?' + $Request
+    }
+    $Request = 'https://wttr.in' + $Request
+
+    $headers = New-Object "System.Collections.Generic.Dictionary[[String],[String]]"
+    $headers.Add("Content-Encoding", 'deflate, gzip')
+    (Invoke-WebRequest -Uri "$Request" -UserAgent "curl" -Headers $headers -UseBasicParsing -TimeoutSec "$Timeout").content
+}

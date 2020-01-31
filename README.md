@@ -5,7 +5,7 @@
 Universal command set and colourful shell configurations for Bash, Zsh and Powershell, compatible with macOS, Windows and (partially) Linux, all managed easily using [chezmoi](https://github.com/twpayne/chezmoi).
 
 <div align="center">
-    <p><strong>Be sure to <a href="#" title="star">⭐️</a> this repo if you find it useful! 😃</strong></p>
+    <p><strong>Be sure to <a href="#" title="star">⭐️</a> or <a href="#" title="fork">🔱</a> this repo if you find it useful! 😃</strong></p>
 </div>
 
 ## Project goals ⚽
@@ -95,7 +95,7 @@ System-specific aliases are marked with <a href="#" title="macOS"></a>, <a hr
 | ✅   | ✅         | ✅  | `c`     | Clear screen.
 | ✅   | ❌         | ✅  | `extract`<br>`x` | Extract common file formats.<br>_Usage: `extract solarized.zip`_
 | ✅   | ✅         | ✅  | `h`     | Display/Search global history.<br>_Usage: `h`_<br>_Usage: `h cd`_
-| ✅   | ✅         | ✅  | `hs`    | Display/Search session history.<br>_Usage: `hs`_<br>_Usage: `hs cd`_
+| ✅   | ✅         | ⚠️  | `hs`    | Display/Search session history.<br>_Usage: `hs`_<br>_Usage: `hs cd`_
 | ✅   | ✅         | ✅  | `mkcd`<br>`take` | Create directory and change to it.<br>_Usage: `mkcd foldername`_
 | ✅   | ❌         | ✅  | `reload` | Reload the shell.
 | ✅   | ✅         | ✅  | `repeat`<br>`r` | Repeat a command `x` times.<br>_Usage: `repeat 5 echo hello`_.
@@ -235,12 +235,15 @@ System-specific aliases are marked with <a href="#" title="macOS"></a>, <a hr
 | ✅   | ❌         | ✅  | `sha1`  | Calculate SHA1 hashes.
 | ✅   | ❌         | ✅  | `sha1sum` | Calculate SHA1 sum hashes.
 | ❔   | ❌         | ❔  | `mergepdf` | Merge PDF files, preserving hyperlinks.
+| ✅   | ✅         | ✅  | `forecast` | 🌤️ Display [detailed weather and forecast](https://wttr.in/?n).
+| ✅   | ✅         | ✅  | `weather` | 🌤️ Display [current weather](https://wttr.in/?format=%l:+(%C)+%c++%t+[%h,+%w]).
 
 <p align="right"><a href="#top" title="Back to top">🔝</a></p>
 
 ## Inspirations 💡
 
 - [Digital Ocean: What are your favorite bash aliases?](https://www.digitalocean.com/community/questions/what-are-your-favorite-bash-aliases)
+- [GitHub: dotfiles](http://dotfiles.github.io/)
 - [GitHub: Jay Harris' Windows dotfiles](https://github.com/jayharris/dotfiles-windows)
 - [GitHub: Jan Moesen's dotfiles](https://github.com/janmoesen/tilde)
 - [GitHub: Mathias Bynens' dotfiles](https://github.com/mathiasbynens/dotfiles)
@@ -248,4 +251,4 @@ System-specific aliases are marked with <a href="#" title="macOS"></a>, <a hr
 
 <p align="right"><a href="#top" title="Back to top">🔝</a></p>
 
-<p align="center"><strong>Don't forget to <a href="#" title="star">⭐️</a> this repo! 😃<br/><sub>Assembled with <b title="love">❤️</b> in Montréal.</sub></strong></p>
+<p align="center"><strong>Don't forget to <a href="#" title="star">⭐️</a> or <a href="#" title="fork">🔱</a> this repo! 😃<br/><sub>Assembled with <b title="love">❤️</b> in Montréal.</sub></strong></p>
