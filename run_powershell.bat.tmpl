@@ -20,74 +20,74 @@ set DESTINATIONS="%USERPROFILE%\Documents\PowerShell" "%USERPROFILE%\Documents\W
 
 for %%d in (%DESTINATIONS%) do (
     set DEST=%%d
-    set processlevel=processlevelverify
+    set processlevel=%processlevelverify%
 
     REM Application has not been installed
     IF NOT EXIST !DEST! (
-        set processlevel=processlevelskip
+        set processlevel=%processlevelskip%
     )
 
     REM Destination is a symbolic link
-    IF !processlevel! NEQ processlevelskip (
+    IF !processlevel! NEQ %processlevelskip% (
         for %%i in (!DEST!) do set attribs=%%~ai
         if "!attribs:~8,1!" == "l" (
-            set processlevel=processlevelskip
+            set processlevel=%processlevelskip%
         )
     )
 
-    IF !processlevel! NEQ processlevelskip (
+    IF !processlevel! NEQ %processlevelskip% (
         REM Process each mandatory file in source
         FOR %%f IN ("%SRC%\*.ps1") DO (
-            set processlevel=processlevelverify
-            set DESTFILE="!DEST!\%%~nxf"
+            set processlevel=%processlevelverify%
+            set DESTFILE="!DEST:"=!\%%~nxf"
 
             REM File does not exist on destination
-            IF NOT EXIST "!DESTFILE!" (
-                set processlevel=processlevelcopy
+            IF NOT EXIST !DESTFILE! (
+                set processlevel=%processlevelcopy%
             )
 
             REM Destination file is not a symbolic link
-            IF !processlevel! LSS processlevelcopy (
-                dir !DESTFILE! | find "<SYMLINK>" > nul
-                IF %errorlevel% NEQ 0 (
-                    set processlevel=processlevelcompare
+            IF !processlevel! LSS %processlevelcopy% (
+                dir /a !DESTFILE! | find "<SYMLINK>" > nul
+                IF !errorlevel! NEQ 0 (
+                    set processlevel=%processlevelcompare%
                 )
             )
 
             REM Configuration files are identical
-            IF !processlevel! EQU processlevelcompare (
+            IF !processlevel! EQU %processlevelcompare% (
                 fc /b "%%f" !DESTFILE! > nul
-                IF %errorlevel% == 0 (
-                    set processlevel=processlevelcopy
+                IF !errorlevel! NEQ 0 (
+                    set processlevel=%processlevelcopy%
                 )
             )
 
             REM Copy source file to destination
-            IF !processlevel! EQU processlevelcopy (
+            IF !processlevel! EQU %processlevelcopy% (
                 xcopy /fvy "%%f" !DEST!
             )
         )
 
         REM Process each optional file in source
         FOR %%g IN ("%SRC%\*.ini") DO (
-            set processlevel=processlevelverify
-            set DESTFILE="!DEST!\%%~nxg"
+            set processlevel=%processlevelverify%
+            set DESTFILE="!DEST:"=!\%%~nxg"
 
             REM File does not exist on destination
-            IF NOT EXIST "!DESTFILE!" (
-                set processlevel=processlevelcopy
+            IF NOT EXIST !DESTFILE! (
+                set processlevel=%processlevelcopy%
             )
 
             REM Destination file is not a symbolic link
-            IF !processlevel! LSS processlevelcopy (
-                dir !DESTFILE! | find "<SYMLINK>" > nul
-                IF %errorlevel% EQU 0 (
-                    set processlevel=processlevelverify
+            IF !processlevel! LSS %processlevelcopy% (
+                dir /a !DESTFILE! | find "<SYMLINK>" > nul
+                IF !errorlevel! EQU 0 (
+                    set processlevel=%processlevelverify%
                 )
             )
 
             REM Copy source file to destination
-            IF !processlevel! EQU processlevelcopy (
+            IF !processlevel! EQU %processlevelcopy% (
                 xcopy /fvy "%%g" !DEST!
                 attrib +h +s !DESTFILE!
                 attrib +r !DEST!
