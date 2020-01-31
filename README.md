@@ -91,7 +91,7 @@ System-specific aliases are marked with <a href="#" title="macOS"></a>, <a hr
 
 | Bash | PowerShell | Zsh | Command | Description |
 |:----:|:----------:|:---:|---------|-------------|
-| ✅   | ❌         | ✅  | `alias` | List aliases.
+| ✅   | ✅         | ✅  | `alias` | List aliases.
 | ✅   | ✅         | ✅  | `c`     | Clear screen.
 | ✅   | ❌         | ✅  | `extract`<br>`x` | Extract common file formats.<br>_Usage: `extract solarized.zip`_
 | ✅   | ✅         | ✅  | `h`     | Display/Search global history.<br>_Usage: `h`_<br>_Usage: `h cd`_

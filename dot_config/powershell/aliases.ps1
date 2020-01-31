@@ -90,6 +90,12 @@ Set-Alias -Name "mirror" -Value "Mirror-Path"
 # General
 # -----------------------------------------------------------------------------
 
+# List aliases
+function Get-Aliases {
+    Get-Alias | Format-Table Name,ResolvedCommandName,Description,HelpUri
+}
+Set-Alias -Name "alias" -Value Get-Aliases
+
 # Clear screen
 Set-Alias -Name "c" -Value "Clear-Host"
 
