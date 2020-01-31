@@ -11,15 +11,20 @@ Push-Location (Split-Path -parent $profile)
 Pop-Location
 
 # Setup a pretty development-oriented PowerShell prompt
-Import-Module posh-git
-Import-Module oh-my-posh
-#Set-Theme Paradox-Tweak
-Set-Theme Paradox
-$ThemeSettings.Colors.PromptBackgroundColor = "Blue"
-$DefaultUser = $Env:username
+if (Get-Module -ListAvailable -Name "posh-git") {
+    Import-Module posh-git
+}
+if (Get-Module -ListAvailable -Name "oh-my-posh") {
+    Import-Module oh-my-posh
+}
+if (Get-Module -Name "oh-my-posh") {
+    Set-Theme Paradox
+    $ThemeSettings.Colors.PromptBackgroundColor = "Blue"
+    $DefaultUser = $Env:username
+}
 
 # Display if/which WSL Interop commands are imported
-if (Get-Module -ListAvailable -Name WslInterop) {
+if (Get-Module -ListAvailable -Name "WslInterop") {
     Write-Host "Windows Subsystem for Linux (WSL) Interop enabled." -ForegroundColor $ColorInfo
     Write-Host "WSL commands available:`n`t$($WslImportedCommands | sort)" -ForegroundColor $ColorInfo
 }
