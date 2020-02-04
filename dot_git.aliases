@@ -104,6 +104,9 @@
     # Pull in remote changes for the current repository and all its submodules
     p = git pull --recurse-submodules
 
+    # Force push without overwriting others' work
+    pushf = push --force-with-lease
+
     # Abort rebase
     rba = rebase --abort
 
