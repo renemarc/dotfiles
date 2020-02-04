@@ -2,45 +2,482 @@
 # PowerShell profile: functions
 #
 
-if ((Get-Variable "ColorInfo" -ErrorAction "Ignore") -eq $null) {
-    Set-Variable -Name ColorInfo -Value "DarkYellow"
+# Create missing $IsWindows if running Powershell 5 or below
+if (!(Test-Path variable:global:IsWindows)) {
+    Set-Variable "IsWindows" -Scope "Global" -Value ([System.Environment]::OSVersion.Platform -eq "Win32NT")
+}
+
+if ($null -eq (Get-Variable "ColorInfo" -ErrorAction "Ignore")) {
+    Set-Variable -Name "ColorInfo" -Value "DarkYellow"
 }
 
 
-# Import popular commands from Linux
-if (Get-Command Import-WslCommand -errorAction Ignore) {
-    Import-WslCommand "chmod"
-    Import-WslCommand "grep"
-    Import-WslCommand "head"
-    Import-WslCommand "less"
-    Import-WslCommand "ls"
-    Import-WslCommand "man"
-    Import-WslCommand "ssh"
-    Import-WslCommand "tail"
+# Easier navigation
+# -----------------------------------------------------------------------------
 
-    $WslDefaultParameterValues = @{}
-    $WslDefaultParameterValues["grep"] = "-E"
-    $WslDefaultParameterValues["less"] = "-i"
-    $WslDefaultParameterValues["ls"] = "-AFhl --color=auto"
+function Set-LocationHome {
+    <#
+    .SYNOPSIS
+        Goes to user home directory.
+    .INPUTS
+        System.String
+    .OUTPUTS
+        None
+    .LINK
+        Set-Location
+    #>
+    [CmdletBinding(
+        SupportsShouldProcess=$true,
+        ConfirmImpact='Low'
+    )]
+    param()
 
-    $WslImportedCommands = @()
-    $WslImportedCommands += "chmod"
-    $WslImportedCommands += "grep"
-    $WslImportedCommands += "head"
-    $WslImportedCommands += "less"
-    $WslImportedCommands += "ls"
-    $WslImportedCommands += "man"
-    $WslImportedCommands += "ssh"
-    $WslImportedCommands += "tail"
+    begin {
+        $path = $HOME
+        Write-Verbose "Destination set to $path"
+    }
+
+    process {
+        if ($PSCmdlet.ShouldProcess($path, 'Go to directory')) {
+            Write-Verbose "Navigating to $path"
+            Set-Location $path
+        }
+    }
 }
 
+function Set-LocationLast {
+    <#
+    .SYNOPSIS
+        Goes to last used directory.
+    .INPUTS
+        System.String
+    .OUTPUTS
+        None
+    .LINK
+        Set-Location
+    #>
+    [CmdletBinding(
+        SupportsShouldProcess=$true,
+        ConfirmImpact='Low'
+    )]
+    param()
+
+    begin {
+        if (!(Test-Path variable:global:LocationHistoryForward)) {
+            Set-Variable "LocationHistoryForward" -Scope "Global" -Value $false
+        }
+        if (!$LocationHistoryForward) {
+            $path = "-"
+        }
+        else {
+            $path = "+"
+        }
+        Write-Verbose "Destination set to $path"
+    }
+
+    process {
+        if ($PSCmdlet.ShouldProcess($path, 'Go to directory')) {
+            if (!$LocationHistoryForward) {
+                Set-Variable "LocationHistoryForward" -Scope "Global" -Value $true
+            }
+            else {
+                Set-Variable "LocationHistoryForward" -Scope "Global" -Value $false
+            }
+            Write-Verbose "Navigating to $path"
+            Set-Location $path
+        }
+    }
+}
+
+function Set-LocationUp {
+    <#
+    .SYNOPSIS
+        Goes up a directory.
+    .INPUTS
+        System.String
+    .OUTPUTS
+        None
+    .LINK
+        Set-Location
+    #>
+    [CmdletBinding(
+        SupportsShouldProcess=$true,
+        ConfirmImpact='Low'
+    )]
+    param()
+
+    begin {
+        $path = Convert-Path -Path ".."
+        Write-Verbose "Destination set to $path"
+    }
+
+    process {
+        if ($PSCmdlet.ShouldProcess($path, 'Go to directory')) {
+            Write-Verbose "Navigating to $path"
+            Set-Location $path
+        }
+    }
+}
+
+function Set-LocationUp2 {
+    <#
+    .SYNOPSIS
+        Goes up two directories.
+    .INPUTS
+        System.String
+    .OUTPUTS
+        None
+    .LINK
+        Set-Location
+    #>
+    [CmdletBinding(
+        SupportsShouldProcess=$true,
+        ConfirmImpact='Low'
+    )]
+    param()
+
+    begin {
+        $path = Convert-Path -Path "../.."
+        Write-Verbose "Destination set to $path"
+    }
+
+    process {
+        if ($PSCmdlet.ShouldProcess($path, 'Go to directory')) {
+            Write-Verbose "Navigating to $path"
+            Set-Location $path
+        }
+    }
+}
+
+function Set-LocationUp3 {
+    <#
+    .SYNOPSIS
+        Goes up three directories.
+    .INPUTS
+        System.String
+    .OUTPUTS
+        None
+    .LINK
+        Set-Location
+    #>
+    [CmdletBinding(
+        SupportsShouldProcess=$true,
+        ConfirmImpact='Low'
+    )]
+    param()
+
+    begin {
+        $path = Convert-Path -Path "../../.."
+        Write-Verbose "Destination set to $path"
+    }
+
+    process {
+        if ($PSCmdlet.ShouldProcess($path, 'Go to directory')) {
+            Write-Verbose "Navigating to $path"
+            Set-Location $path
+        }
+    }
+}
+
+function Set-LocationUp4 {
+    <#
+    .SYNOPSIS
+        Goes up four directories.
+    .INPUTS
+        System.String
+    .OUTPUTS
+        None
+    .LINK
+        Set-Location
+    #>
+    [CmdletBinding(
+        SupportsShouldProcess=$true,
+        ConfirmImpact='Low'
+    )]
+    param()
+
+    begin {
+        $path = Convert-Path -Path "../../../.."
+        Write-Verbose "Destination set to $path"
+    }
+
+    process {
+        if ($PSCmdlet.ShouldProcess($path, 'Go to directory')) {
+            Write-Verbose "Navigating to $path"
+            Set-Location $path
+        }
+    }
+}
+
+function Set-LocationUp5 {
+    <#
+    .SYNOPSIS
+        Goes up five directories.
+    .INPUTS
+        System.String
+    .OUTPUTS
+        None
+    .LINK
+        Set-Location
+    #>
+    [CmdletBinding(
+        SupportsShouldProcess=$true,
+        ConfirmImpact='Low'
+    )]
+    param()
+
+    begin {
+        $path = Convert-Path -Path "../../../../.."
+        Write-Verbose "Destination set to $path"
+    }
+
+    process {
+        if ($PSCmdlet.ShouldProcess($path, 'Go to directory')) {
+            Write-Verbose "Navigating to $path"
+            Set-Location $path
+        }
+    }
+}
+
+
+# Directory browsing
+# -----------------------------------------------------------------------------
+
+function Get-ChildItemSimple {
+    <#
+    .SYNOPSIS
+        Lists visible files in wide format.
+    .PARAMETER Path
+        The directory to list from.
+    .INPUTS
+        System.String[]
+    .OUTPUTS
+        System.IO.FileInfo
+        System.IO.DirectoryInfo
+    .LINK
+        Get-ChildItem
+    #>
+    [CmdletBinding()]
+    param(
+        [Parameter(
+            Mandatory=$false,
+            ValueFromPipeline=$true
+        )]
+        [string[]]$Path = ".",
+
+        [Parameter(ValueFromRemainingArguments=$true)]
+        $Params
+    )
+
+    begin {
+        # https://stackoverflow.com/a/33302472
+        $hashtable = @{}
+        if ($Params) {
+            $Params | ForEach-Object {
+                if ($_ -match "^-") {
+                    $hashtable.$($_ -replace "^-") = $null
+                }
+                else {
+                    $hashtable.$(([string[]]$hashtable.Keys)[-1]) = $_
+                }
+            }
+        }
+    }
+
+    process {
+        Get-ChildItem -Path @Path @hashtable | Format-Wide
+    }
+}
+
+function Get-ChildItemVisible {
+    <#
+    .SYNOPSIS
+        Lists visible files in long format.
+    .PARAMETER Path
+        The directory to list from.
+    .INPUTS
+        System.String[]
+    .OUTPUTS
+        System.IO.FileInfo
+        System.IO.DirectoryInfo
+    .LINK
+        Get-ChildItem
+    #>
+    [CmdletBinding()]
+    param(
+        [Parameter(
+            Mandatory=$false,
+            ValueFromPipeline=$true
+        )]
+        [string[]]$Path = ".",
+
+        [Parameter(ValueFromRemainingArguments=$true)]
+        $Params
+    )
+
+    # https://stackoverflow.com/a/33302472
+    begin {
+        $hashtable = @{}
+        if ($Params) {
+            $Params | ForEach-Object {
+                if ($_ -match "^-") {
+                    $hashtable.$($_ -replace "^-") = $null
+                }
+                else {
+                    $hashtable.$(([string[]]$hashtable.Keys)[-1]) = $_
+                }
+            }
+        }
+    }
+
+    process {
+        Get-ChildItem -Path @Path @hashtable
+    }
+}
+
+function Get-ChildItemAll {
+    <#
+    .SYNOPSIS
+        Lists all files in long format, excluding `.` and `..`.
+    .PARAMETER Path
+        The directory to list from.
+    .INPUTS
+        System.String[]
+    .OUTPUTS
+        System.IO.FileInfo
+        System.IO.DirectoryInfo
+    .LINK
+        Get-ChildItem
+    #>
+    [CmdletBinding()]
+    param(
+        [Parameter(
+            Mandatory=$false,
+            ValueFromPipeline=$true
+        )]
+        [string[]]$Path = ".",
+
+        [Parameter(ValueFromRemainingArguments=$true)]
+        $Params
+    )
+
+    begin {
+        # https://stackoverflow.com/a/33302472
+        $hashtable = @{}
+        if ($Params) {
+            $Params | ForEach-Object {
+                if ($_ -match "^-") {
+                    $hashtable.$($_ -replace "^-") = $null
+                }
+                else {
+                    $hashtable.$(([string[]]$hashtable.Keys)[-1]) = $_
+                }
+            }
+        }
+    }
+
+    process {
+        Get-ChildItem -Path @Path -Force @hashtable
+    }
+}
+
+function Get-ChildItemDirectory {
+    <#
+    .SYNOPSIS
+        Lists only directories in long format.
+    .PARAMETER Path
+        The directory to list from.
+    .INPUTS
+        System.String[]
+    .OUTPUTS
+        System.IO.FileInfo
+        System.IO.DirectoryInfo
+    .LINK
+        Get-ChildItem
+    #>
+    [CmdletBinding()]
+    param(
+        [Parameter(
+            Mandatory=$false,
+            ValueFromPipeline=$true
+        )]
+        [string[]]$Path = ".",
+
+        [Parameter(ValueFromRemainingArguments=$true)]
+        $Params
+    )
+
+    begin {
+        # https://stackoverflow.com/a/33302472
+        $hashtable = @{}
+        if ($Params) {
+            $Params | ForEach-Object {
+                if ($_ -match "^-") {
+                    $hashtable.$($_ -replace "^-") = $null
+                }
+                else {
+                    $hashtable.$(([string[]]$hashtable.Keys)[-1]) = $_
+                }
+            }
+        }
+    }
+
+    process {
+        Get-ChildItem -Path @Path -Directory @hashtable
+    }
+}
+
+function Get-ChildItemHidden {
+    <#
+    .SYNOPSIS
+        Lists only hidden files in long format.
+    .PARAMETER Path
+        The directory to list from.
+    .INPUTS
+        System.String[]
+    .OUTPUTS
+        System.IO.FileInfo
+        System.IO.DirectoryInfo
+    .LINK
+        Get-ChildItem
+    #>
+    [CmdletBinding()]
+    param(
+        [Parameter(
+            Mandatory=$false,
+            ValueFromPipeline=$true
+        )]
+        [string[]]$Path = ".",
+
+        [Parameter(ValueFromRemainingArguments=$true)]
+        $Params
+    )
+
+    begin {
+        # https://stackoverflow.com/a/33302472
+        $hashtable = @{}
+        if ($Params) {
+            $Params | ForEach-Object {
+                if ($_ -match "^-") {
+                    $hashtable.$($_ -replace "^-") = $null
+                }
+                else {
+                    $hashtable.$(([string[]]$hashtable.Keys)[-1]) = $_
+                }
+            }
+        }
+    }
+
+    process {
+        Get-ChildItem -Path @Path -Hidden @hashtable
+    }
+}
 
 
 # File management
 # -----------------------------------------------------------------------------
 
-# Copy files securely
-function Copy-Item-Secure {
+function Copy-ItemSecure {
     <#
     .SYNOPSIS
         Makes an exact copy of files
@@ -60,13 +497,16 @@ function Copy-Item-Secure {
     .EXAMPLE
        Copy-Item-Secure file.txt .\Destination\ /TIMFIX
     .INPUTS
-       String
+       System.Object
     .OUTPUTS
        None
     #>
     [CmdletBinding()]
-    param (
-        [Parameter(Mandatory=$true, ValueFromPipeline=$true)]
+    param(
+        [Parameter(
+            Mandatory=$true,
+            ValueFromPipeline=$true
+        )]
         [string]$Source,
 
         [Parameter(Mandatory=$true)]
@@ -82,67 +522,36 @@ function Copy-Item-Secure {
     robocopy /COPY:DAT /DCOPY:DAT /LEV:0 /R:1000000 /W:30 $SourcePath $Destination $File
 }
 
-# Create empty file or update its timestamp
-if (Get-Command Import-WslCommand -errorAction Ignore) {
-    Import-WslCommand "touch"
-    Set-Alias -Name "New-Item-Empty" -Value "touch"
-
-    if (Test-Path variable:global:WslImportedCommands) {
-        $WslImportedCommands += "touch"
-    }
-}
-else {
-    function New-Item-Empty {
-        [CmdletBinding()]
-        param (
-            [Parameter(Mandatory=$true, ValueFromPipeline=$true)]
-            [string]$File
-        )
-
-        if (Test-Path $File) {
-            (Get-ChildItem $File).LastWriteTime = Get-Date
-        }
-        else {
-            New-Item -ItemType File $File
-        }
-    }
-    Set-Alias -Name "touch" -Value "New-Item-Empty"
-}
-
-# Creates directory and change to it
-function New-Item-Set-Location {
+function Find-Directory {
     <#
     .SYNOPSIS
-        Makes a directory and change to it
-    .DESCRIPTION
-        Creates a directory (if it doesn't already exist) and navigates to it.
-    .PARAMETER Path
-        The directory to switch to.
-    .EXAMPLE
-        New-Item-Set-Location .\New-Folder\
-    .EXAMPLE
-        New-Item-Set-Location .\Existing-Folder\
+        Finds directories.
     .INPUTS
-        String
+        System.Object
     .OUTPUTS
-        None
+        System.String
+    .LINK
+        Get-ChildItem
     #>
-    [CmdletBinding()]
-    param (
-        [Parameter(Mandatory=$true, ValueFromPipeline=$true)]
-        [string]$Path
-    )
-
-    if (!(Test-Path -path $Path)) {
-        mkdir $Path
-    }
-    cd $Path -passthru
+    Get-ChildItem -Path . -Directory -Name -Recurse -ErrorAction SilentlyContinue -Include @args
 }
-Set-Alias -Name "mkcd" -Value New-Item-Set-Location
-Set-Alias -Name "take" -Value New-Item-Set-Location
 
-# Mirror paths
-function Mirror-Path {
+function Find-File {
+    <#
+    .SYNOPSIS
+        Finds files.
+    .INPUTS
+        System.Object
+    .OUTPUTS
+        System.String
+    .LINK
+        Get-ChildItem
+    #>
+    Get-ChildItem -Path . -File -Name -Recurse -ErrorAction SilentlyContinue -Include @args
+}
+
+# Mirror directories
+function Copy-ItemMirror {
     <#
     .SYNOPSIS
         Makes an exact copy of files and folders
@@ -160,19 +569,22 @@ function Mirror-Path {
     .PARAMETER Flags
         Extra ROBOCOPY parameters.
     .EXAMPLE
-       Mirror-Path .\Source\ .\Destination\
+        Mirror-Path .\Source\ .\Destination\
     .EXAMPLE
-       Mirror-Path .\Source\ .\Destination\ *.txt
+        Mirror-Path .\Source\ .\Destination\ *.txt
     .EXAMPLE
-       Mirror-Path .\Source\ .\Destination\ *.* /XD:ExcludedDirs
+        Mirror-Path .\Source\ .\Destination\ *.* /XD:ExcludedDirs
     .INPUTS
-       String
+        System.Object
     .OUTPUTS
-       None
+        None
     #>
     [CmdletBinding()]
-    param (
-        [Parameter(Mandatory=$true, ValueFromPipeline=$true)]
+    param(
+        [Parameter(
+            Mandatory=$true,
+            ValueFromPipeline=$true
+        )]
         [string]$Source,
 
         [Parameter(Mandatory=$true)]
@@ -188,48 +600,650 @@ function Mirror-Path {
     robocopy /MIR /COPY:DAT /DCOPY:DAT /R:1000000 /W:30 $Source $Destination $Files $Flags
 }
 
+function New-ItemEmpty {
+    <#
+    .SYNOPSIS
+        Creates an empty file or updates its timestamp.
+    .Description
+        Host-level *nix equivalent to `touch`.
+    .INPUTS
+        System.Object
+    .OUTPUTS
+        None
+    .LINK
+        New-Item
+    #>
+    [CmdletBinding()]
+    param(
+        [Parameter(
+            Mandatory=$true,
+            ValueFromPipeline=$true
+        )]
+        [string]$File
+    )
+
+    if (Test-Path $File) {
+        (Get-ChildItem $File).LastWriteTime = Get-Date
+    }
+    else {
+        New-Item -ItemType File $File
+    }
+}
+
 
 # General
 # -----------------------------------------------------------------------------
 
-# Repeat a command
-# Syntax: "repeat [X] [command]"
-function Repeat-Command {
-    $max, $command = $args
-    if ($command) {
-        for ($i=1; $i -le $max; $i++) {
-            Invoke-Expression ("$command")
+function Get-Aliases {
+    <#
+    .SYNOPSIS
+        Lists aliases.
+    .INPUTS
+        None
+    .OUTPUTS
+        Microsoft.PowerShell.Commands.Internal.Format
+    .LINK
+        Get-Alias
+    #>
+    Get-Alias | Format-Table Name,ResolvedCommandName,Description,HelpUri
+}
+
+function Search-History {
+    <#
+    .SYNOPSIS
+        Displays/Searches global history.
+    .INPUTS
+        System.Object
+    .OUTPUTS
+        System.String
+    .LINK
+        Get-Content
+    #>
+    $pattern = '*' + $args + '*'
+    Get-Content (Get-PSReadlineOption).HistorySavePath | ? {$_ -Like $pattern} | Get-Unique
+}
+
+function Search-HistorySession {
+    <#
+    .SYNOPSIS
+        Displays/Searches session history.
+    .INPUTS
+        System.Object
+    .OUTPUTS
+        System.String
+        System.Object
+    .LINK
+        Get-History
+    #>
+    $pattern = '*' + $args + '*'
+    Get-History | Where-Object {$_.CommandLine -like $pattern}
+}
+
+function New-ItemSetLocation {
+    <#
+    .SYNOPSIS
+        Makes a directory and changes to it
+    .DESCRIPTION
+        Creates a directory (if it doesn't already exist) and navigates to it.
+    .PARAMETER Path
+        The directory to switch to.
+    .EXAMPLE
+        New-Item-Set-Location .\New-Folder\
+    .EXAMPLE
+        New-Item-Set-Location .\Existing-Folder\
+    .INPUTS
+        System.Object
+    .OUTPUTS
+        None
+    .LINK
+        New-Item
+    .LINK
+        Get-Location
+    #>
+    [CmdletBinding(
+        SupportsShouldProcess=$true,
+        ConfirmImpact='Low'
+    )]
+    param(
+        [Parameter(
+            Mandatory=$true,
+            ValueFromPipeline=$true
+        )]
+        [string]$Path
+    )
+
+    if (!(Test-Path -path $Path)) {
+        if ($PSCmdlet.ShouldProcess($Path, 'Create directory')) {
+            New-Item -ItemType Directory -Path $Path
+            Write-Verbose "Path $Path created."
         }
+    }
+
+    if ($PSCmdlet.ShouldProcess($Path, 'Go to directory')) {
+        Write-Verbose "Navigating to $Path"
+        Set-Location -Path $Path -PassThru
     }
 }
 
-function Repeat-Command-Borked {
+function Invoke-RepeatCommand {
     <#
     .SYNOPSIS
-        Repeat a command multiple times
+        Repeats a command `x` times.
     .DESCRIPTION
         Allows issuing a command multiple times in a row.
     .PARAMETER Count
         The max number of times to repeat a command.
     .PARAMETER Command
-        The command to run. Can include spaces.
+        The command to run. Can include spaces and arguments.
     .EXAMPLE
        Repeat-Command 5 echo hello world
     .INPUTS
-       String
+       System.String
     .OUTPUTS
        None
     #>
     [CmdletBinding()]
-    param (
+    param(
         [Parameter(Mandatory=$true)]
         [int]$Count,
 
         [Parameter(Mandatory=$true)]
-        [string]$Command
+        $Command,
+
+        [Parameter(ValueFromRemainingArguments=$true)]
+        $Params
     )
-    for ($i=1; $i -le $Count; $i++) {
-        Invoke-Command -ScriptBlock $Command
+
+    begin {
+        $Params = $Params -join ' '
+    }
+
+    process {
+        for ($i=1; $i -le $Count; $i++) {
+            if ($Params) {
+                &$Command $Params
+            }
+            else {
+                &$Command
+            }
+        }
+    }
+}
+
+
+# Time
+# -----------------------------------------------------------------------------
+
+function Get-DateExtended {
+    <#
+    .SYNOPSIS
+        Display local date and time in ISO-8601 format `YYYY-MM-DDThh:mm:ss`.
+    .INPUTS
+        None
+    .OUTPUTS
+        System.String
+    .LINK
+        Get-Date
+    .LINK
+        https://e.wikipedia.org/wiki/ISO_8601
+    #>
+    Get-Date -Format "yyyy-MM-ddTHH:mm:ss"
+}
+
+function Get-DateExtendedUTC {
+    <#
+    .SYNOPSIS
+        Display UTC date and time in ISO-8601 format `YYYY-MM-DDThh:mm:ss`.
+    .INPUTS
+        None
+    .OUTPUTS
+        System.String
+    .LINK
+        Get-Date
+    .LINK
+        https://en.wikipedia.org/wiki/ISO_8601
+    #>
+    (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss")
+}
+
+function Get-CalendarDate {
+    <#
+    .SYNOPSIS
+        Displays local date in `YYYY-MM-DD` format.
+    .INPUTS
+        None
+    .OUTPUTS
+        System.String
+    .LINK
+        Get-Date
+    .LINK
+        https://en.wikipedia.org/wiki/ISO_8601
+    #>
+    Get-Date -Format "yyyy-MM-dd"
+}
+
+function Get-CalendarDateUTC {
+    <#
+    .SYNOPSIS
+        Displays UTC date in `YYYY-MM-DD` format.
+    .INPUTS
+        None
+    .OUTPUTS
+        System.String
+    .LINK
+        Get-Date
+    .LINK
+        https://en.wikipedia.org/wiki/ISO_8601
+    #>
+    (Get-Date).ToUniversalTime().ToString("yyyy-MM-dd")
+}
+
+function Get-Time {
+    <#
+    .SYNOPSIS
+        Displays local time in `hh:mm:ss` format.
+    .INPUTS
+        None
+    .OUTPUTS
+        System.String
+    .LINK
+        Get-Date
+    .LINK
+        https://en.wikipedia.org/wiki/ISO_8601
+    #>
+    Get-Date -Format "HH:mm:ss"
+}
+
+function Get-TimeUTC {
+    <#
+    .SYNOPSIS
+        Displays UTC time in `hh:mm:ss` format.
+    .INPUTS
+        None
+    .OUTPUTS
+        System.String
+    .LINK
+        Get-Date
+    .LINK
+        https://en.wikipedia.org/wiki/ISO_8601
+    #>
+    (Get-Date).ToUniversalTime().ToString("HH:mm:ss")
+}
+
+function Get-Timestamp {
+    <#
+    .SYNOPSIS
+        Display Unix time stamp.
+    .INPUTS
+        None
+    .OUTPUTS
+        System.String
+    .LINK
+        Get-Date
+    #>
+    Get-Date -UFormat %s -Millisecond 0
+}
+
+function Get-WeekDate {
+    <#
+    .SYNOPSIS
+        Displays week number in ISO-9601 format `YYYY-Www`.
+    .INPUTS
+        None
+    .OUTPUTS
+        System.String
+    .LINK
+        Get-Date
+    .LINK
+        https://en.wikipedia.org/wiki/ISO_8601
+    #>
+    (Get-Date -UFormat %Y-W) + (Get-Date -UFormat %W).PadLeft(2,'0')
+}
+
+function Get-Weekday {
+    <#
+    .SYNOPSIS
+        Displays weekday number.
+    .INPUTS
+        None
+    .OUTPUTS
+        System.String
+    .LINK
+        Get-Date
+    .LINK
+        https://en.wikipedia.org/wiki/ISO_8601
+    #>
+    Get-Date -UFormat %u
+}
+
+
+# Networking
+# -----------------------------------------------------------------------------
+
+# Ping 100 times without waiting 1 second between ECHO_REQUEST packets
+#TODO: implement
+#alias fastping='ping -c 100 -s.2'
+
+function Clear-DNSCache {
+    <#
+    .SYNOPSIS
+        Flushes the DNS cache.
+    .INPUTS
+        None
+    .OUTPUTS
+        System.String
+    #>
+    [CmdletBinding()]
+    param()
+
+    if ($IsLinux) {
+        sudo /etc/init.d/dns-clean restart
+    }
+    elseif ($IsMacOS) {
+        dscacheutil -flushcache
+        sudo killall -HUP mDNSResponder
+    }
+    else {
+        ipconfig /flushdns
+    }
+    Write-Information "DNS cache flushed."
+}
+
+function Get-IP {
+    <#
+    .SYNOPSIS
+        Gets external IP address.
+    .INPUTS
+        None
+    .OUTPUTS
+        Microsoft.PowerShell.Commands.MatchInfo
+        System.Boolean
+        System.String
+    .LINK
+        Invoke-RestMethod
+    .LINK
+        https://github.com/chubin/awesome-console-services
+    #>
+    Invoke-RestMethod http://ipinfo.io/json | Select -exp ip
+}
+
+function Get-IPS {
+    <#
+    .SYNOPSIS
+        Gets all IP addresses.
+    .INPUTS
+        None
+    .OUTPUTS
+        Microsoft.PowerShell.Commands.Internal.Format
+        System.String[]
+    .LINK
+        Get-NetIPAddress
+    #>
+    if ($IsWindows) {
+        Get-NetIPAddress | Where-Object {$_.AddressState -eq "Preferred"} | Sort-object IPAddress | Format-Table -Wrap -AutoSize
+    }
+    else {
+        ifconfig -a | grep -o 'inet6\? \(addr:\)\?\s\?\(\(\([0-9]\+\.\)\{3\}[0-9]\+\)\|[a-fA-F0-9:]\+\)' | awk '{ sub(/inet6? (addr:)? ?/, \"\"); print }'
+    }
+}
+
+function Get-LocalIP {
+    <#
+    .SYNOPSIS
+        Gets local IP address.
+    .INPUTS
+        None
+    .OUTPUTS
+        System.String
+        Object
+    #>
+    if ($IsWindows) {
+        $IPAddress = Get-WmiObject Win32_NetworkAdapterConfiguration | Where-Object {$_.Ipaddress.length -gt 1}
+        $IPAddress.ipaddress[0]
+    }
+    else {
+        ipconfig getifaddr en0
+    }
+}
+
+function Invoke-RestMethodGet {
+    <#
+    .SYNOPSIS
+        Sends a GET http request.
+    .INPUTS
+        System.Object
+    .OUTPUTS
+        System.Object
+    .LINK
+        Invoke-RestMethod
+    #>
+    Invoke-RestMethod -Method GET @args
+}
+
+function Invoke-RestMethodHead {
+    <#
+    .SYNOPSIS
+        Sends a HEAD http request.
+    .INPUTS
+        System.Object
+    .OUTPUTS
+        System.Object
+    .LINK
+        Invoke-RestMethod
+    #>
+    Invoke-RestMethod -Method HEAD @args
+}
+
+function Invoke-RestMethodPost {
+    <#
+    .SYNOPSIS
+        Sends a POST http request.
+    .INPUTS
+        System.Object
+    .OUTPUTS
+        System.Object
+    .LINK
+        Invoke-RestMethod
+    #>
+    Invoke-RestMethod -Method POST @args
+}
+
+function Invoke-RestMethodPut {
+    <#
+    .SYNOPSIS
+        Sends a PUT http request.
+    .INPUTS
+        System.Object
+    .OUTPUTS
+        System.Object
+    .LINK
+        Invoke-RestMethod
+    #>
+    Invoke-RestMethod -Method PUT @args
+}
+
+function Invoke-RestMethodDelete {
+    <#
+    .SYNOPSIS
+        Sends a DELETE http request.
+    .INPUTS
+        System.Object
+    .OUTPUTS
+        System.Object
+    .LINK
+        Invoke-RestMethod
+    #>
+    Invoke-RestMethod -Method DELETE @args
+}
+
+function Invoke-RestMethodTrace {
+    <#
+    .SYNOPSIS
+        Sends a TRACE http request.
+    .INPUTS
+        System.Object
+    .OUTPUTS
+        System.Object
+    .LINK
+        Invoke-RestMethod
+    #>
+    Invoke-RestMethod -Method TRACE @args
+}
+
+function Invoke-RestMethodOptions {
+    <#
+    .SYNOPSIS
+        Sends an OPTIONS http request.
+    .INPUTS
+        System.Object
+    .OUTPUTS
+        System.Int64
+        System.String
+        System.Xml.XmlDocument
+        PSObject
+    .LINK
+        Invoke-RestMethod
+    #>
+    Invoke-RestMethod -Method OPTIONS @args
+}
+
+
+# Power management
+# -----------------------------------------------------------------------------
+
+function Invoke-Lock {
+    <#
+    .SYNOPSIS
+        Locks the session.
+    .PARAMETER Force
+        Do not prompt for confirmation.
+    .INPUTS
+        None
+    .OUTPUTS
+        None
+    #>
+    [CmdletBinding(
+        SupportsShouldProcess=$true,
+        ConfirmImpact='Medium'
+    )]
+    param(
+        [switch]$Force
+    )
+
+    if ($Force -or $PSCmdlet.ShouldContinue("Are you sure you want to do this?", "Lock the session.")) {
+
+        if ($IsWindows) {
+            Invoke-Command {rundll32.exe user32.dll,LockWorkStation}
+        }
+        elseif ($IsMacOS) {
+            pmset displaysleepnow
+        }
+        elseif (Get-Command "vlock" -ErrorAction "Ignore") {
+            vlock --all
+        }
+        elseif (Get-Command "gnome-screensaver-command" -ErrorAction "Ignore") {
+            gnome-screensaver-command --lock
+        }
+    }
+}
+
+function Invoke-Hibernate {
+    <#
+    .SYNOPSIS
+        Goes to sleep.
+    .PARAMETER Force
+        Do not prompt for confirmation.
+    .INPUTS
+        None
+    .OUTPUTS
+        None
+    #>
+    [CmdletBinding(
+        SupportsShouldProcess=$true,
+        ConfirmImpact='Medium'
+    )]
+    param(
+        [switch]$Force
+    )
+
+    if ($Force -or $PSCmdlet.ShouldContinue("Are you sure you want to do this?", "Send the system to sleep.")) {
+        if ($IsLinux) {
+            systemctl suspend
+        }
+        elseif ($IsMacOS) {
+            pmset sleep now
+        }
+        else {
+            shutdown.exe /h
+        }
+    }
+}
+
+function Invoke-Restart {
+    <#
+    .SYNOPSIS
+        Restarts the system.
+    .PARAMETER Force
+        Do not prompt for confirmation.
+    .INPUTS
+        None
+    .OUTPUTS
+        None
+    .LINK
+        Restart-Computer
+    #>
+    [CmdletBinding(
+        SupportsShouldProcess=$true,
+        ConfirmImpact='Medium'
+    )]
+    param(
+        [switch]$Force
+    )
+
+    if ($Force -or $PSCmdlet.ShouldContinue("Are you sure you want to do this?", "Restart the system.")) {
+        if ($IsLinux) {
+            sudo /sbin/reboot
+        }
+        elseif ($IsMacOS) {
+            osascript -e 'tell application "System Events" to restart'
+        }
+        else {
+            Restart-Computer
+        }
+    }
+}
+
+function Invoke-PowerOff {
+    <#
+    .SYNOPSIS
+        Shuts down the system.
+    .PARAMETER Force
+        Do not prompt for confirmation.
+    .INPUTS
+        None
+    .OUTPUTS
+        None
+    .LINK
+        Stop-Computer
+    #>
+    [CmdletBinding(
+        SupportsShouldProcess=$true,
+        ConfirmImpact='Medium'
+    )]
+    param(
+        [switch]$Force
+    )
+
+    if ($Force -or $PSCmdlet.ShouldContinue("Are you sure you want to do this?", "Shut down the system.")) {
+        if ($IsLinux) {
+            sudo /sbin/poweroff
+        }
+        elseif ($IsMacOS) {
+            osascript -e 'tell application "System Events" to shut down'
+        }
+        else {
+            Stop-Computer
+        }
     }
 }
 
@@ -237,58 +1251,929 @@ function Repeat-Command-Borked {
 # Sysadmin
 # -----------------------------------------------------------------------------
 
-# Keep all apps and packages up to date
+function Add-EnvPath {
+    <#
+    .SYNOPSIS
+        Adds a path to the global path list.
+    .DESCRIPTION
+        Allows adding a new path to the beginning of end of the path list,
+        whether it be for the session (default), the user or the machine.
+    .PARAMETER Path
+        The path to add.
+    .PARAMETER Container
+        The persistence of the path's inclusion: "Session", "User", or "Machine".
+    .PARAMETER Position
+        "Append" (default) or "Prepend" the new path.
+    .EXAMPLE
+        Add-EnvPath -Path /usr/local/bin -Container User -Position Prepend
+    .INPUTS
+        System.String
+    .OUTPUTS
+        None
+    .LINK
+        https://gist.github.com/mkropat/c1226e0cc2ca941b23a9
+    #>
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory=$true)]
+        [string]$Path,
+
+        [ValidateSet('Machine', 'User', 'Session')]
+        [string]$Container = 'Session',
+
+        [ValidateSet('Append', 'Prepend')]
+        [string]$Position = 'Append'
+    )
+
+    begin {
+        $separator = ';'
+        if (!$IsWindows) {
+            $separator = ':'
+        }
+    }
+
+    process {
+        if ($Container -ne 'Session') {
+            $containerMapping = @{
+                Machine = [EnvironmentVariableTarget]::Machine
+                User = [EnvironmentVariableTarget]::User
+            }
+            $containerType = $containerMapping[$Container]
+
+            $persistedPaths = [Environment]::GetEnvironmentVariable('Path', $containerType) -Split $separator
+            if ($persistedPaths -NotContains $Path) {
+                if ($Position -eq 'Append') {
+                    $persistedPaths = $persistedPaths + $Path | Where { $_ }
+                }
+                else {
+                    $persistedPaths = $Path + $persistedPaths | Where { $_ }
+                }
+                [Environment]::SetEnvironmentVariable('Path', $persistedPaths -Join ';', $containerType)
+            }
+        }
+
+        $envPaths = $env:Path -Split $separator
+        if ($envPaths -NotContains $Path) {
+            if ($Position -eq 'Append') {
+                $envPaths = $envPaths + $Path | Where { $_ }
+            }
+            else {
+                $envPaths = $Path + $envPaths | Where { $_ }
+            }
+            $env:Path = $envPaths -Join $separator
+        }
+    }
+}
+
+function Get-Mounts {
+    <#
+    .SYNOPSIS
+        Lists drive mounts.
+    .INPUTS
+        None
+    .OUTPUTS
+        Microsoft.PowerShell.Commands.Internal.Format
+        System.String
+    .LINK
+        http://lifeofageekadmin.com/display-mount-points-drives-using-powershell/
+    #>
+    [CmdletBinding()]
+    param()
+
+    if ($IsLinux) {
+        mount | awk -F" " "{ printf \"%s\t%s\n\",\$1,\$3; }" | column -t | egrep ^/dev/ | sort
+    }
+    elseif ($IsMacOS) {
+        mount | grep -E ^/dev | column -t
+    }
+    else {
+        $Capacity = @{Name="Capacity(GB)";Expression={[math]::round(($_.Capacity/ 1073741824))}}
+        $FreeSpace = @{Name="FreeSpace(GB)";Expression={[math]::round(($_.FreeSpace / 1073741824),1)}}
+        $Usage = @{Name="Usage";Expression={-join([math]::round(100-((($_.FreeSpace / 1073741824)/($_.Capacity / 1073741824)) * 100),0),'%')};Alignment="Right"}
+
+        if ($IsCoreCLR) {
+            $volumes = Get-CimInstance -ClassName Win32_Volume
+        }
+        else {
+            $volumes = Get-WmiObject Win32_Volume
+        }
+        $volumes | Where name -notlike \\?\Volume* | Format-Table DriveLetter, Label, FileSystem, $Capacity, $FreeSpace, $Usage, PageFilePresent, IndexingEnabled, Compressed
+    }
+}
+
+function Get-Path {
+    <#
+    .SYNOPSIS
+        Prints each PATH entry on a separate lines.
+    .INPUTS
+        None
+    .OUTPUTS
+        System.String[]
+    #>
+    begin {
+        $separator = ';'
+        if (!$IsWindows) {
+            $separator = ':'
+        }
+    }
+
+    process {
+        ${ENV:PATH}.split($separator)
+    }
+}
+
 function Update-Packages {
     <#
     .SYNOPSIS
         Keeps all apps and packages up to date
     .DESCRIPTION
-        Looks for updates for system modules and help, when proceeds to
+        Looks for updates for system modules and help, then proceeds to
         updating any packages by these optional managers: Chocolatey, Choco,
         npm, RubyGems.
     .INPUTS
-       None
+        None
     .OUTPUTS
-       None
+        None
+    .LINK
+        Update-Module
+    .LINK
+        Update-Help
+    .LINK
+        https://chocolatey.org/
+    .LINK
+        https://scoop.sh/
+    .LINK
+        https://www.npmjs.com/
+    .LINK
+        https://rubygems.org/
     #>
+    [CmdletBinding(
+        SupportsShouldProcess=$true,
+        ConfirmImpact='High'
+    )]
+    param()
 
-    Write-Host "Updating system modules..." -ForegroundColor $ColorInfo
-    Update-Module
+    Write-Host "Looks for updates for system modules and help, then proceeds to updating any packages by these optional managers: Chocolatey, Choco, npm, RubyGems."
 
-    Write-Host "Updating help..." -ForegroundColor $ColorInfo
-    Update-Help -Force
+    if ($PSCmdlet.ShouldProcess("System modules", "Update")) {
+        Write-Host "Updating system modules..." -ForegroundColor $ColorInfo
+        Update-Module
+    }
+
+    if ($PSCmdlet.ShouldProcess("Help files", "Update")) {
+        Write-Host "Updating help files..." -ForegroundColor $ColorInfo
+        Update-Help -Force
+    }
 
     if (Get-Command 'choco' -ErrorAction "Ignore") {
-        Write-Host "Updating packages with Chocolatey..." -ForegroundColor $ColorInfo
-        choco upgrade all
+        if ($PSCmdlet.ShouldProcess("Chocolatey packages", "Update")) {
+            Write-Host "Updating packages with Chocolatey..." -ForegroundColor $ColorInfo
+            choco upgrade all
+        }
     }
 
     if (Get-Command 'scoop' -ErrorAction "Ignore") {
-        Write-Host "Updating packages with Scoop..." -ForegroundColor $ColorInfo
-        scoop update *
-        scoop cleanup *
+        if ($PSCmdlet.ShouldProcess("Scoop packages", "Update")) {
+            Write-Host "Updating packages with Scoop..." -ForegroundColor $ColorInfo
+            scoop update *
+            scoop cleanup *
+        }
     }
 
     if (Get-Command 'npm' -ErrorAction "Ignore") {
-        Write-Host "Updating Node.js packages with npm..." -ForegroundColor $ColorInfo
-        # npm install npm -g
-        npm update -g
+        if ($PSCmdlet.ShouldProcess("Node.js packages", "Update")) {
+            Write-Host "Updating Node.js packages with npm..." -ForegroundColor $ColorInfo
+            # npm install npm -g
+            npm update -g
+        }
     }
 
     if (Get-Command 'gem' -ErrorAction "Ignore") {
-        Write-Host "Updating Ruby gems..." -ForegroundColor $ColorInfo
-        gem update --system
-        gem update
-        gem cleanup
+        if ($PSCmdlet.ShouldProcess("Ruby gems", "Update")) {
+            Write-Host "Updating Ruby gems..." -ForegroundColor $ColorInfo
+            gem update --system
+            gem update
+            gem cleanup
+        }
+    }
+
+    Write-Host "Done!"
+}
+
+function Search-Command {
+    <#
+    .SYNOPSIS
+        Locates a command.
+    .Description
+        Host-level *nix equivalent to `which`.
+    .INPUTS
+        System.String
+    .OUTPUTS
+        System.Management.Automation.CommandInfo
+        System.Management.Automation.AliasInfo
+        System.Management.Automation.ApplicationInfo
+        System.Management.Automation.FunctionInfo
+        System.Management.Automation.CmdletInfo
+    #>
+    [CmdletBinding()]
+    param(
+        [Parameter(
+            Mandatory=$true,
+            ValueFromPipeline=$true
+        )]
+        [string]$Command
+    )
+
+    Get-Command $Command -ErrorAction SilentlyContinue
+}
+
+
+# Applications
+# -----------------------------------------------------------------------------
+
+function Start-Browser {
+    <#
+    .SYNOPSIS
+        Opens file/URL in default browsers.
+    .INPUTS
+        System.String
+    .OUTPUTS
+        None
+    .LINK
+        https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/start
+    .LINK
+        https://scriptingosx.com/2017/02/the-macos-open-command/
+    #>
+    if ($IsWindows) {
+        start $args
+    }
+    else {
+        open $args
     }
 }
-Set-Alias -Name "update" -Value Update-Packages
+
+function Start-Chrome {
+    <#
+    .SYNOPSIS
+        Opens in Google Chrome.
+    .INPUTS
+        System.String
+    .OUTPUTS
+        None
+    .LINK
+        https://www.google.com/chrome/
+    #>
+    $process = "chrome"
+    if ($IsMacOS) {
+        $process = "/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome"
+    }
+    Start-Process $process $args
+}
+
+function Start-Edge {
+    <#
+    .SYNOPSIS
+        Opens in Microsoft Edge.
+    .INPUTS
+        System.String
+    .OUTPUTS
+        None
+    .LINK
+        https://www.microsoft.com/en-us/windows/microsoft-edge
+    #>
+    if ($IsMacOS) {
+        $process = "/Applications/Microsoft\ Edge.app/Contents/MacOS/Microsoft\ Edge"
+        Start-Process $process $args
+    }
+    else {
+        Start microsoft-edge:$args
+    }
+}
+
+function Start-Firefox {
+    <#
+    .SYNOPSIS
+        Opens in Mozilla Firefox.
+    .INPUTS
+        System.String
+    .OUTPUTS
+        None
+    .LINK
+        https://www.mozilla.org/firefox/
+    #>
+    $process = "firefox"
+    if ($IsMacOS) {
+        $process = "/Applications/Firefox.app/Contents/MacOS/Firefox"
+    }
+    Start-Process $process $args
+}
+
+function Start-InternetExplorer {
+    <#
+    .SYNOPSIS
+        Opens in Internet Explorer.
+    .INPUTS
+        System.String
+    .OUTPUTS
+        None
+    .LINK
+        https://www.microsoft.com/ie/
+    #>
+    Start-Process "iexplore" $args
+}
+
+function Start-Opera {
+    <#
+    .SYNOPSIS
+        Opens in Opera.
+    .INPUTS
+        System.String
+    .OUTPUTS
+        None
+    .LINK
+        https://www.opera.com/
+    #>
+    $process = "opera"
+    if ($IsMacOS) {
+        $process = "/Applications/Opera.app/Contents/MacOS/Opera"
+    }
+    Start-Process $process $args
+}
+
+function Start-Safari {
+    <#
+    .SYNOPSIS
+        Opens in Safari.
+    .INPUTS
+        System.String
+    .OUTPUTS
+        None
+    .LINK
+        https://www.apple.com/safari/
+    #>
+    Start-Process "/Applications/Safari.app/Contents/MacOS/Safari" $args
+}
+
+function Enter-Starship {
+    <#
+    .SYNOPSIS
+        Enters the Starship cross-shell prompt.
+    .DESCRIPTION
+        Calls the `starship` command, enabling its universal prompt.
+    .INPUTS
+        None
+    .OUTPUTS
+        None
+    .LINK
+        https://starship.rs/
+    #>
+    Invoke-Expression (&starship init powershell)
+}
+
+function Start-SublimeText {
+    <#
+    .SYNOPSIS
+        Opens in Sublime Text.
+    .DESCRIPTION
+        Calls the `sublime` command, and locates it on Windows if it isn't in the Path.
+    .INPUTS
+        None
+    .OUTPUTS
+        None
+    .LINK
+        https://www.sublimetext.com/
+    #>
+    $process = "sublime"
+    if ($IsWindows) {
+        $process = "subl"
+    }
+    Invoke-Expression "& '$process' $args"
+}
+
+
+# Development
+# -----------------------------------------------------------------------------
+
+function Invoke-Docker {
+    <#
+    .SYNOPSIS
+        Passthrough to the `docker` command
+    .DESCRIPTION
+        Calls the `docker` command and passes it any supplied arguments.
+    .INPUTS
+        None
+    .OUTPUTS
+        None
+    .LINK
+        https://www.docker.com/
+    #>
+    $process = "docker"
+    Invoke-Expression "$process $args"
+}
+
+function Invoke-DockerCompose {
+    <#
+    .SYNOPSIS
+        Passthrough to the `docker-compose` command
+    .DESCRIPTION
+        Calls the `docker-compose` command and passes it any supplied arguments.
+    .INPUTS
+        None
+    .OUTPUTS
+        None
+    .LINK
+        https://www.docker.com/
+    #>
+    $process = "docker-compose"
+    Invoke-Expression "$process $args"
+}
+
+function Invoke-Git {
+    <#
+    .SYNOPSIS
+        Passthrough to the `git` command
+    .DESCRIPTION
+        Calls the `git` command and passes it any supplied arguments.
+    .INPUTS
+        None
+    .OUTPUTS
+        None
+    .LINK
+        https://git-scm.com/
+    #>
+    $process = "git"
+    &$process $args
+}
+
+function Invoke-Venv {
+    <#
+    .SYNOPSIS
+        Python: activates the virtual environment.
+    .INPUTS
+        None
+    .OUTPUTS
+        None
+    .LINK
+        https://docs.python.org/3/tutorial/venv.html
+    #>
+    . ./venv/bin/activate
+}
+
+function Initialize-Venv {
+    <#
+    .SYNOPSIS
+        Python: creates the virtual environment.
+    .INPUTS
+        None
+    .OUTPUTS
+        None
+    .LINK
+        https://docs.python.org/3/tutorial/venv.html
+    #>
+    python3 -m venv ./venv
+}
+
+
+# macOS
+# -----------------------------------------------------------------------------
+
+if ($IsMacOS) {
+    function Hide-DesktopIcons {
+        <#
+        .SYNOPSIS
+            Hides desktop icons.
+        .INPUTS
+            None
+        .OUTPUTS
+            None
+        .LINK
+            https://www.defaults-write.com/os-x-how-to-quickly-hide-the-desktop-icons/
+        #>
+        [CmdletBinding(
+            SupportsShouldProcess=$true,
+            ConfirmImpact='Low'
+        )]
+        param()
+
+        if ($PSCmdlet.ShouldProcess("All desktop icons", "Hide")) {
+            Invoke-Expression 'defaults write com.apple.finder CreateDesktop -bool false; killall Finder'
+            Write-Verbose "Desktop icons are now hidden"
+        }
+    }
+
+    function Show-DesktopIcons {
+        <#
+        .SYNOPSIS
+            Shows desktop icons.
+        .INPUTS
+            None
+        .OUTPUTS
+            None
+        .LINK
+            https://www.defaults-write.com/os-x-how-to-quickly-hide-the-desktop-icons/
+        #>
+        [CmdletBinding(
+            SupportsShouldProcess=$true,
+            ConfirmImpact='Low'
+        )]
+        param()
+
+        if ($PSCmdlet.ShouldProcess("All desktop icons", "Show")) {
+            Invoke-Expression 'defaults write com.apple.finder CreateDesktop -bool true; killall Finder'
+            Write-Verbose "Desktop icons are now visible"
+        }
+    }
+
+    function Hide-HiddenFiles {
+        <#
+        .SYNOPSIS
+            Hides hidden files in Finder.
+        .INPUTS
+            None
+        .OUTPUTS
+            None
+        .LINK
+            https://www.defaults-write.com/show-hidden-files-in-os-x-finder/
+        #>
+        [CmdletBinding(
+            SupportsShouldProcess=$true,
+            ConfirmImpact='Low'
+        )]
+        param()
+
+        if ($PSCmdlet.ShouldProcess("Hidden files", "Are you sure that you want to hide these files from the Finder?")) {
+            Invoke-Expression 'defaults write com.apple.finder AppleShowAllFiles -bool false; killall Finder'
+            Write-Verbose "Hidden files are now hidden in the Finder"
+        }
+    }
+
+    function Show-HiddenFiles {
+        <#
+        .SYNOPSIS
+            Shows hidden files in Finder.
+        .INPUTS
+            None
+        .OUTPUTS
+            None
+        .LINK
+            https://www.defaults-write.com/show-hidden-files-in-os-x-finder/
+        #>
+        [CmdletBinding(
+            SupportsShouldProcess=$true,
+            ConfirmImpact='Low'
+        )]
+        param()
+
+        if ($PSCmdlet.ShouldProcess("Hidden files", "Are you sure that you want to display these files from the Finder?")) {
+            Invoke-Expression 'defaults write com.apple.finder AppleShowAllFiles -bool true; killall Finder'
+            Write-Verbose "Hidden files are now visible in the Finder"
+        }
+    }
+
+    function Disable-Spotlight {
+        <#
+        .SYNOPSIS
+            Disables Spotlight.
+        .INPUTS
+            None
+        .OUTPUTS
+            None
+        .LINK
+            https://discussions.apple.com/message/32354266#message32354266
+        #>
+        [CmdletBinding(
+            SupportsShouldProcess=$true,
+            ConfirmImpact='Low'
+        )]
+        param()
+
+        if ($PSCmdlet.ShouldProcess("Spotlight search system", "Are you sure you want to disable Spotlight?")) {
+            Invoke-Expression 'sudo mdutil -a -i off'
+            Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "Hidden" -Value 2
+            Write-Verbose "Hidden files are now hidden in Explorer"
+        }
+    }
+
+    function Enable-Spotlight {
+        <#
+        .SYNOPSIS
+            Enables Spotlight.
+        .INPUTS
+            None
+        .OUTPUTS
+            None
+        .LINK
+            https://discussions.apple.com/message/32354266#message32354266
+        #>
+        [CmdletBinding(
+            SupportsShouldProcess=$true,
+            ConfirmImpact='Low'
+        )]
+        param()
+
+        if ($PSCmdlet.ShouldProcess("Spotlight search system", "Are you sure you want to enable Spotlight?")) {
+            Invoke-Expression 'sudo mdutil -a -i on'
+            Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "Hidden" -Value 2
+            Write-Verbose "Hidden files are now hidden in Explorer"
+        }
+    }
+}
+
+
+# Windows
+# -----------------------------------------------------------------------------
+
+if ($IsWindows) {
+    function Hide-HiddenFiles {
+        <#
+        .SYNOPSIS
+            Hides hidden files in Explorer.
+        .INPUTS
+            None
+        .OUTPUTS
+            None
+        .LINK
+            https://ss64.com/nt/syntax-reghacks.html
+        #>
+        [CmdletBinding(
+            SupportsShouldProcess=$true,
+            ConfirmImpact='Low'
+        )]
+        param()
+
+        if ($PSCmdlet.ShouldProcess("Hidden files", "Are you sure that you want to hide these files from Explorer?")) {
+            Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "Hidden" -Value 2
+            Write-Verbose "Hidden files are now hidden in Explorer"
+        }
+    }
+
+    function Show-HiddenFiles {
+        <#
+        .SYNOPSIS
+            Shows hidden files in Explorer.
+        .INPUTS
+            None
+        .OUTPUTS
+            None
+        .LINK
+            https://ss64.com/nt/syntax-reghacks.html
+        #>
+        [CmdletBinding(
+            SupportsShouldProcess=$true,
+            ConfirmImpact='Low'
+        )]
+        param()
+
+        if ($PSCmdlet.ShouldProcess("Hidden files", "Are you sure that you want to display these files from Explorer?")) {
+            Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "Hidden" -Value 1
+            Write-Verbose "Hidden files are now visible in Explorer"
+        }
+    }
+}
+
+
+# Common paths
+# -----------------------------------------------------------------------------
+
+function Set-LocationDownloads {
+    <#
+    .SYNOPSIS
+        Navigates to Downloads directory.
+    .INPUTS
+        None
+    .OUTPUTS
+        None
+    .LINK
+        Set-Location
+    #>
+    [CmdletBinding(
+        SupportsShouldProcess=$true,
+        ConfirmImpact='Low'
+    )]
+    param()
+
+    begin {
+        $path = Convert-Path -Path "${HOME}\Downloads"
+        Write-Verbose "Destination set to $path"
+    }
+
+    process {
+        if ($PSCmdlet.ShouldProcess($path, 'Go to directory')) {
+            Write-Verbose "Navigating to $path"
+            Set-Location $path
+        }
+    }
+}
+
+function Set-LocationDocuments {
+    <#
+    .SYNOPSIS
+        Navigates to Documents directory.
+    .INPUTS
+        None
+    .OUTPUTS
+        None
+    .LINK
+        Set-Location
+    #>
+    [CmdletBinding(
+        SupportsShouldProcess=$true,
+        ConfirmImpact='Low'
+    )]
+    param()
+
+    begin {
+        $path = Convert-Path -Path "${HOME}\Documents"
+        Write-Verbose "Destination set to $path"
+    }
+
+    process {
+        if ($PSCmdlet.ShouldProcess($path, 'Go to directory')) {
+            Write-Verbose "Navigating to $path"
+            Set-Location $path
+        }
+    }
+}
+
+function Set-LocationDesktop {
+    <#
+    .SYNOPSIS
+        Navigates to Desktop directory.
+    .INPUTS
+        None
+    .OUTPUTS
+        None
+    .LINK
+        Set-Location
+    #>
+    [CmdletBinding(
+        SupportsShouldProcess=$true,
+        ConfirmImpact='Low'
+    )]
+    param()
+
+    begin {
+        $path = Convert-Path -Path "${HOME}\Desktop"
+        Write-Verbose "Destination set to $path"
+    }
+
+    process {
+        if ($PSCmdlet.ShouldProcess($path, 'Go to directory')) {
+            Write-Verbose "Navigating to $path"
+            Set-Location $path
+        }
+    }
+}
+
+
+# Configuration paths
+# -----------------------------------------------------------------------------
+
+function Set-LocationChezmoiConf {
+    <#
+    .SYNOPSIS
+        Navigates to Chezmoi's local repo.
+    .INPUTS
+        None
+    .OUTPUTS
+        None
+    .LINK
+        https://www.chezmoi.io/docs/quick-start/
+    .LINK
+        Set-Location
+    #>
+    [CmdletBinding(
+        SupportsShouldProcess=$true,
+        ConfirmImpact='Low'
+    )]
+    param()
+
+    begin {
+        if (Get-Command chezmoi -ErrorAction SilentlyContinue) {
+            $path = "$(chezmoi source-path)"
+        }
+        else {
+            $path = "${HOME}\.local\share\chezmoi"
+        }
+        Write-Verbose "Destination set to $path"
+    }
+
+    process {
+        if ($PSCmdlet.ShouldProcess($path, 'Go to directory')) {
+            Write-Verbose "Navigating to $path"
+            Set-Location $path
+        }
+    }
+}
+
+function Set-LocationSublimeConf {
+    <#
+    .SYNOPSIS
+        Navigates to Sublime Text's local repo.
+    .INPUTS
+        None
+    .OUTPUTS
+        None
+    .LINK
+        https://www.sublimetext.com/docs/3/revert.html
+    .LINK
+        Set-Location
+    #>
+    [CmdletBinding(
+        SupportsShouldProcess=$true,
+        ConfirmImpact='Low'
+    )]
+    param()
+
+    begin {
+        if ($IsLinux) {
+            $path = "${HOME}/.config/sublime-text-3/Packages/User"
+        }
+        elseif ($IsMacOS) {
+            $path = "${HOME}/Library/Application Support/Sublime Text 3/Packages/User"
+        }
+        else {
+            $path = "${Env:AppData}\Sublime Text 3\Packages\User"
+        }
+        Write-Verbose "Destination set to $path"
+    }
+
+    process {
+        if ($PSCmdlet.ShouldProcess($path, 'Go to directory')) {
+            Write-Verbose "Navigating to $path"
+            Set-Location $path
+        }
+    }
+}
+
+
+# Custom paths
+# -----------------------------------------------------------------------------
+
+function Set-LocationArchives {
+    <#
+    .SYNOPSIS
+        Navigates to Archives directory.
+    .INPUTS
+        None
+    .OUTPUTS
+        None
+    .LINK
+        Set-Location
+    #>
+    [CmdletBinding(
+        SupportsShouldProcess=$true,
+        ConfirmImpact='Low'
+    )]
+    param()
+
+    begin {
+        $path = Convert-Path -Path "${HOME}\Archives"
+        Write-Verbose "Destination set to $path"
+    }
+
+    process {
+        if ($PSCmdlet.ShouldProcess($path, 'Go to directory')) {
+            Write-Verbose "Navigating to $path"
+            Set-Location $path
+        }
+    }
+}
+
+function Set-LocationCode {
+    <#
+    .SYNOPSIS
+        Navigates to Code directory.
+    .INPUTS
+        None
+    .OUTPUTS
+        None
+    .LINK
+        Set-Location
+    #>
+    [CmdletBinding(
+        SupportsShouldProcess=$true,
+        ConfirmImpact='Low'
+    )]
+    param()
+
+    begin {
+        $path = Convert-Path -Path "${HOME}\Code"
+        Write-Verbose "Destination set to $path"
+    }
+
+    process {
+        if ($PSCmdlet.ShouldProcess($path, 'Go to directory')) {
+            Write-Verbose "Navigating to $path"
+            Set-Location $path
+        }
+    }
+}
 
 
 # Varia
 # -----------------------------------------------------------------------------
 
-# Display the current weather and forecast
 function Get-Weather {
     <#
     .SYNOPSIS
@@ -303,16 +2188,20 @@ function Get-Weather {
     .EXAMPLE
         Get-Weather nF 10
     .INPUTS
-        String
+        System.String
     .OUTPUTS
-        String
+        System.String
     .LINK
         https://github.com/chubin/wttr.in
     .LINK
         https://wttr.in
     #>
-    param (
-        [Parameter(Mandatory=$false)]
+    [CmdletBinding()]
+    param(
+        [Parameter(
+            Mandatory=$false,
+            ValueFromPipeline=$true
+        )]
         [string]$Request,
 
         [Parameter(Mandatory=$false)]
@@ -320,12 +2209,54 @@ function Get-Weather {
         [int]$Timeout = 5
     )
 
-    if ($Request) {
-        $Request = '?' + $Request
+    begin {
+        if ($Request) {
+            $Request = '?' + $Request
+        }
+        $Request = 'https://wttr.in' + $Request
     }
-    $Request = 'https://wttr.in' + $Request
 
-    $headers = New-Object "System.Collections.Generic.Dictionary[[String],[String]]"
-    $headers.Add("Content-Encoding", 'deflate, gzip')
-    (Invoke-WebRequest -Uri "$Request" -UserAgent "curl" -Headers $headers -UseBasicParsing -TimeoutSec "$Timeout").content
+    process {
+        $headers = New-Object "System.Collections.Generic.Dictionary[[String],[String]]"
+        $headers.Add("Content-Encoding", 'deflate, gzip')
+        (Invoke-WebRequest -Uri "$Request" -UserAgent "curl" -Headers $headers -UseBasicParsing -TimeoutSec "$Timeout").content
+    }
+}
+
+function Get-WeatherForecast {
+    <#
+    .SYNOPSIS
+        Displays detailed weather and forecast.
+    .DESCRIPTION
+        Fetches the weather information from wttr.in for terminal display.
+    .INPUTS
+        None
+    .OUTPUTS
+        System.String
+    .LINK
+        https://wttr.in
+    #>
+    [CmdletBinding()]
+    param()
+
+    Get-Weather 'nF'
+}
+
+function Get-WeatherCurrent {
+    <#
+    .SYNOPSIS
+        Displays current weather.
+    .DESCRIPTION
+        Fetches the weather information from wttr.in for terminal display.
+    .INPUTS
+        None
+    .OUTPUTS
+        System.String
+    .LINK
+        https://wttr.in
+    #>
+    [CmdletBinding()]
+    param()
+
+    Get-Weather 'format=%l:+(%C)+%c++%t+[%h,+%w]'
 }

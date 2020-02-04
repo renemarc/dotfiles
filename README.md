@@ -57,7 +57,7 @@ System-specific aliases are marked with <a href="#" title="macOS"></a>, <a hr
 | Bash | PowerShell | Zsh | Command | Description |
 |:----:|:----------:|:---:|---------|-------------|
 | ✅   | ✅         | ✅ | `~`      | Go to user home directory.
-| ✅   | ⚠️         | ✅ | `cd-`    | Go to last used directory.
+| ✅   | ✅         | ✅ | `cd-`    | Go to last used directory.
 | ✅   | ✅         | ✅ | `..`<br>`cd..` | Go up a directory.
 | ✅   | ✅         | ✅ | `...`    | Go up two directories.
 | ✅   | ✅         | ✅ | `....`   | Go up three directories.

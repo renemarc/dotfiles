@@ -4,459 +4,209 @@
 
 # Create missing $IsWindows if running Powershell 5 or below
 if (!(Test-Path variable:global:IsWindows)) {
-    Set-Variable IsWindows -Scope Global -Value ([System.Environment]::OSVersion.Platform -eq "Win32NT")
+    Set-Variable "IsWindows" -Scope "Global" -Value ([System.Environment]::OSVersion.Platform -eq "Win32NT")
 }
 
 
 # Easier navigation
 # -----------------------------------------------------------------------------
 
-# Go to user home directory
-function ~ { Set-Location $HOME }
+Set-Alias -Name "~" -Value Set-LocationHome -Description "Goes to user home directory"
 
-# Go to last used directory
-#function -- { Set-Location "-" }
-function cd- { Set-Location "-" }
+Set-Alias -Name "cd-" -Value Set-LocationLast -Description "Goes to last used directory"
 
-# Go up a directory
-function .. { Set-Location ".." }
+Set-Alias -Name ".." -Value Set-LocationUp -Description "Goes up a directory"
 
-# Go up two directories
-function ... { Set-Location "../.." }
+Set-Alias -Name "..." -Value Set-LocationUp2 -Description "Goes up two directories"
 
+Set-Alias -Name "...." -Value Set-LocationUp3 -Description "Goes up three directories"
 
-# Go up three directories
-function .... { Set-Location "../../.." }
+Set-Alias -Name "....." -Value Set-LocationUp4 -Description "Goes up four directories"
 
-# Go up four directories
-function ..... { Set-Location "../../../.." }
-function .4 { Set-Location "../../../.." }
-
-# Go up five directories
-function .5 { Set-Location "../../../../.." }
+Set-Alias -Name "......" -Value Set-LocationUp5 -Description "Goes up five directories"
 
 
 # Directory browsing
 # -----------------------------------------------------------------------------
 
-# List visible files in wide format
-if (!(Get-Command 'ls' -ErrorAction "Ignore")) {
-    function ls {
-        Get-ChildItem . | Format-Wide
-    }
+if (!(Get-Command "ls" -ErrorAction "Ignore")) {
+    Set-Alias -Name "ls" -Value Get-ChildItemSimple -Description "Lists visible files in wide format"
 }
 
-# List visible files in long format
-function l {
-    Get-ChildItem . @args
-}
+Set-Alias -Name "l" -Value Get-ChildItemVisible -Description "Lists visible files in long format"
 
-# List all files files in long format, excluding `.` and `..`
-function ll {
-    Get-ChildItem . -Force @args
-}
+Set-Alias -Name "ll" -Value Get-ChildItemAll -Description "Lists all files in long format"
 
-# List only directories in long format
-function lsd {
-    Get-ChildItem . -Directory @args
-}
+Set-Alias -Name "lsd" -Value Get-ChildItemDirectory -Description "Lists only directories in long format"
 
-# List only hidden files in long format
-function lsh {
-    Get-ChildItem . -Hidden @args
-}
+Set-Alias -Name "lsh" -Value Get-ChildItemHidden -Description "Lists only hidden files in long format"
 
 
 # File management
 # -----------------------------------------------------------------------------
 
-# Copy a file securely
-Set-Alias -Name "cpv" -Value "Copy-Item-Secure"
+Set-Alias -Name "cpv" -Value Copy-ItemSecure -Description "Makes an exact copy of files"
 
-# Find directory
-function fd {
-    Get-ChildItem -Path . -Directory -Recurse -ErrorAction SilentlyContinue -Include @args
+Set-Alias -Name "fd" -Value Find-Directory -Description "Finds directories"
+
+Set-Alias -Name "ff" -Value Find-File -Description "Finds files"
+
+Set-Alias -Name "mirror" -Value Copy-ItemMirror -Description "Makes an exact copy of files and folders"
+
+if (!(Get-Command "touch" -ErrorAction "Ignore")) {
+    Set-Alias -Name "touch" -Value New-ItemEmpty -Description "Creates an empty file or updates its timestamp"
 }
-
-# Find file
-function ff {
-    Get-ChildItem -Path . -File -Recurse -ErrorAction SilentlyContinue -Include @args
-}
-
-# Mirror directories
-Set-Alias -Name "mirror" -Value "Mirror-Path"
 
 
 # General
 # -----------------------------------------------------------------------------
 
-# List aliases
-function Get-Aliases {
-    Get-Alias | Format-Table Name,ResolvedCommandName,Description,HelpUri
-}
-Set-Alias -Name "alias" -Value Get-Aliases
+Set-Alias -Name "alias" -Value Get-Aliases -Description "Lists aliases"
 
-# Clear screen
-Set-Alias -Name "c" -Value "Clear-Host"
+Set-Alias -Name "c" -Value Clear-Host -Description "Clears screen"
 
-# Display/Search global history
-function h {
-    $pattern = '*' + $args + '*'
-    Get-Content (Get-PSReadlineOption).HistorySavePath | ? {$_ -Like $pattern} | Get-Unique
-}
 del alias:h
+Set-Alias -Name "h" -Value "Search-History" -Description "Displays/Searches global history"
 
-# Display/Search session history
-function hs {
-    $pattern = '*' + $args + '*'
-    Get-History | Where-Object {$_.CommandLine -like $pattern}
-}
+Set-Alias -Name "hs" -Value "Search-HistorySession" -Description "Displays/Searches session history"
 
-# Creates directory and change to it
-Set-Alias -Name "mkcd" -Value New-Item-Set-Location
-Set-Alias -Name "take" -Value New-Item-Set-Location
+Set-Alias -Name "mkcd" -Value New-ItemSetLocation -Description "Makes a directory and change to it"
+Set-Alias -Name "take" -Value New-ItemSetLocation -Description "Makes a directory and change to it"
 
-# Repeat a command `x` times
-Set-Alias -Name "repeat" -Value "Repeat-Command"
+Set-Alias -Name "repeat" -Value Invoke-RepeatCommand -Description "Repeats a command x times"
 
-# Reload the shell (i.e. invoke as a login shell)
-#alias reload="exec ${SHELL} -l"
+#Set-Alias -Name "reload" -Value Start-Shell
 
-# Reload configuration
-#alias resource='source ~/.bash_profile'
+#Set-Alias -Name "resource" -Value Import-Profile
 
 
 # Time
 # -----------------------------------------------------------------------------
 
-# Display local/UTC date and time in ISO-8601 format `YYYY-MM-DDThh:mm:ss`
-function now {
-    Get-Date -Format "yyyy-MM-ddTHH:mm:ss"
-}
-function unow {
-    (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss")
-}
+Set-Alias -Name "now" -Value Get-DateExtended -Description "Displays local date and time in ISO-8601 format YYYY-MM-DDThh:mm:ss"
 
-# Display local/UTC date in `YYYY-MM-DD` format
-function nowdate {
-    Get-Date -Format "yyyy-MM-dd"
-}
-function unowdate {
-    (Get-Date).ToUniversalTime().ToString("yyyy-MM-dd")
-}
+Set-Alias -Name "unow" -Value Get-DateExtendedUTC -Description "Displays UTC date and time in ISO-8601 format YYYY-MM-DDThh:mm:ss"
 
-# Display local/UTC time in `hh:mm:ss` format
-function nowtime {
-    Get-Date -Format "HH:mm:ss"
-}
-function unowtime {
-    (Get-Date).ToUniversalTime().ToString("HH:mm:ss")
-}
+Set-Alias -Name "nowdate" -Value Get-CalendarDate -Description "Displays local date in YYYY-MM-DD format"
 
-# Display Unix time stamp
-function timestamp {
-    Get-Date -UFormat %s -Millisecond 0
-}
+Set-Alias -Name "unowdate" -Value Get-CalendarDateUTC -Description "Displays UTC date in YYYY-MM-DD format"
 
-# Get week number in ISO-9601 format `YYYY-Www`
-function week {
-    (Get-Date -UFormat %Y-W) + (Get-Date -UFormat %W).PadLeft(2,'0')
-}
+Set-Alias -Name "nowtime" -Value Get-Time -Description "Displays local time in hh:mm:ss format"
 
-# Get weekday number
-function weekday {
-    Get-Date -UFormat %u
-}
+Set-Alias -Name "unowtime" -Value Get-TimeUTC -Description "Displays UTC time in hh:mm:ss format"
+
+Set-Alias -Name "timestamp" -Value Get-Timestamp -Description "Displays Unix time stamp"
+
+Set-Alias -Name "week" -Value Get-WeekDate -Description "Displays week number in ISO-9601 format YYYY-Www"
+
+Set-Alias -Name "weekday" -Value Get-Weekday -Description "Displays weekday number"
 
 
 # Networking
 # -----------------------------------------------------------------------------
 
-# Ping 100 times without waiting 1 second between ECHO_REQUEST packets
-#alias fastping='ping -c 100 -s.2'
+#Set-Alias -Name "fastping" -Value Ping-Fast -Description "Ping 100 times rapidly"
 
-# Flush the DNS cache
-function flushdns {
-    if ($IsMacOS) {
-        dscacheutil -flushcache
-        sudo killall -HUP mDNSResponder
-    }
-    elseif ($IsLinux) {
-        sudo /etc/init.d/dns-clean restart
-    }
-    else {
-        ipconfig /flushdns
-    }
-    Write-Host "DNS cache flushed."
-}
+Set-Alias -Name "flushdns" -Value Clear-DNSCache -Description "Flushes the DNS cache"
 
-# Show active network interfaces
-#alias ifactive="ifconfig | pcregrep -M -o '^[^\t:]+:([^\n]|\n\t)*status: active'"
+Set-Alias -Name "ip" -Value Get-IP -Description "Gets external IP address"
 
-# Get external IP address
-function ip {
-    Invoke-RestMethod http://ipinfo.io/json | Select -exp ip
-}
+Set-Alias -Name "ips" -Value Get-IPS -Description "Gets all IP addresses"
 
-# Get all IP addresse
-function ips {
-    if ($IsWindows) {
-        Get-NetIPAddress | Where-Object {$_.AddressState -eq "Preferred"} | Sort-object IPAddress | Format-Table -Wrap -AutoSize
-    }
-    else {
-        ifconfig -a | grep -o 'inet6\? \(addr:\)\?\s\?\(\(\([0-9]\+\.\)\{3\}[0-9]\+\)\|[a-fA-F0-9:]\+\)' | awk '{ sub(/inet6? (addr:)? ?/, \"\"); print }'
-    }
-}
+Set-Alias -Name "localip" -Value Get-LocalIP -Description "Gets local IP address"
 
-# Get local IP address
-function localip {
-    if ($IsWindows) {
-        $IPAddress = Get-WmiObject Win32_NetworkAdapterConfiguration | Where-Object {$_.Ipaddress.length -gt 1}
-        $IPAddress.ipaddress[0]
-    }
-    else {
-        ipconfig getifaddr en0
-    }
-}
+Set-Alias -Name "GET" -Value Invoke-RestMethodGet -Description "Sends a GET http request"
 
-# Send HTTP requests
-function GET {Invoke-RestMethod -Method GET @args}
-function HEAD {Invoke-RestMethod -Method HEAD @args}
-function POST {Invoke-RestMethod -Method POST @args}
-function PUT {Invoke-RestMethod -Method PUT @args}
-function DELETE {Invoke-RestMethod -Method DELETE @args}
-function TRACE {Invoke-RestMethod -Method TRACE @args}
-function OPTIONS {Invoke-RestMethod -Method OPTIONS @args}
+Set-Alias -Name "HEAD" -Value Invoke-RestMethodHead -Description "Sends a HEAD http request"
+
+Set-Alias -Name "POST" -Value Invoke-RestMethodPost -Description "Sends a POST http request"
+
+Set-Alias -Name "PUT" -Value Invoke-RestMethodPut -Description "Sends a PUT http request"
+
+Set-Alias -Name "DELETE" -Value Invoke-RestMethodDelete -Description "Sends a DELETE http request"
+
+Set-Alias -Name "TRACE" -Value Invoke-RestMethodTrace -Description "Sends a TRACE http request"
+
+Set-Alias -Name "OPTIONS" -Value Invoke-RestMethodOptions -Description "Sends an OPTIONS http request"
 
 
 # Power management
 # -----------------------------------------------------------------------------
 
-# Lock the session
-function lock {
-    if ($IsWindows) {
-        Invoke-Command {rundll32.exe user32.dll,LockWorkStation}
-    }
-    elseif ($IsMacOS) {
-        pmset displaysleepnow
-    }
-    elseif (Get-Command "vlock" -ErrorAction "Ignore") {
-        vlock --all
-    }
-    elseif (Get-Command "gnome-screensaver-command" -ErrorAction "Ignore") {
-        gnome-screensaver-command --lock
-    }
-}
+Set-Alias -Name "lock" -Value Invoke-Lock -Description "Locks the session"
 
-# Go to sleep
-function hibernate {
-    if ($IsMacOS) {
-        pmset sleep now
-    }
-    elseif ($IsLinux) {
-        systemctl suspend
-    }
-    else {
-        shutdown.exe /h
-    }
-}
+Set-Alias -Name "hibernate" -Value Invoke-Hibernate -Description "Goes to sleep"
 
-# Restart the system
-function reboot {
-    if ($IsMacOS) {
-        osascript -e 'tell application "System Events" to restart'
-    }
-    elseif ($IsLinux) {
-        sudo /sbin/reboot
-    }
-    else {
-        Restart-Computer
-    }
-}
+Set-Alias -Name "reboot" -Value Invoke-Restart -Description "Restarts the system"
 
-# Shut down the system
-function poweroff {
-    if ($IsMacOS) {
-        osascript -e 'tell application "System Events" to shut down'
-    }
-    elseif ($IsLinux) {
-        sudo /sbin/poweroff
-    }
-    else {
-        Stop-Computer
-    }
-}
+Set-Alias -Name "poweroff" -Value Invoke-PowerOff -Description "Shuts down the system"
 
 
 # Sysadmin
 # -----------------------------------------------------------------------------
 
-# List drive mounts
-# http://lifeofageekadmin.com/display-mount-points-drives-using-powershell/
-function mnt {
-    if ($IsMacOS) {
-        mount | grep -E ^/dev | column -t
-    }
-    elseif ($IsLinux) {
-        mount | awk -F" " "{ printf \"%s\t%s\n\",\$1,\$3; }" | column -t | egrep ^/dev/ | sort
-    }
-    else {
-        $Capacity = @{Name="Capacity(GB)";Expression={[math]::round(($_.Capacity/ 1073741824))}}
-        $FreeSpace = @{Name="FreeSpace(GB)";Expression={[math]::round(($_.FreeSpace / 1073741824),1)}}
-        $Usage = @{Name="Usage";Expression={-join([math]::round(100-((($_.FreeSpace / 1073741824)/($_.Capacity / 1073741824)) * 100),0),'%')};Alignment="Right"}
+Set-Alias -Name "mnt" -Value Get-Mounts -Description "Lists drive mounts"
 
-        if ($IsCoreCLR) {
-            $volumes = Get-CimInstance -ClassName Win32_Volume
-        }
-        else {
-            $volumes = Get-WmiObject Win32_Volume
-        }
-        $volumes | Where name -notlike \\?\Volume* | Format-Table DriveLetter, Label, FileSystem, $Capacity, $FreeSpace, $Usage, PageFilePresent, IndexingEnabled, Compressed
-    }
+Set-Alias -Name "path" -Value Get-Path -Description "Prints each PATH entry on a separate line"
+
+Set-Alias -Name "update" -Value Update-Packages -Description "Keeps all apps and packages up to date"
+
+if (!(Get-Command "which" -ErrorAction "Ignore")) {
+    Set-Alias -Name "which" -Value Search-Command -Description "Locates a command."
 }
-
-# Print each $PATH entry on a separate line
-function path {
-    $separator = ';'
-    if (!$IsWindows) {
-        $separator = ':'
-    }
-    ${ENV:PATH}.split($separator)
-}
-
-# Keep all apps and packages up to date
-Set-Alias -Name "update" -Value Update-Packages
-
 
 # Applications
 # -----------------------------------------------------------------------------
 
-# Open file/URL (in) Browsers
-function browse {
-    if ($IsWindows) {
-        start $args
-    }
-    else {
-        open $args
-    }
-}
-function chrome {
-    $process = "chrome"
-    if ($IsMacOS) {
-        $process = "/Applications/Firefox.app/Contents/MacOS/Firefox"
-    }
-    Start-Process $process $args
-}
-function edge {
-    if ($IsMacOS) {
-        $process = "/Applications/Microsoft\ Edge.app/Contents/MacOS/Microsoft\ Edge"
-        Start-Process $process $args
-    }
-    else {
-        Start microsoft-edge:$args
-    }
-}
-function firefox {
-    $process = "firefox"
-    if ($IsMacOS) {
-        $process = "/Applications/Firefox.app/Contents/MacOS/Firefox"
-    }
-    Start-Process $process $args
-}
-function iexplore {
-    Start-Process "iexplore" $args
-}
-function opera {
-    $process = "opera"
-    if ($IsMacOS) {
-        $process = "/Applications/Opera.app/Contents/MacOS/Opera"
-    }
-    Start-Process $process $args
-}
-function safari {
-    Start-Process "/Applications/Safari.app/Contents/MacOS/Safari" $args
-}
+Set-Alias -Name "browse" -Value Start-Browser -Description "Opens file/URL in default browsers"
 
-# Enter the Starship cross-shell prompt (https://starship.rs)
-function ss {
-    Invoke-Expression (&starship init powershell)
-}
+Set-Alias -Name "chrome" -Value Start-Chrome -Description "Opens in Google Chrome"
 
-# Open (in) Sublime Text (https://www.sublimetext.com/)
-Set-Alias -Name "subl" -Value "${Env:Programfiles}\Sublime Text 3\subl.exe"
-Set-Alias -Name "st" -Value "${Env:Programfiles}\Sublime Text 3\subl.exe"
+Set-Alias -Name "edge" -Value Start-Edge -Description "Opens in Microsoft Edge"
+
+Set-Alias -Name "firefox" -Value Start-Firefox -Description "Opens in Mozilla Firefox"
+
+Set-Alias -Name "iexplore" -Value Start-InternetExplorer -Description "Opens in Internet Explorer"
+
+Set-Alias -Name "opera" -Value Start-Opera -Description "Opens in Opera"
+
+Set-Alias -Name "safari" -Value Start-Safari -Description "Opens in Safari"
+
+Set-Alias -Name "ss" -Value Enter-Starship -Description "Enters the Starship cross-shell prompt"
+
+Set-Alias -Name "subl" -Value Start-SublimeText -Description "Opens in Sublime Text"
+Set-Alias -Name "st" -Value Start-SublimeText -Description "Opens in Sublime Text"
 
 
 # Development
 # -----------------------------------------------------------------------------
 
-# Docker (https://www.docker.com/)
-function dk {
-    $process = "docker"
-    if ($IsWindows) {
-        $process = "${Env:Programfiles}\Docker\Docker\resources\bin\docker.exe"
-    }
-    Invoke-Expression "$process $args"
-}
-function dco {
-    $process = "docker-compose"
-    if ($IsWindows) {
-        $process = "${Env:Programfiles}\Docker\Docker\resources\bin\docker-compose.exe"
-    }
-    Invoke-Expression "$process $args"
-}
-#alias dwipe="docker kill $(docker ps -a -q) || docker rm $(docker ps -a -q) || docker ps -a"
-#alias dockerstop='docker-compose stop'
-#alias dockerup='docker-compose up -d'
-#alias dockerrm='docker-compose rm --all'
+Set-Alias -Name "dk" -Value Invoke-Docker -Description "Passthrough to the `docker` command."
 
-# Git (https://git-scm.com/)
-function g {
-    $process = "git"
-    if ($IsWindows) {
-        $process = "${Env:Programfiles}\Git\cmd\git.exe"
-    }
-    Invoke-Expression "$process $args"
-}
+Set-Alias -Name "dco" -Value Invoke-DockerCompose -Description "Passthrough to the `docker-compose` command."
 
-# Python: activate virtual environment (https://docs.python.org/3/tutorial/venv.html)
-function va {
-    . ./venv/bin/activate
-}
+Set-Alias -Name "g" -Value Invoke-Git -Description "Passthrough to the `git` command."
 
-# Python: create virtual environment
-function ve {
-    python3 -m venv ./venv
-}
+Set-Alias -Name "va" -Value Invoke-Venv -Description "Python: activates the virtual environment."
+
+Set-Alias -Name "ve" -Value Initialize-Venv -Description "Python: creates the virtual environment."
 
 
 # macOS
 # -----------------------------------------------------------------------------
 
 if ($IsMacOS) {
-    # Toggle display of desktop icons
-    function hidedesktop {
-        Invoke-Expression 'defaults write com.apple.finder CreateDesktop -bool false; killall Finder'
-    }
-    function showdesktop {
-        Invoke-Expression 'defaults write com.apple.finder CreateDesktop -bool true; killall Finder'
-    }
+    Set-Alias -Name "hidedesktop" -Value Hide-DesktopIcons -Description "Hides desktop icons."
 
-    # Toggle hidden files in Finder
-    function hidefiles {
-        Invoke-Expression 'defaults write com.apple.finder AppleShowAllFiles -bool false; killall Finder'
-    }
-    function showfiles {
-        Invoke-Expression 'defaults write com.apple.finder AppleShowAllFiles -bool true; killall Finder'
-    }
+    Set-Alias -Name "showdesktop" -Value Show-DesktopIcons -Description "Shows desktop icons."
 
-    # Toggle Spotlight
-    function spotoff {
-        Invoke-Expression 'sudo mdutil -a -i off'
-    }
-    function spoton {
-        Invoke-Expression 'sudo mdutil -a -i on'
-    }
+    Set-Alias -Name "hidefiles" -Value Hide-HiddenFiles -Description "Hides hidden files in Finder."
+
+    Set-Alias -Name "showfiles" -Value Show-HiddenFiles -Description "Shows hidden files in Finder."
+
+    Set-Alias -Name "spotoff" -Value Disable-Spotlight -Description "Disables Spotlight."
+
+    Set-Alias -Name "spoton" -Value Enable-Spotlight -Description "Enables Spotlight."
 }
 
 
@@ -464,92 +214,41 @@ if ($IsMacOS) {
 # -----------------------------------------------------------------------------
 
 if ($IsWindows) {
-    # Toggle hidden files in Explorer
-    function hidefiles {
-        Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "Hidden" -Value 2
-    }
-    function showfiles {
-        Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "Hidden" -Value 1
-    }
+    Set-Alias -Name "hidefiles" -Value Hide-HiddenFiles -Description "Hides hidden files in Explorer."
 
-    # Host-level *nix equivalent to `which`
-    if (!(Get-Command 'which' -ErrorAction "Ignore")) {
-        function which($name) {
-            Get-Command $name -ErrorAction SilentlyContinue
-        }
-    }
+    Set-Alias -Name "showfiles" -Value Show-HiddenFiles -Description "Shows hidden files in Explorer."
 }
 
 
 # Common paths
 # -----------------------------------------------------------------------------
 
-# User paths
-function dl { Set-Location "${HOME}\Downloads" }
-function docs { Set-Location "${HOME}\Documents" }
-function dt { Set-Location "${HOME}\Desktop" }
+Set-Alias -Name "dl" -Value Set-LocationDownloads -Description "Navigates to Downloads directory."
+
+Set-Alias -Name "docs" -Value Set-LocationDocuments -Description "Navigates to Documents directory."
+
+Set-Alias -Name "dt" -Value Set-LocationDesktop -Description "Navigates to Desktop directory."
 
 
 # Configuration paths
 # -----------------------------------------------------------------------------
 
-# Go to Chezmoi's local repo
-function chezmoiconf { Set-Location "${HOME}\.local\share\chezmoi"}
+Set-Alias -Name "chezmoiconf" -Value Set-LocationChezmoiConf -Description "Navigates to Chezmoi's local repo."
 
-# Go to Sublime Text's local repo
-if ($IsWindows) {
-    function sublimeconf { Set-Location "${HOME}\AppData\Roaming\Sublime Text 3\Packages\User"}
-}
-elseif ($IsMacOS) {
-    function sublimeconf { Set-Location "${HOME}\Library\Application Support\Sublime Text 3\Packages\User"}
-}
+Set-Alias -Name "sublimeconf" -Value Set-LocationSublimeConf -Description "Navigates to Sublime Text's local repo."
 
 
 # Custom paths
 # -----------------------------------------------------------------------------
 
-# Paths: Code
-function archives { Set-Location "${HOME}\Archives" }
-function repos { Set-Location "${HOME}\Code" }
+Set-Alias -Name "archives" -Value Set-LocationArchives -Description "Navigates to Archives directory."
+
+Set-Alias -Name "repos" -Value Set-LocationCode -Description "Navigates to Code directory."
 
 
 # Varia
 # -----------------------------------------------------------------------------
 
-# Display detailed weather and forecast
-function Get-Weather-Forecast {
-    <#
-    .SYNOPSIS
-        Display detailed weather and forecast
-    .DESCRIPTION
-        Fetches the weather information from wttr.in for terminal display.
-    .INPUTS
-        None
-    .OUTPUTS
-        String
-    .LINK
-        https://wttr.in
-    #>
+Set-Alias -Name "forecast" -Value Get-WeatherForecast -Description "Displays detailed weather and forecast."
 
-    Get-Weather 'nF'
-}
-Set-Alias -Name "forecast" -Value Get-Weather-Forecast -Description "Display detailed weather and forecast."
-
-# Display current weather
-function Get-Weather-Current {
-    <#
-    .SYNOPSIS
-        Display current weather
-    .DESCRIPTION
-        Fetches the weather information from wttr.in for terminal display.
-    .INPUTS
-        None
-    .OUTPUTS
-        String
-    .LINK
-        https://wttr.in
-    #>
-
-    Get-Weather 'format=%l:+(%C)+%c++%t+[%h,+%w]'
-}
-Set-Alias -Name "weather" -Value Get-Weather-Current -Description "Display current weather."
+Set-Alias -Name "weather" -Value Get-WeatherCurrent -Description "Displays current weather."

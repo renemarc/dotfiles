@@ -10,7 +10,7 @@ if (!$IsWindows) {
     exit
 }
 
-if ((Get-Variable "ColorInfo" -ErrorAction "Ignore") -eq $null) {
+if ($null -eq (Get-Variable "ColorInfo" -ErrorAction "Ignore")) {
     Set-Variable -Name ColorInfo -Value "DarkYellow"
 }
 Set-Variable -Name count -Value 0 -Scope Script
