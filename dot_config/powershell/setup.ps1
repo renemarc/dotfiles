@@ -5,9 +5,9 @@
 # Changing system properties requires to be running Powershell as an admin
 #Requires -RunAsAdministrator
 
-if (!$IsWindows) {
-    Write-Host "This script is meant to be run on a Windows OS only." -ForegroundColor ($ColorWarn,"DarkRed")[!$ColorWarn]
-    exit
+# Create missing $IsWindows if running Powershell 5 or below
+if (!(Test-Path variable:global:IsWindows)) {
+    Set-Variable "IsWindows" -Scope "Global" -Value ([System.Environment]::OSVersion.Platform -eq "Win32NT")
 }
 
 if ($null -eq (Get-Variable "ColorInfo" -ErrorAction "Ignore")) {
@@ -30,11 +30,11 @@ function eos {
 $hereString = @"
 This script will perform the following non-destructive adjustements to the system (if required):
     - Install package provider NuGet
-    - Install/update module WSL Interop (on PowerShell Core only
-    - Install/update module PSReadLine (on PowerShell Core only)
+    - Install/update module WSL Interop (on PowerShell Core) [Windows only]
+    - Install/update module PSReadLine (on PowerShell Core)
     - Install/update module posh-git
     - Install/update module oh-my-posh
-    - Enable LongPaths support for file paths above 260 characters
+    - Enable LongPaths support for file paths above 260 characters [Windows only]
 "@
 Write-Host $hereString -ForegroundColor $ColorInfo
 $confirmation = Read-Host -Prompt "Do you want to proceed? [y/N]"
@@ -62,20 +62,22 @@ else {
 
 # Install or update WSL Interop to skip having to prefix Linux commands with `wsl`
 # https://github.com/mikebattista/PowerShell-WSL-Interop
-if ($IsCoreCLR) {
-    if (Get-Module -ListAvailable -Name WslInterop -ErrorAction "Ignore") {
-        Write-Host "Checking for WSL Interop updates..." -ForegroundColor $ColorInfo
-        Update-Module WslInterop
+if ($IsWindows) {
+    if ($IsCoreCLR) {
+        if (Get-Module -ListAvailable -Name WslInterop -ErrorAction "Ignore") {
+            Write-Host "Checking for WSL Interop updates..." -ForegroundColor $ColorInfo
+            Update-Module WslInterop
+        }
+        else {
+            Write-Host "Installing WSL Interop..." -ForegroundColor $ColorInfo
+            Install-Module WslInterop
+            Get-Module -ListAvailable -Name WslInterop
+            $count++
+        }
     }
     else {
-        Write-Host "Installing WSL Interop..." -ForegroundColor $ColorInfo
-        Install-Module WslInterop
-        Get-Module -ListAvailable -Name WslInterop
-        $count++
+        Write-Host "PowerShell version is too old, skipping WSL Interop installation." -ForegroundColor $ColorInfo
     }
-}
-else {
-    Write-Host "PowerShell version is too old, skipping WSL Interop installation." -ForegroundColor $ColorInfo
 }
 
 # Install or update PSReadLine to allow syntax coloring of prompt (amongst others)
@@ -127,10 +129,11 @@ else {
 
 # Verify that scoop is setup properly
 # https://github.com/lukesampson/scoop
-Write-Host "Verifying the state of Scoop..." -ForegroundColor $ColorInfo
-Get-Command -Name scoop -ErrorAction Stop
-Invoke-Command -ScriptBlock { scoop checkup }
-
+if (Get-Command 'scoop' -ErrorAction "Ignore") {
+    Write-Host "Verifying the state of Scoop..." -ForegroundColor $ColorInfo
+    Get-Command -Name scoop -ErrorAction Stop
+    Invoke-Command -ScriptBlock { scoop checkup }
+}
 
 #
 # System tweaks
@@ -138,15 +141,17 @@ Invoke-Command -ScriptBlock { scoop checkup }
 
 # Enable LongPaths support for file paths above 260 characters
 # https://social.msdn.microsoft.com/Forums/en-US/fc85630e-5684-4df6-ad2f-5a128de3deef
-$property = 'HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem'
-$name = 'LongPathsEnabled'
-if ((Get-ItemPropertyValue $property -Name $name) -ne 0) {
-    Write-Host "LongPaths support already enabled, skipping." -ForegroundColor $ColorInfo
-}
-else {
-    Write-Host "Enabling LongPaths support for file paths above 260 characters." -ForegroundColor $ColorInfo
-    Set-ItemProperty $property -Name $name -Value 1
-    $count++
+if ($IsWindows) {
+    $property = 'HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem'
+    $name = 'LongPathsEnabled'
+    if ((Get-ItemPropertyValue $property -Name $name) -ne 0) {
+        Write-Host "LongPaths support already enabled, skipping." -ForegroundColor $ColorInfo
+    }
+    else {
+        Write-Host "Enabling LongPaths support for file paths above 260 characters." -ForegroundColor $ColorInfo
+        Set-ItemProperty $property -Name $name -Value 1
+        $count++
+    }
 }
 
 # Display termination message
