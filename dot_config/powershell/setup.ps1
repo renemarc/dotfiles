@@ -71,6 +71,7 @@ $modules = @{
         Force = $false;
         Prerelease = $false;
         IsCoreCLR = $true;
+        AllowClobber = $false;
         SkipPublisherCheck = $false;
     };
     "PSReadLine" = @{
@@ -80,6 +81,7 @@ $modules = @{
         Force = $true;
         Prerelease = $true;
         IsCoreCLR = $false;
+        AllowClobber = $false;
         SkipPublisherCheck = $true;
     };
     "posh-git" = @{
@@ -89,6 +91,7 @@ $modules = @{
         Force = $true;
         Prerelease = $true;
         IsCoreCLR = $false;
+        AllowClobber = $false;
         SkipPublisherCheck = $false;
     };
     "oh-my-posh" = @{
@@ -98,6 +101,7 @@ $modules = @{
         Force = $false;
         Prerelease = $false;
         IsCoreCLR = $false;
+        AllowClobber = $false;
         SkipPublisherCheck = $false;
     };
     "Terminal-Icons" = @{
@@ -107,6 +111,7 @@ $modules = @{
         Force = $false;
         Prerelease = $false;
         IsCoreCLR = $false;
+        AllowClobber = $false;
         SkipPublisherCheck = $false;
     };
 }
@@ -126,10 +131,10 @@ foreach ($m in ($modules.GetEnumerator() | Sort-Object -Property name)) {
     else {
         Write-Host "Installing $name ($info)..." -ForegroundColor $ColorInfo
         if ($AllowPrerelease -and $m.Value.Prerelease) {
-            Install-Module $name -Scope CurrentUser -Force:$m.Value.Force -SkipPublisherCheck:$m.Value.SkipPublisherCheck -AllowPrerelease:$m.Value.Prerelease
+            Install-Module $name -Scope CurrentUser -Force:$m.Value.Force -SkipPublisherCheck:$m.Value.SkipPublisherCheck -AllowClobber:$m.Value.AllowClobber -AllowPrerelease:$m.Value.Prerelease
         }
         else {
-            Install-Module $name -Scope CurrentUser -Force:$m.Value.Force -SkipPublisherCheck:$m.Value.SkipPublisherCheck
+            Install-Module $name -Scope CurrentUser -Force:$m.Value.Force -SkipPublisherCheck:$m.Value.SkipPublisherCheck -AllowClobber:$m.Value.AllowClobber
         }
         Get-Module -ListAvailable -Name $name
         $count++

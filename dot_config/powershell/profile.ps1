@@ -56,17 +56,20 @@ if (Get-Command Add-EnvPath -errorAction Ignore) {
 }
 
 # Setup a pretty development-oriented PowerShell prompt
-if (Get-Module -ListAvailable -Name "posh-git") {
-    Import-Module posh-git
+$modules = (
+    "posh-git",
+    "oh-my-posh",
+    "Terminal-Icons"
+)
+$modules | foreach {
+    if (Get-Module -ListAvailable -Name $_) {
+        Import-Module $_
+    }
 }
 if (Get-Module -ListAvailable -Name "oh-my-posh") {
-    Import-Module oh-my-posh
     Set-Theme Paradox
     $ThemeSettings.Colors.PromptBackgroundColor = "Blue"
     $DefaultUser = $Env:username
-}
-if (Get-Module -ListAvailable -Name "Terminal-Icons") {
-    Import-Module Terminal-Icons
 }
 
 # Display if/which WSL Interop commands are imported
