@@ -3,7 +3,7 @@
 #
 
 # Changing system properties requires to be running Powershell as an admin
-#Requires -RunAsAdministrator
+#Disabled Requires -RunAsAdministrator
 
 # Create missing $IsWindows if running Powershell 5 or below
 if (!(Test-Path variable:global:IsWindows)) {
@@ -31,7 +31,7 @@ $hereString = "
     This script will perform the following non-destructive adjustements to the system (if required):
         - Install package provider NuGet
         - Install/update Powershell modules"
-if (!$IsWindows) {
+if ($IsWindows) {
     $hereString += "
         - Enable LongPaths support for file paths above 260 characters"
 }
@@ -143,13 +143,50 @@ foreach ($m in ($modules.GetEnumerator() | Sort-Object -Property name)) {
     Remove-Variable -Name ("name", "info")
 }
 
-# Verify that scoop is setup properly
+# Setup scoop
 # https://github.com/lukesampson/scoop
-if (Get-Command 'scoop' -ErrorAction "Ignore") {
-    Write-Host "Verifying the state of Scoop..." -ForegroundColor $ColorInfo
-    Get-Command -Name scoop -ErrorAction Stop
-    Invoke-Command -ScriptBlock { scoop checkup }
+if ($IsWindows) {
+    if (!(Get-Command "scoop" -ErrorAction "Ignore")) {
+        Invoke-Expression (New-Object System.Net.WebClient).DoanloadString('https://get.scoop.sh')
+    }
+    if (Get-Command "scoop" -ErrorAction "Ignore") {
+        Write-Host "Verifying the state of Scoop..." -ForegroundColor $ColorInfo
+        Get-Command -Name scoop -ErrorAction Stop
+        Invoke-Command -ScriptBlock { scoop checkup }
+
+        # Install any missing bucket
+        $bucketList = Invoke-Command -ScriptBlock { scoop bucket list }
+        $buckets = (
+            "nerd-fonts",
+            "twpayne"
+        )
+        $buckets | ForEach {
+            if (!$bucketList.Contains($_)) {
+                Invoke-Command -ScriptBlock { scoop bucket add $_ }
+            }
+        }
+
+        # Install any missing app
+        $appList = Invoke-Command -ScriptBlock { scoop export }
+        $appList = $appList -replace "[\s].+",""
+        $apps = (
+            "chezmoi",
+            "Delugia-Nerd-Font",
+            "Delugia-Nerd-Font-Complete",
+            "git",
+            "heroku-cli",
+            "neofetch",
+            "starship",
+            "sudo"
+        )
+        $apps | ForEach {
+            if (!$appList.Contains($_)) {
+                Invoke-Command -ScriptBlock { scoop install $_ }
+            }
+        }
+    }
 }
+
 
 #
 # System tweaks
