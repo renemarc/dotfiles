@@ -59,7 +59,8 @@ if (Get-Command Add-EnvPath -errorAction Ignore) {
 $modules = (
     "posh-git",
     "oh-my-posh",
-    "Terminal-Icons"
+    "Terminal-Icons",
+    "FastPing"
 )
 $modules | foreach {
     if (Get-Module -ListAvailable -Name $_) {

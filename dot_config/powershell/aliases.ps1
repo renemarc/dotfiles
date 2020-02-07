@@ -65,7 +65,7 @@ Set-Alias -Name "alias" -Value Get-Aliases -Description "Lists aliases"
 
 Set-Alias -Name "c" -Value Clear-Host -Description "Clears screen"
 
-del alias:h
+Remove-Item alias:h
 Set-Alias -Name "h" -Value "Search-History" -Description "Displays/Searches global history"
 
 Set-Alias -Name "hs" -Value "Search-HistorySession" -Description "Displays/Searches session history"
@@ -105,7 +105,8 @@ Set-Alias -Name "weekday" -Value Get-Weekday -Description "Displays weekday numb
 # Networking
 # -----------------------------------------------------------------------------
 
-#Set-Alias -Name "fastping" -Value Ping-Fast -Description "Ping 100 times rapidly"
+Remove-Item alias:fastping
+Set-Alias -Name "fastping" -Value Invoke-FastPingSimple -Description "Pings hostname(s) 30 times in quick succession"
 
 Set-Alias -Name "flushdns" -Value Clear-DNSCache -Description "Flushes the DNS cache"
 

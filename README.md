@@ -120,7 +120,7 @@ System-specific aliases are marked with <a href="#" title="macOS"></a>, <a hr
 
 | Bash | PowerShell | Zsh | Command | Description |
 |:----:|:----------:|:---:|---------|-------------|
-| ✅   | ❌         | ❌  | `fastping` | Ping 100 times without waiting 1 second between ECHO_REQUEST packets.
+| ✅   | ✅         | ✅  | `fastping` | Ping hostname(s) 30 times in quick succession.
 | ✅   | ✅         | ✅  | `flushdns` | Flush the DNS cache.
 | ❌   | ❌         | ❌  | `ifactive` | Show active network interfaces.
 | ✅   | ✅         | ✅  | `ip`    | Get external IP address.

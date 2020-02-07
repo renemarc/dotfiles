@@ -176,8 +176,8 @@ alias weekday='date +"%u"'
 # Networking
 # -----------------------------------------------------------------------------
 
-# Ping 100 times without waiting 1 second between ECHO_REQUEST packets
-alias fastping='ping -c 100 -s.2'
+# Ping hostname(s) 30 times in quick succession
+alias fastping='ping -c 30 -i.2'
 
 # Flush the DNS cache
 if [[ "$OSTYPE" =~ ^darwin ]]; then

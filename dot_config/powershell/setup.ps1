@@ -114,6 +114,16 @@ $modules = @{
         AllowClobber = $false;
         SkipPublisherCheck = $false;
     };
+    "FastPing" = @{
+        Info = "speed up ping requests";
+        Repo = "https://github.com/austoonz/FastPing";
+        Install = $true;
+        Force = $false;
+        Prerelease = $false;
+        IsCoreCLR = $false;
+        AllowClobber = $false;
+        SkipPublisherCheck = $false;
+    };
 }
 
 foreach ($m in ($modules.GetEnumerator() | Sort-Object -Property name)) {
