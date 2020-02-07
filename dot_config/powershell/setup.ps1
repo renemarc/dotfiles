@@ -27,15 +27,15 @@ function eos {
 }
 
 # Are you sure?
-$hereString = @"
-This script will perform the following non-destructive adjustements to the system (if required):
-    - Install package provider NuGet
-    - Install/update module WSL Interop (on PowerShell Core) [Windows only]
-    - Install/update module PSReadLine (on PowerShell Core)
-    - Install/update module posh-git
-    - Install/update module oh-my-posh
-    - Enable LongPaths support for file paths above 260 characters [Windows only]
-"@
+$hereString = "
+    This script will perform the following non-destructive adjustements to the system (if required):
+        - Install package provider NuGet
+        - Install/update Powershell modules"
+if (!$IsWindows) {
+    $hereString += "
+        - Enable LongPaths support for file paths above 260 characters"
+}
+$hereString += [Environment]::NewLine
 Write-Host $hereString -ForegroundColor $ColorInfo
 $confirmation = Read-Host -Prompt "Do you want to proceed? [y/N]"
 if ($confirmation -notMatch '^y(es)?$') {
@@ -60,71 +60,82 @@ else {
     $count++
 }
 
-# Install or update WSL Interop to skip having to prefix Linux commands with `wsl`
-# https://github.com/mikebattista/PowerShell-WSL-Interop
-if ($IsWindows) {
-    if ($IsCoreCLR) {
-        if (Get-Module -ListAvailable -Name WslInterop -ErrorAction "Ignore") {
-            Write-Host "Checking for WSL Interop updates..." -ForegroundColor $ColorInfo
-            Update-Module WslInterop
+$AllowPrerelease = ($null -ne (Get-Command Install-Module -Syntax | Select-String "AllowPrerelease"))
+
+# Install or update Powershell modules
+$modules = @{
+    "WslInterop" = @{
+        Info = "Linux commands import";
+        Repo = "https://github.com/mikebattista/PowerShell-WSL-Interop";
+        Install = $IsWindows;
+        Force = $false;
+        Prerelease = $false;
+        IsCoreCLR = $true;
+        SkipPublisherCheck = $false;
+    };
+    "PSReadLine" = @{
+        Info = "command line editing";
+        Repo = "https://github.com/PowerShell/PSReadLine";
+        Install = $true;
+        Force = $true;
+        Prerelease = $true;
+        IsCoreCLR = $false;
+        SkipPublisherCheck = $true;
+    };
+    "posh-git" = @{
+        Info = "environment for Git";
+        Repo = "https://github.com/dahlbyk/posh-git";
+        Install = $true;
+        Force = $true;
+        Prerelease = $true;
+        IsCoreCLR = $false;
+        SkipPublisherCheck = $false;
+    };
+    "oh-my-posh" = @{
+        Info = "prompt theming";
+        Repo = "https://github.com/JanDeDobbeleer/oh-my-posh";
+        Install = $true;
+        Force = $false;
+        Prerelease = $false;
+        IsCoreCLR = $false;
+        SkipPublisherCheck = $false;
+    };
+    "Terminal-Icons" = @{
+        Info = "colorized file listings";
+        Repo = "https://github.com/devblackops/Terminal-Icons";
+        Install = $true;
+        Force = $false;
+        Prerelease = $false;
+        IsCoreCLR = $false;
+        SkipPublisherCheck = $false;
+    };
+}
+
+foreach ($m in ($modules.GetEnumerator() | Sort-Object -Property name)) {
+    $name = $m.Name
+    $info = $m.Value.Info
+
+    if (!$m.Value.Install -or (!$IsCoreCLR -and $m.Value.IsCoreCLR)) {
+        continue
+    }
+
+    if (Get-Module -ListAvailable -Name $name -ErrorAction "Ignore") {
+        Write-Host "Checking for $name ($info) updates..." -ForegroundColor $ColorInfo
+        Update-Module $name
+    }
+    else {
+        Write-Host "Installing $name ($info)..." -ForegroundColor $ColorInfo
+        if ($AllowPrerelease -and $m.Value.Prerelease) {
+            Install-Module $name -Scope CurrentUser -Force:$m.Value.Force -SkipPublisherCheck:$m.Value.SkipPublisherCheck -AllowPrerelease:$m.Value.Prerelease
         }
         else {
-            Write-Host "Installing WSL Interop..." -ForegroundColor $ColorInfo
-            Install-Module WslInterop
-            Get-Module -ListAvailable -Name WslInterop
-            $count++
+            Install-Module $name -Scope CurrentUser -Force:$m.Value.Force -SkipPublisherCheck:$m.Value.SkipPublisherCheck
         }
-    }
-    else {
-        Write-Host "PowerShell version is too old, skipping WSL Interop installation." -ForegroundColor $ColorInfo
-    }
-}
-
-# Install or update PSReadLine to allow syntax coloring of prompt (amongst others)
-# https://github.com/PowerShell/PSReadLine
-if ($IsCoreCLR) {
-    if (Get-Module -ListAvailable -Name PSReadLine -ErrorAction "Ignore") {
-        # (Get-Module -ListAvailable -Name PSReadLine).Version.Major[0]
-        Write-Host "Checking for PSReadLine updates..." -ForegroundColor $ColorInfo
-        Update-Module PSReadLine
-    }
-    else {
-        Write-Host "Installing PSReadLine..." -ForegroundColor $ColorInfo
-        Install-Module -Name PSReadLine -AllowPrerelease -Scope CurrentUser -Force -SkipPublisherCheck
-        Get-Module -ListAvailable -Name PSReadLine
+        Get-Module -ListAvailable -Name $name
         $count++
     }
-}
 
-# Install or update Posh-Git to display Git status summary information in prompt
-# https://github.com/dahlbyk/posh-git
-if (Get-Module -ListAvailable -Name posh-git -ErrorAction "Ignore") {
-    Write-Host "Checking for posh-git updates..." -ForegroundColor $ColorInfo
-    Update-Module posh-git
-}
-else {
-    Write-Host "Installing posh-git..." -ForegroundColor $ColorInfo
-    if ($IsCoreCLR) {
-        Install-Module posh-git -Scope CurrentUser -AllowPrerelease -Force
-    }
-    else {
-        Install-Module posh-git -Scope CurrentUser -Force
-    }
-    Get-Module -ListAvailable -Name posh-git
-    $count++
-}
-
-# Install or update Oh-My-Posh for prompt theming
-# https://github.com/JanDeDobbeleer/oh-my-posh
-if (Get-Module -ListAvailable -Name oh-my-posh -ErrorAction "Ignore") {
-    Write-Host "Checking for oh-my-posh updates..." -ForegroundColor $ColorInfo
-    Update-Module oh-my-posh
-}
-else {
-    Write-Host "Installing oh-my-posh..." -ForegroundColor $ColorInfo
-    Install-Module oh-my-posh -Scope CurrentUser
-    Get-Module -ListAvailable -Name oh-my-posh
-    $count++
+    Remove-Variable -Name ("name", "info")
 }
 
 # Verify that scoop is setup properly

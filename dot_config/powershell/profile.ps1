@@ -61,11 +61,12 @@ if (Get-Module -ListAvailable -Name "posh-git") {
 }
 if (Get-Module -ListAvailable -Name "oh-my-posh") {
     Import-Module oh-my-posh
-}
-if (Get-Module -Name "oh-my-posh") {
     Set-Theme Paradox
     $ThemeSettings.Colors.PromptBackgroundColor = "Blue"
     $DefaultUser = $Env:username
+}
+if (Get-Module -ListAvailable -Name "Terminal-Icons") {
+    Import-Module Terminal-Icons
 }
 
 # Display if/which WSL Interop commands are imported
