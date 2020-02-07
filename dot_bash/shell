@@ -76,8 +76,10 @@ export HISTTIMEFORMAT="%Y-%m-%d %H:%M:%S  ";
 # -----------------------------------------------------------------------------
 
 # Dev Desktop
-export PATH="$PATH:/Applications/DevDesktop/tools"
-export PATH="$PATH:/Applications/DevDesktop/drush_9"
+if [[ "$OSTYPE" =~ ^darwin ]]; then
+    export PATH="$PATH:/Applications/DevDesktop/tools"
+    export PATH="$PATH:/Applications/DevDesktop/drush_9"
+fi
 
 # Drush completions
 # . ${HOME}/.drush/drush.bashrc
@@ -120,7 +122,7 @@ if command -v rbenv > /dev/null; then
 fi
 
 # Ruby gems to PATH
-if which ruby >/dev/null && which gem >/dev/null; then
+if command -v ruby > /dev/null && command -v gem > /dev/null; then
     PATH="$(ruby -r rubygems -e 'puts Gem.user_dir')/bin:$PATH"
 fi
 

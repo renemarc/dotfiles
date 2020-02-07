@@ -4,6 +4,11 @@
 #
 # Bash: aliases
 #
+# Used OSTYPE values:
+#   Darwin: macOS
+#   cygwin: Cygwin POSIX compatibility layer and Linux environment emulation for Windows
+#   mingw: MinGW Minimalist GNU for Windows
+#   msys: MinGW Lightweight shell and GNU utilities for Windows
 
 # Redefine standard commands to improve their behavior
 # -----------------------------------------------------------------------------
@@ -177,11 +182,17 @@ alias weekday='date +"%u"'
 # -----------------------------------------------------------------------------
 
 # Ping hostname(s) 30 times in quick succession
-alias fastping='ping -c 30 -i.2'
+if [[ "$OSTYPE" =~ ^cygwin|mingw|msys ]]; then
+    alias fastping='ping -n 30'
+else
+    alias fastping='ping -c 30 -i.2'
+fi
 
 # Flush the DNS cache
 if [[ "$OSTYPE" =~ ^darwin ]]; then
     alias flushdns='dscacheutil -flushcache; sudo killall -HUP mDNSResponder;echo DNS cache flushed'
+elif [[ "$OSTYPE" =~ ^cygwin|mingw|msys ]]; then
+    alias flushdns='ipconfig //flushdns'
 else
     alias flushdns='sudo /etc/init.d/dns-clean restart && echo DNS cache flushed'
 fi
@@ -190,13 +201,23 @@ fi
 #alias ifactive="ifconfig | pcregrep -M -o '^[^\t:]+:([^\n]|\n\t)*status: active'"
 
 # Get external IP address
-alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
+if [[ "$OSTYPE" =~ ^cygwin|mingw|msys ]]; then
+    alias ip="curl -s https://ipinfo.io/ip"
+else
+    alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
+fi
 
 # Get all IP addresses
 alias ips="ifconfig -a | grep -o 'inet6\? \(addr:\)\?\s\?\(\(\([0-9]\+\.\)\{3\}[0-9]\+\)\|[a-fA-F0-9:]\+\)' | awk '{ sub(/inet6? (addr:)? ?/, \"\"); print }'"
 
 # Get local IP address
-alias localip="ipconfig getifaddr en0"
+if [[ "$OSTYPE" =~ ^darwin ]]; then
+    alias localip="ipconfig getifaddr en0"
+elif [[ "$OSTYPE" =~ ^cygwin|mingw|msys ]]; then
+    alias localip="netstat -rn | grep -w '0.0.0.0' | awk '{ print \$4 }'"
+else
+    alias localip="command ip route get 1 | awk '{print \$NF;exit}'"
+fi
 
 # Send HTTP requests
 command -v lwp-request &> /dev/null && for method in GET HEAD POST PUT DELETE TRACE OPTIONS; do
@@ -211,6 +232,8 @@ unset method;
 # Lock the session
 if [[ "$OSTYPE" =~ ^darwin ]]; then
     alias lock='pmset displaysleepnow'
+elif [[ "$OSTYPE" =~ ^cygwin|mingw|msys ]]; then
+    alias lock='rundll32.exe user32.dll,LockWorkStation'
 elif command -v vlock &> /dev/nul; then
     alias lock='vlock --all'
 elif command -v gnome-screensaver-command &> /dev/nul; then
@@ -221,6 +244,8 @@ fi
 if [[ "$OSTYPE" =~ ^darwin ]]; then
     # alias sleep="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
     alias hibernate="pmset sleep now"
+elif [[ "$OSTYPE" =~ ^cygwin|mingw|msys ]]; then
+    alias hibernate="shutdown.exe /h"
 else
     alias hibernate="systemctl suspend"
 fi
@@ -228,6 +253,8 @@ fi
 # Restart the system
 if [[ "$OSTYPE" =~ ^darwin ]]; then
     alias reboot="osascript -e 'tell application \"System Events\" to restart'"
+elif [[ "$OSTYPE" =~ ^cygwin|mingw|msys ]]; then
+    alias reboot="shutdown.exe /r"
 else
     alias reboot='sudo /sbin/reboot'
 fi
@@ -235,6 +262,8 @@ fi
 # Shut down the system
 if [[ "$OSTYPE" =~ ^darwin ]]; then
     alias poweroff="osascript -e 'tell application \"System Events\" to shut down'"
+elif [[ "$OSTYPE" =~ ^cygwin|mingw|msys ]]; then
+    alias poweroff="shutdown.exe /s"
 else
     alias poweroff='sudo /sbin/poweroff'
 fi
@@ -246,6 +275,8 @@ fi
 # List drive mounts
 if [[ "$OSTYPE" =~ ^darwin ]]; then
     alias mnt='mount | grep -E ^/dev | column -t'
+elif [[ "$OSTYPE" =~ ^cygwin|mingw|msys ]]; then
+    alias mnt='mount | sed "s/Program Files/Program-Files/i" | column -t'
 else
     alias mnt="mount | awk -F' ' '{ printf \"%s\t%s\n\",\$1,\$3; }' | column -t | egrep ^/dev/ | sort"
 fi
@@ -254,7 +285,6 @@ fi
 alias path='echo -e ${PATH//:/\\n}'
 
 # Update apps and packages
-#alias brewery='brew update && brew upgrade && brew cleanup'
 #alias update='brew update && brew upgrade && brew cask upgrade && brew cleanup'
 
 
@@ -262,12 +292,29 @@ alias path='echo -e ${PATH//:/\\n}'
 # -----------------------------------------------------------------------------
 
 # Open file/URL (in) Browsers
-alias browse='open'
-alias chrome='open -a Google\ Chrome'
-alias edge='open -a Microsoft\ Edge'
-alias firefox='open -a Firefox'
-alias opera='open -a Opera'
-alias safari='open -a Safari'
+if [[ "$OSTYPE" =~ ^darwin ]]; then
+    alias browse='open'
+    alias chrome='open -a Google\ Chrome'
+    alias edge='open -a Microsoft\ Edge'
+    alias firefox='open -a Firefox'
+    alias opera='open -a Opera'
+    alias safari='open -a Safari'
+elif [[ "$OSTYPE" =~ ^cygwin|mingw|msys ]]; then
+    alias browse='start'
+    alias chrome='start chrome'
+    alias edge='microsoft-edge'
+    alias iexplore='start iexplore'
+    alias firefox='start firefox'
+    alias opera='start opera'
+    #alias safari='start safari'
+else
+    alias browse='x-www-browser' #xdg-open
+    alias chrome='chromium'
+    #alias edge='microsoft-edge'
+    #alias firefox='firefox'
+    #alias opera='opera'
+    #alias safari='safari'
+fi
 
 # Enter the Starship cross-shell prompt
 if [ -n "$ZSH_VERSION" ]; then
@@ -281,8 +328,17 @@ else
 fi
 
 # Open (in) Sublime Text
-alias subl='/Applications/Sublime\ Text.app/Contents//MacOS/Sublime\ Text'
-alias st='/Applications/Sublime\ Text.app/Contents//MacOS/Sublime\ Text'
+# TODO: Add to path instead
+if [[ "$OSTYPE" =~ ^darwin ]]; then
+    alias subl='/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl'
+    alias st='/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl'
+elif [[ "$OSTYPE" =~ ^cygwin|mingw|msys ]]; then
+    alias subl='/c/Program\ Files/Sublime\ Text\ 3/subl'
+    alias st='/c/Program\ Files/Sublime\ Text\ 3/subl'
+else
+    alias subl='sublime_text'
+    alias st='sublime_text'
+fi
 
 
 # Development
@@ -291,10 +347,10 @@ alias st='/Applications/Sublime\ Text.app/Contents//MacOS/Sublime\ Text'
 # Docker
 alias dk='docker'
 alias dco='docker-compose'
-alias dwipe="docker kill $(docker ps -a -q) || docker rm $(docker ps -a -q) || docker ps -a"
-alias dockerstop='docker-compose stop'
-alias dockerup='docker-compose up -d'
-alias dockerrm='docker-compose rm --all'
+# alias dwipe="docker kill $(docker ps -a -q) || docker rm $(docker ps -a -q) || docker ps -a"
+# alias dockerstop='docker-compose stop'
+# alias dockerup='docker-compose up -d'
+# alias dockerrm='docker-compose rm --all'
 
 # Git
 alias g='git'
@@ -338,7 +394,11 @@ alias dt="cd ${HOME}/Desktop"
 
 # Go to Chezmoi's local repo
 if command -v chezmoi > /dev/null; then
-    alias chezmoiconf="cd $(chezmoi source-path)"
+    if [[ "$OSTYPE" =~ ^cygwin|mingw|msys ]]; then
+        alias chezmoiconf="cd $(echo $(chezmoi source-path) | tr '\\/' '/' | tr -d ':' | awk '{print "/"$1}')"
+    else
+        alias chezmoiconf="cd $(chezmoi source-path)"
+    fi
 else
     alias chezmoiconf="cd ${HOME}/.local/share/chezmoi"
 fi
@@ -379,14 +439,14 @@ alias mergepdf='gs -q -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -sOutputFile=_merged.p
 
 # Display detailed weather and forecast
 if command -v curl > /dev/null; then
-    alias forecast='curl --compressed --max-time 5 --url "https://wttr.in?nF"'
+    alias forecast='curl --silent --compressed --max-time 5 --url "https://wttr.in?nF"'
 else
     alias forecast='wget -qO- --compression=auto --timeout=5 "https://wttr.in?nF"'
 fi
 
 # Display current weather
 if command -v curl > /dev/null; then
-    alias weather='curl --compressed --max-time 5 --url "https://wttr.in/?format=%l:+(%C)+%c++%t+\[%h,+%w\]"'
+    alias weather='curl --silent --compressed --max-time 5 --url "https://wttr.in/?format=%l:+(%C)+%c++%t+\[%h,+%w\]"'
 else
     alias weather='wget -qO- --compression=auto --timeout=5 "https://wttr.in/?format=%l:+(%C)+%c++%t+\[%h,+%w\]"'
 fi

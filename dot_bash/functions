@@ -154,3 +154,12 @@ function update() {
         gem cleanup
     fi
 }
+
+# Applications
+# -----------------------------------------------------------------------------
+
+if [[ "$OSTYPE" =~ ^msys ]]; then
+    function microsoft-edge() {
+        start microsoft-edge:$1
+    }
+fi
