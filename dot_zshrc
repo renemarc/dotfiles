@@ -154,6 +154,11 @@ if type brew &>/dev/null; then
     FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
 fi
 
+# Chezmoi completions
+if command -v chezmoi > /dev/null; then
+    eval "$(chezmoi completion zsh)"
+fi
+
 # Node Version Manager
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
