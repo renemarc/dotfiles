@@ -1,16 +1,15 @@
-#!/bin/bash
 # -*-mode:bash-*- vim:ft=bash
 
 #
-# Bash: functions
+# ~/.bash_functions: shell functions sourced by ~/.bashrc (and ~/.zshrc).
 #
 
 # General
 # -----------------------------------------------------------------------------
 
-# Extract common file formats
-# https://github.com/xvoland/Extract
-# Syntax: "extract file1"
+# Extracts common file formats.
+# Syntax: "extract <file1>"
+# Source: https://github.com/xvoland/Extract
 # TODO extract in named folder
 function extract {
     if [ -z "$1" ]; then
@@ -54,7 +53,7 @@ function extract {
 }
 alias x=extract
 
-# Search history for a string, or list all history
+# Searches history for a string, or lists all history.
 # Syntax: "historysearch <string>"
 function history_search() {
     if [ -z "$1" ]; then
@@ -64,7 +63,7 @@ function history_search() {
     fi
 }
 
-# Search session history for a string, or list all session history
+# Searches session history for a string, or lists all session history.
 # Syntax: "historysessionsearch <string>"
 function history_session_search() {
     prefix=$(date +"$HISTTIMEFORMAT")
@@ -72,7 +71,7 @@ function history_session_search() {
     comm -23 <(history | cut -c ${offset}-) ${HISTFILE:-"~/.bash_history"} | grep "$1"
 }
 
-# Create directory and change to it
+# Creates a directory and changes to it.
 # Syntax: "mkcd <directory>"
 function mkcd() {
     if [ -z "$1" ]; then
@@ -85,7 +84,7 @@ function mkcd() {
 }
 alias take=mkcd
 
-# Repeat a command
+# Repeats a command a set number of times.
 # Syntax: "repeat <count> <command>"
 function repeat() {
     if [ -z "$1" ] || [ "$#" -lt 2 ]; then
@@ -106,7 +105,7 @@ alias r=repeat
 # Sysadmin
 # -----------------------------------------------------------------------------
 
-# Keep all apps and packages up to date
+# Keeps all apps and packages up to date.
 # Syntax: "update [all]"
 function update() {
     if command -v softwarepudate &> /dev/null; then
@@ -166,6 +165,8 @@ function update() {
 # Applications
 # -----------------------------------------------------------------------------
 
+# Opens file/URL in Microsoft Edge.
+# Syntax: "microsoft-edge <url>"
 if [[ "$OSTYPE" =~ ^(cygwin|mingw|msys) ]]; then
     function microsoft-edge() {
         start microsoft-edge:$1

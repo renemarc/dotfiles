@@ -11,12 +11,18 @@ case $- in
 esac
 
 # Load split configuration for easier maintenance
-for file in "$(dirname "$BASH_SOURCE")"/.bash/{shell,prompt,functions,extra}; do
+for file in "$(dirname "$BASH_SOURCE")"/.bash/{shell,prompt,extra}; do
     [ -r "$file" ] && source "$file";
 done;
 unset file;
 
+# Load functions definitions from separate configuration file.
+if [ -f $HOME/.bash_functions ]; then
+    . $HOME/.bash_functions
+fi
+
+
 # Load alias definitions from separate configuration file.
-if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
+if [ -f $HOME/.bash_aliases ]; then
+    . $HOME/.bash_aliases
 fi
