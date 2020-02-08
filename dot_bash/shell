@@ -4,7 +4,14 @@
 # Bash: shell options and environment variables
 # =============================================================================
 
-export PATH="/usr/local/sbin:$PATH"
+if [ -d "/usr/local/sbin" ]
+    export PATH="/usr/local/sbin:$PATH"
+fi
+
+# Remove any duplicate paths
+# export PATH="$(echo "$PATH" |/bin/awk 'BEGIN{RS=":";}
+# {sub(sprintf("%c$",10),"");if(A[$0]){}else{A[$0]=1;
+# printf(((NR==1)?"":":")$0)}}')";
 
 
 # Globbing
@@ -112,9 +119,11 @@ if command -v pipenv > /dev/null; then
 fi
 
 # Python global pip3 commands
-gpip3(){
-    PIP_REQUIRE_VIRTUALENV="0" pip3 "$@"
-}
+if command -v pip3 > /dev/null; then
+    gpip3(){
+        PIP_REQUIRE_VIRTUALENV="0" pip3 "$@"
+    }
+fi
 
 # Ruby version management
 if command -v rbenv > /dev/null; then
