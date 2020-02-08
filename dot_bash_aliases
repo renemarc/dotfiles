@@ -1,9 +1,9 @@
 # -*-mode:bash-*- vim:ft=bash
 
 #
-# ~/.bash_aliases: shell aliases sourced from ~/.bashrc.
+# ~/.bash_aliases: shell aliases sourced by ~/.bashrc (and ~/.zshrc).
 #
-# Used OSTYPE values:
+# OSTYPE values used:
 #   darwin: macOS
 #   cygwin: Cygwin POSIX compatibility layer and Linux environment emulation for Windows
 #   mingw: MinGW Minimalist GNU for Windows

@@ -1,10 +1,22 @@
 # -*-mode:bash-*- vim:ft=bash
 
 #
-# Bash: Login shell configuration
+# ~/.bash_profile: executed by bash for login shells.
+#
+# This file will be read by bash instead of any existing ~/.profile
 #
 
-# Load configuration bulk from non-login shell
-if [ -f ~/.bashrc ]; then
-   source ~/.bashrc
+# Load configuration bulk from non-login shell.
+if [ -n "$BASH_VERSION" ]; then
+    if [ -f "$HOME/.bashrc" ]; then
+        . "$HOME/.bashrc"
+    fi
+fi
+
+# Set PATH so it includes user's private bins if they exist.
+if [ -d "$HOME/bin" ] ; then
+    PATH="$HOME/bin:$PATH"
+fi
+if [ -d "$HOME/.local/bin" ] ; then
+    PATH="$HOME/.local/bin:$PATH"
 fi
