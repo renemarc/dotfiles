@@ -5,27 +5,13 @@
 # Bash: functions
 #
 
-# Search history for a string, or list all history
-# Syntax: "historysearch <string>"
-function history_search() {
-    if [ -z "$1" ]; then
-        history
-    else
-        history | grep "$1"
-    fi
-}
-
-# Search session history for a string, or list all session history
-# Syntax: "historysessionsearch <string>"
-function history_session_search() {
-    prefix=$(date +"$HISTTIMEFORMAT")
-    offset=$((8 + ${#prefix}))
-    comm -23 <(history | cut -c ${offset}-) ${HISTFILE:-"~/.bash_history"} | grep "$1"
-}
+# General
+# -----------------------------------------------------------------------------
 
 # Extract common file formats
 # https://github.com/xvoland/Extract
 # Syntax: "extract file1"
+# TODO extract in named folder
 function extract {
     if [ -z "$1" ]; then
         echo "Usage: extract <path/file_name>.<zip|rar|bz2|gz|tar|tbz2|tgz|Z|7z|xz|ex|tar.bz2|tar.gz|tar.xz>"
@@ -65,9 +51,39 @@ function extract {
         return 1
     fi
     done
-
 }
 alias x=extract
+
+# Search history for a string, or list all history
+# Syntax: "historysearch <string>"
+function history_search() {
+    if [ -z "$1" ]; then
+        history
+    else
+        history | grep "$1"
+    fi
+}
+
+# Search session history for a string, or list all session history
+# Syntax: "historysessionsearch <string>"
+function history_session_search() {
+    prefix=$(date +"$HISTTIMEFORMAT")
+    offset=$((8 + ${#prefix}))
+    comm -23 <(history | cut -c ${offset}-) ${HISTFILE:-"~/.bash_history"} | grep "$1"
+}
+
+# Create directory and change to it
+# Syntax: "mkcd <directory>"
+function mkcd() {
+    if [ -z "$1" ]; then
+        echo "Usage: mkcd <path>"
+        echo "Help: mkcd creates a directory if it doesn't exist, then changes to it."
+        return 0
+    fi
+
+    mkdir -p -- "$@" && cd -P -- "$_";
+}
+alias take=mkcd
 
 # Repeat a command
 # Syntax: "repeat <count> <command>"
@@ -86,29 +102,20 @@ function repeat() {
 }
 alias r=repeat
 
-# Create directory and change to it
-# Syntax: "mkcd <directory>"
-function mkcd() {
-    if [ -z "$1" ]; then
-        echo "Usage: mkcd <path>"
-        echo "Help: mkcd creates a directory if it doesn't exist, then changes to it."
-        return 0
-    fi
 
-    mkdir -p -- "$@" && cd -P -- "$_";
-}
-alias take=mkcd
+# Sysadmin
+# -----------------------------------------------------------------------------
 
 # Keep all apps and packages up to date
 # Syntax: "update [all]"
 function update() {
-    if command -v softwareupdate &> /dev/null; then
+    if command -v softwarepudate &> /dev/null; then
         echo 'Checking for system updates...'
         softwareupdate -l -i -a
     fi
 
     if command -v brew &> /dev/null; then
-        echo 'Updating packages with Homebrew...'
+        echo 'Updating packages with Homebrew/Linuxbrew...'
         brew update
         brew upgrade
         brew cask update
@@ -155,10 +162,11 @@ function update() {
     fi
 }
 
+
 # Applications
 # -----------------------------------------------------------------------------
 
-if [[ "$OSTYPE" =~ ^msys ]]; then
+if [[ "$OSTYPE" =~ ^cygwin|mingw|msys ]]; then
     function microsoft-edge() {
         start microsoft-edge:$1
     }
