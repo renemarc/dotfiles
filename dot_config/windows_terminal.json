@@ -50,6 +50,24 @@
                 "backgroundImage": "https://upload.wikimedia.org/wikipedia/commons/0/08/Windows_logo_-_2012_%28dark_blue%29.png"
             },
             {
+                "guid": "{00000000-0000-0000-ba54-000000000002}",
+                "hidden": false,
+                "name": "Bash (git)",
+                "commandline": "\"%PROGRAMFILES%\\git\\usr\\bin\\bash.exe\" -i -l",
+                "backgroundImage": "https://raw.githubusercontent.com/odb/official-bash-logo/master/assets/Logos/Icons/PNG/256x256_white.png",
+                "icon": "%PROGRAMFILES%\\Git\\mingw64\\share\\git\\git-for-windows.ico",
+                "startingDirectory": "%USERPROFILE%"
+            },
+            {
+                "guid": "{00000000-0000-0000-ba54-000000000001}",
+                "hidden": true,
+                "name": "Bash (scoop)",
+                "commandline": "\"%UserProfile%\\scoop\\apps\\git\\current\\usr\\bin\\bash.exe\" -i -l",
+                "backgroundImage": "https://raw.githubusercontent.com/odb/official-bash-logo/master/assets/Logos/Icons/PNG/256x256.png",
+                "icon": "ms-appx:///ProfileIcons/{0caa0dad-35be-5f56-a8ff-afceeeaa6101}.png",
+                "startingDirectory": "%USERPROFILE%"
+            },
+            {
                 "guid": "{2c4de342-38b7-51cf-b940-2309a097f518}",
                 "hidden": false,
                 "name": "Ubuntu",
