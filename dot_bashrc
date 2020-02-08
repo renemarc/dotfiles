@@ -1,11 +1,22 @@
 # -*-mode:bash-*- vim:ft=bash
 
 #
-# Bash: Non-login shell configuration
+# ~/.bashrc: executed by bash for non-login shells.
 #
 
+# If not running interactively, don't do anything
+case $- in
+    *i*) ;;
+      *) return;;
+esac
+
 # Load split configuration for easier maintenance
-for file in "$(dirname "$BASH_SOURCE")"/.bash/{shell,prompt,functions,aliases,extra}; do
+for file in "$(dirname "$BASH_SOURCE")"/.bash/{shell,prompt,functions,extra}; do
     [ -r "$file" ] && source "$file";
 done;
 unset file;
+
+# Load alias definitions from separate configuration file.
+if [ -f ~/.bash_aliases ]; then
+    . ~/.bash_aliases
+fi

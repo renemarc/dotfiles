@@ -1,11 +1,10 @@
-#!/bin/bash
 # -*-mode:bash-*- vim:ft=bash
 
 #
-# Bash: aliases
+# ~/.bash_aliases: shell aliases sourced from ~/.bashrc.
 #
 # Used OSTYPE values:
-#   Darwin: macOS
+#   darwin: macOS
 #   cygwin: Cygwin POSIX compatibility layer and Linux environment emulation for Windows
 #   mingw: MinGW Minimalist GNU for Windows
 #   msys: MinGW Lightweight shell and GNU utilities for Windows
@@ -433,7 +432,7 @@ command -v sha1sum > /dev/null || alias sha1sum='shasum'
 # find . -name .gitattributes | map dirname
 alias map="xargs -n1"
 
-# Merge PDF files, preserving hyperlinks
+# Merges PDF files, preserving hyperlinks
 # Usage: `mergepdf input{1,2,3}.pdf`
 alias mergepdf='gs -q -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -sOutputFile=_merged.pdf'
 

@@ -147,7 +147,7 @@ export LANG=en_US.UTF-8
 
 # Load cross-compatible Bash functions and aliases
 source ${HOME}/.bash/functions
-source ${HOME}/.bash/aliases
+source ${HOME}/.bash_aliases
 
 # Homebrew completions
 if type brew &>/dev/null; then
