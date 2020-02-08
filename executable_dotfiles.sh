@@ -33,7 +33,12 @@ function setup_color() {
 function import_repo() {
     repo=$1
     destination=$2
-    TMPFILE=$(mktemp /tmp/dotfiles.XXXXXXXXX_$(uuidgen).tar.gz) || exit 1
+    if [[ "$OSTYPE" =~ ^cygwin|mingw|msys ]]; then
+        uuid=$(powershell -NoProfile -Command "[guid]::NewGuid().ToString()")
+    else
+        uuid=$(uuidgen)
+    fi
+    TMPFILE=$(mktemp /tmp/dotfiles.XXXXXXXXX_${uuid}.tar.gz) || exit 1
     curl -s -L -o "$TMPFILE" "$repo" || exit 1
     chezmoi import --strip-components 1 --destination "$destination" "$TMPFILE" || exit 1
     rm -f "$TMPFILE"
