@@ -149,6 +149,11 @@ export LANG=en_US.UTF-8
 source ${HOME}/.bash/functions
 source ${HOME}/.bash/aliases
 
+# Homebrew completions
+if type brew &>/dev/null; then
+    FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
+fi
+
 # Node Version Manager
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
