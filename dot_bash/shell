@@ -58,18 +58,22 @@ export LSCOLORS=GxFxCxDxBxegedabagaced;
 # History
 # -----------------------------------------------------------------------------
 
-# Keep invalid history operation entries
+# Append to the history file, don't overwrite it.
+shopt -s histappend;
+
+# Keep invalid history operation entries.
 shopt -s histreedit;
 
-# Keep a reasonably long history
+# Ignore commands that start with spaces, and ignore consecutive duplicates.
+# This is a verbose way of saying `ignoreboth`.
+export HISTCONTROL=ignorespace:ignoredups;
+
+# Keep a reasonably long history.
 export HISTSIZE=4096;
 
 # Keep even more history lines inside the file, so we can still look up
 # previous commands without needlessly cluttering the current shell's history.
 export HISTFILESIZE=16384;
-
-# Ignore commands that start with spaces, and ignore consecutive duplicates
-export HISTCONTROL=ignorespace:ignoredups;
 
 # Keep track of the time the commands were executed.
 # The xterm colour escapes require special care when piping; e.g. "| less -R".
