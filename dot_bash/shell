@@ -4,7 +4,7 @@
 # Bash: shell options and environment variables
 # =============================================================================
 
-if [ -d "/usr/local/sbin" ]
+if [ -d "/usr/local/sbin" ]; then
     export PATH="/usr/local/sbin:$PATH"
 fi
 
@@ -83,7 +83,7 @@ export HISTTIMEFORMAT="%Y-%m-%d %H:%M:%S  ";
 # -----------------------------------------------------------------------------
 
 # Dev Desktop
-if [[ "$OSTYPE" =~ ^darwin ]]; then
+if [ -d "/Applications/DevDesktop" ]; then
     export PATH="$PATH:/Applications/DevDesktop/tools"
     export PATH="$PATH:/Applications/DevDesktop/drush_9"
 fi
