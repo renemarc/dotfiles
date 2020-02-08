@@ -166,7 +166,7 @@ function update() {
 # Applications
 # -----------------------------------------------------------------------------
 
-if [[ "$OSTYPE" =~ ^cygwin|mingw|msys ]]; then
+if [[ "$OSTYPE" =~ ^(cygwin|mingw|msys) ]]; then
     function microsoft-edge() {
         start microsoft-edge:$1
     }
