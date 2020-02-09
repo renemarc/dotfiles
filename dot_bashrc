@@ -18,23 +18,23 @@ esac
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
 
-# Case-insensitive globbing
+# Matches filenames in a case-insensitive fashion when doing filename expansion.
 shopt -s nocaseglob;
 
 # If set, the pattern "**" used in a pathname expansion context will
 # match all files and zero or more directories and subdirectories.
 #shopt -s globstar
 
-# Do not autocomplete when accidentally pressing Tab on an empty line
+# Do not autocomplete when accidentally pressing Tab on an empty line.
 shopt -s no_empty_cmd_completion;
 
-# Do not overwrite files when redirecting using ">" (override this with ">|")
+# Do not overwrite files when redirecting using ">" (override this with ">|").
 set -o noclobber;
 
 # Prefer English and use UTF-8.
 if command -v locale > /dev/null; then
     printf -v available_locales ' %s ' $(locale -a);
-    for lang in en_US en_GB en; do
+    for lang in en_US en_GB en_CA en; do
         for locale in "$lang".{UTF-8,utf8}; do
             if [[ "$available_locales" =~ " $locale " ]]; then
                 export LC_ALL="$locale";
@@ -74,25 +74,36 @@ export HISTFILESIZE=16384;
 # The xterm colour escapes require special care when piping; e.g. "| less -R".
 export HISTTIMEFORMAT="%Y-%m-%d %H:%M:%S  ";
 
-# Go up (CTRL+R) and down (CTRL+S) shell history
+# Allow going up (CTRL+R) and down (CTRL+S) shell history.
 [[ $- == *i* ]] && stty -ixon
+
+
+# Colors
+# -----------------------------------------------------------------------------
+
+# Set colors for dark Terminal themes.
+export CLICOLOR=1;
+export LSCOLORS=GxFxCxDxBxegedabagaced;
+
+# Enable color support of ls.
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+fi
+
+# Enable colored GCC warnings and errors.
+export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
 
 # Prompt
 # -----------------------------------------------------------------------------
 
-# Set variable identifying the chroot you work in (used in the prompt below).
-if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
-    debian_chroot=$(cat /etc/debian_chroot)
-fi
+# Uncomment for a colored prompt, if the terminal has the capability.
+#force_color_prompt=yes
 
 # Set a fancy prompt (non-color, unless we know we "want" color).
 case "$TERM" in
     xterm-color|*-256color) color_prompt=yes;;
 esac
-
-# Uncomment for a colored prompt, if the terminal has the capability.
-force_color_prompt=yes
 
 if [ -n "$force_color_prompt" ]; then
     if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
@@ -104,15 +115,37 @@ if [ -n "$force_color_prompt" ]; then
         color_prompt=
     fi
 fi
+unset force_color_prompt
 
-if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '   else
-    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+# Set variable identifying the chroot you work in (see default prompt below).
+if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
+    debian_chroot=$(cat /etc/debian_chroot)
 fi
-unset color_prompt force_color_prompt
+
+# Make default first prompt string informative, and optionally colorful.
+# Basic style: "user@hostname:~/current/path$ "
+# Date style: "
+#              [01 Jan, 14:00:00] user@hostname:~/current/path$ "
+if [ "$color_prompt" = yes ]; then
+    # Basic style
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+
+    # Date style
+    PS1="\n\[\033[31m\][\D{%d %b}, \t] ${debian_chroot:+($debian_chroot)}\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h:\[\033[33;1m\]\w\[\033[m\]\$ ";
+    SUDO_PS1="\n[\D{%d %b}, \t] ${debian_chroot:+($debian_chroot)}\[\e[90;01;41m\]\u@\h\[\e[0m\]:\$PWD\$ ";
+else
+    # Basic style
+    PS1="${debian_chroot:+($debian_chroot)}\u@\h:\w\$ "
+
+    # Date style
+    PS1="\n[\D{%d %b}, \t] $PS1"
+fi
 
 
-# If this is an xterm set the title to user@host:dir
+# Xterm
+# -----------------------------------------------------------------------------
+
+# If this is an xterm set the title to "user@host:dir".
 case "$TERM" in
 xterm*|rxvt*)
     PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
@@ -121,64 +154,19 @@ xterm*|rxvt*)
     ;;
 esac
 
+# Set Xterm/screen/Tmux title with only a short hostname.
+# Uncomment this (or set SHORT_HOSTNAME to something else),
+# Will otherwise fall back on $HOSTNAME.
+export SHORT_HOSTNAME=$(hostname -s)
 
-# enable color support of ls and also add handy aliases
-if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-#    alias ls='ls --color=auto'
-    #alias dir='dir --color=auto'
-    #alias vdir='vdir --color=auto'
+# Set Xterm/screen/Tmux title with only a short username.
+# Uncomment this (or set SHORT_USER to something else),
+# Will otherwise fall back on $USER.
+export SHORT_USER=${USER:0:8}
 
-#    alias grep='grep --color=auto'
-#    alias fgrep='fgrep --color=auto'
-#    alias egrep='egrep --color=auto'
-fi
-
-
-# colored GCC warnings and errors
-#export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
-
-# some more ls aliases
-#alias ll='ls -alF'
-#alias la='ls -A'
-#alias l='ls -CF'
-
-
-# Add an "alert" alias for long running commands.  Use like so:
-#   sleep 10; alert
-#alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
-
-
-# enable programmable completion features (you don't need to enable
-# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
-# sources /etc/bash.bashrc).
-if ! shopt -oq posix; then
-  if [ -f /usr/share/bash-completion/bash_completion ]; then
-    . /usr/share/bash-completion/bash_completion
-  elif [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
-  fi
-fi
-
-# enable Powerline
-# https://www.hanselman.com/blog/HowToMakeAPrettyPromptInWindowsTerminalWithPowerlineNerdFontsCascadiaCodeWSLAndOhmyposh.aspx
-# GOPATH=$HOME/go
-# function _update_ps1() {
-#     PS1="$($GOPATH/bin/powerline-go -error $?)"
-# }
-# if [ "$TERM" != "linux" ] && [ -f "$GOPATH/bin/powerline-go" ]; then
-#     PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
-# fi
-
-
-# Make prompt informative and colorful.
-# format: [01 Jan, 14:00:00] user@laptop:~/.local/share/chezmoi
-export PS1="\[\033[31m\][\D{%d %b}, \t] \[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h:\[\033[33;1m\]\w\[\033[m\]\$ ";
-export SUDO_PS1="\n[\t] \[\e[33;01;41m\]\u@\H\[\e[0m\]:\$PWD\n";
-
-# Colors for dark Terminal theme
-export CLICOLOR=1;
-export LSCOLORS=GxFxCxDxBxegedabagaced;
+# Set Xterm/screen/Tmux title with shortened command and directory.
+# Uncomment this to set.
+export SHORT_TERM_LINE=true
 
 
 # Bash-It Framework
@@ -196,6 +184,7 @@ export BASH_IT="${HOME}/.bash-it"
 if [ "$color_prompt" = yes ]; then
     export BASH_IT_THEME='agnoster'
 fi
+unset color_prompt
 
 # (Advanced): Change this to the name of your remote repo if you
 # cloned bash-it with a remote other than origin such as `bash-it`.
@@ -210,57 +199,67 @@ unset MAILCHECK
 # Change this to your console based IRC client of choice.
 #export IRC_CLIENT='irssi'
 
-# Set this to the command you use for todo.txt-cli
+# Set this to the command you use for todo.txt-cli manager.
 #export TODO="t"
 
-# Set this to false to turn off version control status checking within the prompt for all themes
-export SCM_CHECK=false
+# Set this to false to turn off version control status checking within the
+# prompt for all themes.
+export SCM_CHECK=true
 
-# Set Xterm/screen/Tmux title with only a short hostname.
-# Uncomment this (or set SHORT_HOSTNAME to something else),
-# Will otherwise fall back on $HOSTNAME.
-#export SHORT_HOSTNAME=$(hostname -s)
-
-# Set Xterm/screen/Tmux title with only a short username.
-# Uncomment this (or set SHORT_USER to something else),
-# Will otherwise fall back on $USER.
-#export SHORT_USER=${USER:0:8}
-
-# Set Xterm/screen/Tmux title with shortened command and directory.
-# Uncomment this to set.
-#export SHORT_TERM_LINE=true
-
-# Set vcprompt executable path for scm advance info in prompt (demula theme)
+# Set vcprompt executable path for scm advance info in prompt (demula theme).
 # https://github.com/djl/vcprompt
 #export VCPROMPT_EXECUTABLE=~/.vcprompt/bin/vcprompt
 
-# (Advanced): Uncomment this to make Bash-it reload itself automatically
-# after enabling or disabling aliases, plugins, and completions.
-# export BASH_IT_AUTOMATIC_RELOAD_AFTER_CONFIG_CHANGE=1
+# Make Bash-it reload itself automatically after enabling or disabling aliases,
+# plugins, and completions.
+# Uncomment this to set.
+export BASH_IT_AUTOMATIC_RELOAD_AFTER_CONFIG_CHANGE=1
 
-# Uncomment this to make Bash-it create alias reload.
+# Make Bash-it create alias reload.
+# Uncomment this to set.
 # export BASH_IT_RELOAD_LEGACY=1
 
-# Load Bash It (if installed)
+# Load Bash It (if installed).
 [ -s "${BASH_IT}/bash_it.sh" ] && \. "${BASH_IT}/bash_it.sh"
 
 
-# Development environments
+# Command-line shell completions
 # -----------------------------------------------------------------------------
 
-# Dev Desktop
-if [ -d "/Applications/DevDesktop" ]; then
-    export PATH="$PATH:/Applications/DevDesktop/tools"
-    export PATH="$PATH:/Applications/DevDesktop/drush_9"
+# Enable programmable completion features (you don't need to enable
+# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
+# sources /etc/bash.bashrc).
+if ! shopt -oq posix; then
+    if [ -f /usr/share/bash-completion/bash_completion ]; then
+        . /usr/share/bash-completion/bash_completion
+    elif [ -f /etc/bash_completion ]; then
+        . /etc/bash_completion
+    fi
 fi
 
-# Drush completions
-# . ${HOME}/.drush/drush.bashrc
+# Provide known hosts completions.
+# Source: http://surniaulula.com/2012/09/20/autocomplete-ssh-hostnames/
+_complete_hosts () {
+    COMPREPLY=()
+    cur="${COMP_WORDS[COMP_CWORD]}"
+    host_list=`{
+        for c in /etc/ssh_config /etc/ssh/ssh_config ${HOME}/.ssh/config
+            do [ -r $c ] && sed -n -e 's/^Host[[:space:]]//p' -e 's/^[[:space:]]*HostName[[:space:]]//p' $c
+        done
+        for k in /etc/ssh_known_hosts /etc/ssh/ssh_known_hosts ${HOME}/.ssh/known_hosts
+            do [ -r $k ] && egrep -v '^[#\[]' $k|cut -f 1 -d ' '|sed -e 's/[,:].*//g'
+        done
+        sed -n -e 's/^[0-9][0-9\.]*//p' /etc/hosts; }|tr ' ' '\n'|grep -v '*'`
+    COMPREPLY=( $(compgen -W "${host_list}" -- $cur))
+    return 0
+}
+for h in host ping ssh sshs telnet
+    do complete -F _complete_hosts $h
+done
+unset h
 
-# Drush prompt customizations
-# . ${HOME}/.drush/drush.prompt.sh
-
-# Homebrew completions
+# Provide Homebrew completions (if installed).
+# Link: https://docs.brew.sh/Shell-Completion
 if type brew &>/dev/null; then
     HOMEBREW_PREFIX="$(brew --prefix)"
     if [[ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]; then
@@ -270,26 +269,33 @@ if type brew &>/dev/null; then
             [[ -r "$COMPLETION" ]] && source "$COMPLETION"
         done
     fi
+    unset HOMEBREW_PREFIX COMPLETION
 fi
 
-# Chezmoi completions
+# Provide Chezmoi completions (if installed).
+# Link: https://github.com/twpayne/chezmoi/blob/master/docs/REFERENCE.md
 if command -v chezmoi > /dev/null; then
     eval "$(chezmoi completion bash)"
 fi
 
-# Node Version Manager
+
+# Development environments
+# -----------------------------------------------------------------------------
+
+
+# Enable Node Version Manager.
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
-# Node completions
+# Provide Node completions.
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
-# Python version management
+# Enable Python version management.
 if command -v pyenv > /dev/null; then
     eval "$(pyenv init -)"
 fi
 
-# Python completions
+# Provide Python completions.
 if command -v pipenv > /dev/null; then
     eval "$(pipenv --completion)"
 fi
@@ -301,46 +307,30 @@ if command -v pip3 > /dev/null; then
     }
 fi
 
-# Ruby version management
+# Load Ruby version management.
 if command -v rbenv > /dev/null; then
-    eval "$(rbenv init -)"
+   eval "$(rbenv init -)"
 fi
 
-# Ruby gems to PATH
+# Add Ruby gems to PATH.
 if command -v ruby > /dev/null && command -v gem > /dev/null; then
-    PATH="$(ruby -r rubygems -e 'puts Gem.user_dir')/bin:$PATH"
+   PATH="$(ruby -r rubygems -e 'puts Gem.user_dir')/bin:$PATH"
 fi
 
-# Hosts
-#if [[ -e ~/.ssh/known_hosts ]]; then
-#  complete -W "$(echo `cat ~/.ssh/known_hosts | cut -f 1 -d ' ' | sed -e s/,.*//g | uniq | grep -v "\["`;)" ssh
-#fi
-_complete_hosts () {
-    COMPREPLY=()
-    cur="${COMP_WORDS[COMP_CWORD]}"
-    host_list=`{
-        for c in /etc/ssh_config /etc/ssh/ssh_config ${HOME}/.ssh/config
-        do [ -r $c ] && sed -n -e 's/^Host[[:space:]]//p' -e 's/^[[:space:]]*HostName[[:space:]]//p' $c
-        done
-        for k in /etc/ssh_known_hosts /etc/ssh/ssh_known_hosts ${HOME}/.ssh/known_hosts
-        do [ -r $k ] && egrep -v '^[#\[]' $k|cut -f 1 -d ' '|sed -e 's/[,:].*//g'
-        done
-        sed -n -e 's/^[0-9][0-9\.]*//p' /etc/hosts; }|tr ' ' '\n'|grep -v '*'`
-    COMPREPLY=( $(compgen -W "${host_list}" -- $cur))
-    return 0
-}
-complete -F _complete_hosts ssh
-complete -F _complete_hosts sshs
-complete -F _complete_hosts host
-complete -F _complete_hosts telnet
-complete -F _complete_hosts ping
-
-
-# Continuous development
-# -----------------------------------------------------------------------------
-
-# Travis CI completions
+# Provide Travis CI completions.
 [ -f ${HOME}/.travis/travis.sh ] && source ${HOME}/.travis/travis.sh
+
+# Register Acquia Dev Desktop
+if [ -d "/Applications/DevDesktop" ]; then
+    export PATH="$PATH:/Applications/DevDesktop/tools"
+    export PATH="$PATH:/Applications/DevDesktop/drush_9"
+fi
+
+# Provide Drush completions.
+#[ -f ${HOME}/.drush/drush.bashrc ] && . ${HOME}/.drush/drush.bashrc
+
+# Provide Drush prompt customizations.
+#[ -f ${HOME}/.drush/drush.prompt.sh ] && . ${HOME}/.drush/drush.prompt.sh
 
 
 # Includes
@@ -362,12 +352,26 @@ if [ -f $HOME/.bash_extras ]; then
 fi
 
 
+# Finalization
+# -----------------------------------------------------------------------------
 
+# Add missing paths to PATH.
 if [ -d "/usr/local/sbin" ]; then
     export PATH="/usr/local/sbin:$PATH"
 fi
 
-# Remove any duplicate paths
-# export PATH="$(echo "$PATH" |/bin/awk 'BEGIN{RS=":";}
-# {sub(sprintf("%c$",10),"");if(A[$0]){}else{A[$0]=1;
-# printf(((NR==1)?"":":")$0)}}')";
+# Remove any duplicate paths.
+# https://stackoverflow.com/questions/11650840/remove-redundant-paths-from-path-variable
+export PATH="$(echo "$PATH" | awk 'BEGIN{RS=":";}
+{sub(sprintf("%c$",10),"");if(A[$0]){}else{A[$0]=1;
+printf(((NR==1)?"":":")$0)}}')";
+
+# Enable Powerline
+# https://www.hanselman.com/blog/HowToMakeAPrettyPromptInWindowsTerminalWithPowerlineNerdFontsCascadiaCodeWSLAndOhmyposh.aspx
+# GOPATH=$HOME/go
+# function _update_ps1() {
+#     PS1="$($GOPATH/bin/powerline-go -error $?)"
+# }
+# if [ "$TERM" != "linux" ] && [ -f "$GOPATH/bin/powerline-go" ]; then
+#     PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
+# fi
