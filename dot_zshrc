@@ -1,18 +1,22 @@
 # -*-mode:shell-script-*- vim:ft=shell-script
 
-# Hide default user from local prompt
+#
+# ~/.zshrc: executed by zsh.
+# =============================================================================
+
+# Hide default user from local prompt.
 export DEFAULT_USER="${USER}"
 
 # Disable autosuggestion for large buffers.
 export ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE="20"
 
-# Enable aynchronous mode
+# Enable aynchronous mode.
 export ZSH_AUTOSUGGEST_USE_ASYNC=true
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
-# Path to your oh-my-zsh installation.
+# Set path to your oh-my-zsh installation.
 export ZSH="${HOME}/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
@@ -30,7 +34,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
 
 # Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
+CASE_SENSITIVE="true"
 
 # Uncomment the following line to use hyphen-insensitive completion.
 # Case-sensitive completion must be off. _ and - will be interchangeable.
@@ -71,7 +75,7 @@ COMPLETION_WAITING_DOTS="true"
 # "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
 # or set a custom format using the strftime function format specifications,
 # see 'man strftime' for details.
-# HIST_STAMPS="mm/dd/yyyy"
+HIST_STAMPS="yyyy-mm-dd"
 
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
@@ -109,15 +113,17 @@ fi
 
 # Load theme Powerlevel10K
 if test "${ZSH_THEME#*powerlevel10k}" != "$ZSH_THEME"; then
-    [ -f $HOME/.p10k.zsh ] && source $HOME/.p10k.zsh
+    [ -f $HOME/.p10k.zsh ] && \. $HOME/.p10k.zsh
 fi
 
 # Load Oh My Zsh
-source $ZSH/oh-my-zsh.sh
+. $ZSH/oh-my-zsh.sh
 
 # User configuration
 
-# export MANPATH="/usr/local/man:$MANPATH"
+if [ -d /usr/local/man ]; then
+    export MANPATH="/usr/local/man:$MANPATH"
+fi
 
 # You may need to manually set your language environment
 export LANG=en_US.UTF-8
@@ -145,47 +151,64 @@ export LANG=en_US.UTF-8
 ## Custom
 ##
 
-# Load cross-compatible Bash functions and aliases
-if [ -f $HOME/.bash_functions ]; then
-    . $HOME/.bash_functions
-fi
-if [ -f $HOME/.bash_aliases ]; then
-    . $HOME/.bash_aliases
-fi
+# Command-line shell completions
+# -----------------------------------------------------------------------------
 
-
-# Homebrew completions
-if type brew &>/dev/null; then
+# Provide Homebrew completions (if installed).
+# See https://docs.brew.sh/Shell-Completion
+if type brew &> /dev/null; then
     FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
 fi
 
-# Chezmoi completions
+# Provide Chezmoi completions (if installed).
+# See https://github.com/twpayne/chezmoi/blob/master/docs/REFERENCE.md
 if command -v chezmoi > /dev/null; then
     eval "$(chezmoi completion zsh)"
 fi
 
-# Node Version Manager
+
+# Development environments
+# -----------------------------------------------------------------------------
+
+# Enable Node Version Manager.
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
-# Node completions
+# Provide Node completions.
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
-# Python version management
+# Enable Python version management.
 if command -v pyenv > /dev/null; then
     eval "$(pyenv init -)"
 fi
 
-# Ruby version management
+# Load Ruby version management.
 if command -v rbenv > /dev/null; then
     eval "$(rbenv init -)"
 fi
 
-# Ruby gems to PATH
-if which ruby >/dev/null && which gem >/dev/null; then
+# Add Ruby gems to PATH.
+if command -v ruby > /dev/null && command -v gem > /dev/null; then
     PATH="$(ruby -r rubygems -e 'puts Gem.user_dir')/bin:$PATH"
 fi
 
-# Travis CI completions
-[ -f ~/.travis/travis.sh ] && source ~/.travis/travis.sh
+# Provide Travis CI completions.
+[ -f ${HOME}/.travis/travis.sh ] && \. ${HOME}/.travis/travis.sh
 
+# Includes
+# -----------------------------------------------------------------------------
+
+# Load cross-compatible Bash functions declarations from separate file.
+if [ -f $HOME/.bash_functions ]; then
+    \. $HOME/.bash_functions
+fi
+
+# Load cross-compatible Bash alias definitions from separate file.
+if [ -f $HOME/.bash_aliases ]; then
+    \. $HOME/.bash_aliases
+fi
+
+# Load cross-compatible Bash custom code from separate file.
+if [ -f $HOME/.bash_extras ]; then
+    \. $HOME/.bash_extras
+fi
