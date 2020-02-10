@@ -172,3 +172,14 @@ if [[ "$OSTYPE" =~ ^(cygwin|mingw|msys) ]]; then
         start microsoft-edge:$1
     }
 fi
+
+
+# Development
+# -----------------------------------------------------------------------------
+
+# Calls Python's pip3 at the global level.
+if command -v pip3 > /dev/null; then
+    function gpip3() {
+        PIP_REQUIRE_VIRTUALENV="0" pip3 "$@"
+    }
+fi

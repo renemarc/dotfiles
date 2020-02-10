@@ -34,10 +34,12 @@ alias egrep='egrep --color=auto'
 alias fgrep='fgrep --color=auto'
 
 # Colorize listings
-if ls --color > /dev/null 2>&1; then # GNU `ls`
+if ls --color &> /dev/null; then
+    # GNU `ls`
     colorflag="--color=auto"
     export LS_COLORS='no=00:fi=00:di=01;31:ln=01;36:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arj=01;31:*.taz=01;31:*.lzh=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.gz=01;31:*.bz2=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.avi=01;35:*.fli=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.ogg=01;35:*.mp3=01;35:*.wav=01;35:'
-else # macOS `ls`
+else
+    # macOS `ls`
     colorflag="-G"
     export LSCOLORS='BxBxhxDxfxhxhxhxhxcxcx'
 fi
@@ -152,9 +154,9 @@ alias reload="exec ${SHELL} -l"
 
 # Reload configuration
 if [ -n "$ZSH_VERSION" ]; then
-    alias resource="source ${HOME}/.zshrc"
+    alias resource=". ${HOME}/.zshrc"
 else
-    alias resource="source ${HOME}/.bash_profile"
+    alias resource=". ${HOME}/.bash_profile"
 fi
 
 
@@ -239,15 +241,14 @@ if [[ "$OSTYPE" =~ ^darwin ]]; then
     alias lock='pmset displaysleepnow'
 elif [[ "$OSTYPE" =~ ^(cygwin|mingw|msys) ]]; then
     alias lock='rundll32.exe user32.dll,LockWorkStation'
-elif command -v vlock &> /dev/nul; then
+elif command -v vlock &> /dev/null; then
     alias lock='vlock --all'
-elif command -v gnome-screensaver-command &> /dev/nul; then
+elif command -v gnome-screensaver-command &> /dev/null; then
     alias lock='gnome-screensaver-command --lock'
 fi
 
 # Hibernate the system
 if [[ "$OSTYPE" =~ ^darwin ]]; then
-    # alias sleep="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
     alias hibernate="pmset sleep now"
 elif [[ "$OSTYPE" =~ ^(cygwin|mingw|msys) ]]; then
     alias hibernate="shutdown.exe /h"
@@ -361,7 +362,7 @@ alias dco='docker-compose'
 alias g='git'
 
 # Python: activate virtual environment venv
-alias va='source ./venv/bin/activate'
+alias va='\. ./venv/bin/activate'
 
 # Python: create virtual environment venv
 alias ve='python3 -m venv ./venv'
@@ -462,6 +463,11 @@ fi
 #alias j='jobs -l'
 
 #alias plistbuddy='/usr/libexec/PlistBuddy'
+
+# Add an "alert" alias for long running commands.  Use like so:
+#   sleep 10; alert
+#alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+
 
 # URL-encode strings
 #alias urldecode='perl -pe "s/\%(\w\w)/chr hex $1/ge"'
