@@ -1,10 +1,11 @@
-# -*-mode:gotpl-*- vim:ft=gotpl
+# -*-mode:gitignore-*- vim:ft=gitignore
 
+# ~/.local/share/chezmoi/.chezmoiignore
+# =============================================================================
+# Read by chezmoi when chosing repository files to copy to home.
 #
-# Chezmoi ignore list
-#
-# This file supports Go's text/template language.
-#
+# This list defines globs to ignore, and supports Go's text/template language.
+# See https://www.chezmoi.io/docs/reference/#chezmoiignore
 
 *.gz
 README.md

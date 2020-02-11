@@ -1,8 +1,11 @@
 # -*-mode:gitignore-*- vim:ft=gitignore
 
+# ~/.hgignore_global
+# =============================================================================
+# Mercurial exclusion list, read on every status check.
 #
-# Mercurial ignore list
-#
+# This list defines global exclusions to all local repositories.
+# See https://www.mercurial-scm.org/wiki/.hgignore
 
 syntax: glob
 

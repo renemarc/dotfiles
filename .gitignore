@@ -1,8 +1,13 @@
+# -*-mode:gitignore-*- vim:ft=gitignore
+
+# ~/.local/share/chezmoi/.gitignore
+# =============================================================================
+# Read by Git on every status check.
 #
-# Git ignore list (repo)
-#
+# This list defines repository-specific exclusions.
+# See https://git-scm.com/docs/gitignore
 
 *.gz
 dot_bash-it
+dot_config/powershell/Modules
 dot_oh-my-zsh
-PowerShell/Modules

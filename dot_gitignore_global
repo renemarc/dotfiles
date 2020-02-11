@@ -1,8 +1,11 @@
 # -*-mode:gitignore-*- vim:ft=gitignore
 
+# ~/.gitignore_global
+# =============================================================================
+# Git exclusion list, read on every status check.
 #
-# Git ignore list
-#
+# This list defines global exclusions to all local repositories.
+# See https://git-scm.com/docs/gitignore
 
 *~
 .DS_Store
