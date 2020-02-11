@@ -1,8 +1,12 @@
 #
-# PowerShell profile: functions
+# ~/.config/powershell/functions.ps1: PowerShell functions sourced by ./profile.ps1
+#
+# On Windows, this file will also be found under:
+#   - %USERPROFILE%\Documents\PowerShell
+#   - %USERPROFILE%\Documents\WindowsPowerShell
 #
 
-# Create missing $IsWindows if running Powershell 5 or below
+# Create missing $IsWindows if running Powershell 5 or below.
 if (!(Test-Path variable:global:IsWindows)) {
     Set-Variable "IsWindows" -Scope "Global" -Value ([System.Environment]::OSVersion.Platform -eq "Win32NT")
 }
@@ -315,8 +319,8 @@ function Get-ChildItemVisible {
         $Params
     )
 
-    # https://stackoverflow.com/a/33302472
     begin {
+        # https://stackoverflow.com/a/33302472
         $hashtable = @{}
         if ($Params) {
             $Params | ForEach-Object {
@@ -480,7 +484,7 @@ function Get-ChildItemHidden {
 function Copy-ItemSecure {
     <#
     .SYNOPSIS
-        Makes an exact copy of files
+        Makes an exact copy of files.
     .DESCRIPTION
         Creates a copy of source files onto a local or network destination.
     .PARAMETER Source
@@ -491,15 +495,15 @@ function Copy-ItemSecure {
     .PARAMETER Flags
         Extra ROBOCOPY parameters.
     .EXAMPLE
-       Copy-Item-Secure file.txt .\Destination\
+        Copy-Item-Secure file.txt .\Destination\
     .EXAMPLE
-       Copy-Item-Secure .\Source\*.zip .\Destination\
+        Copy-Item-Secure .\Source\*.zip .\Destination\
     .EXAMPLE
-       Copy-Item-Secure file.txt .\Destination\ /TIMFIX
+        Copy-Item-Secure file.txt .\Destination\ /TIMFIX
     .INPUTS
-       System.Object
+        System.Object
     .OUTPUTS
-       None
+        None
     #>
     [CmdletBinding()]
     param(
@@ -554,7 +558,7 @@ function Find-File {
 function Copy-ItemMirror {
     <#
     .SYNOPSIS
-        Makes an exact copy of files and folders
+        Makes an exact copy of files and folders.
     .DESCRIPTION
         Creates a mirror of a source directory onto a local or network
         destination. Files currently existing at destination but not present
@@ -682,7 +686,7 @@ function Search-HistorySession {
 function New-ItemSetLocation {
     <#
     .SYNOPSIS
-        Makes a directory and changes to it
+        Makes a directory and changes to it.
     .DESCRIPTION
         Creates a directory (if it doesn't already exist) and navigates to it.
     .PARAMETER Path
@@ -736,11 +740,11 @@ function Invoke-RepeatCommand {
     .PARAMETER Command
         The command to run. Can include spaces and arguments.
     .EXAMPLE
-       Repeat-Command 5 echo hello world
+        Repeat-Command 5 echo hello world
     .INPUTS
-       System.String
+        System.String
     .OUTPUTS
-       None
+        None
     #>
     [CmdletBinding()]
     param(
@@ -920,9 +924,19 @@ function Get-Weekday {
 # Networking
 # -----------------------------------------------------------------------------
 
-# Ping 100 times without waiting 1 second between ECHO_REQUEST packets
-#TODO: implement
-#alias fastping='ping -c 100 -s.2'
+#TODO: re-connect this erased function.
+function Invoke-FastPingSimple {
+    <#
+    .SYNOPSIS
+        Pings hostname(s) 30 times in quick succession.
+    .INPUTS
+        None
+    .OUTPUTS
+        System.String
+    #>
+    [CmdletBinding()]
+    param()
+}
 
 function Clear-DNSCache {
     <#
@@ -1385,7 +1399,7 @@ function Get-Path {
 function Update-Packages {
     <#
     .SYNOPSIS
-        Keeps all apps and packages up to date
+        Keeps all apps and packages up to date.
     .DESCRIPTION
         Looks for updates for system modules and help, then proceeds to
         updating any packages by these optional managers: Chocolatey, Choco,
@@ -1657,7 +1671,7 @@ function Start-SublimeText {
 function Invoke-Docker {
     <#
     .SYNOPSIS
-        Passthrough to the `docker` command
+        Passthrough to the `docker` command.
     .DESCRIPTION
         Calls the `docker` command and passes it any supplied arguments.
     .INPUTS
@@ -1674,7 +1688,7 @@ function Invoke-Docker {
 function Invoke-DockerCompose {
     <#
     .SYNOPSIS
-        Passthrough to the `docker-compose` command
+        Passthrough to the `docker-compose` command.
     .DESCRIPTION
         Calls the `docker-compose` command and passes it any supplied arguments.
     .INPUTS
@@ -1691,7 +1705,7 @@ function Invoke-DockerCompose {
 function Invoke-Git {
     <#
     .SYNOPSIS
-        Passthrough to the `git` command
+        Passthrough to the `git` command.
     .DESCRIPTION
         Calls the `git` command and passes it any supplied arguments.
     .INPUTS
@@ -2177,7 +2191,7 @@ function Set-LocationCode {
 function Get-Weather {
     <#
     .SYNOPSIS
-        Display the current weather and forecast
+        Display the current weather and forecast.
     .DESCRIPTION
         Fetches the weather information from https://wttr.in for terminal
         display.

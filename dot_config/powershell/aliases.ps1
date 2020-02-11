@@ -1,8 +1,15 @@
 #
-# PowerShell profile: aliases
+# ~/.config/powershell/aliases.ps1: PowerShell aliases sourced by ./profile.ps1
+#
+# On Windows, this file will also be found under:
+#   - %USERPROFILE%\Documents\PowerShell
+#   - %USERPROFILE%\Documents\WindowsPowerShell
+#
+# Since PowerShell does not allow aliases to contain parameters, most of the
+# logic is wrapped in ./functions.ps1
 #
 
-# Create missing $IsWindows if running Powershell 5 or below
+# Create missing $IsWindows if running Powershell 5 or below.
 if (!(Test-Path variable:global:IsWindows)) {
     Set-Variable "IsWindows" -Scope "Global" -Value ([System.Environment]::OSVersion.Platform -eq "Win32NT")
 }
@@ -11,71 +18,71 @@ if (!(Test-Path variable:global:IsWindows)) {
 # Easier navigation
 # -----------------------------------------------------------------------------
 
-Set-Alias -Name "~" -Value Set-LocationHome -Description "Goes to user home directory"
+Set-Alias -Name "~" -Value Set-LocationHome -Description "Goes to user home directory."
 
-Set-Alias -Name "cd-" -Value Set-LocationLast -Description "Goes to last used directory"
+Set-Alias -Name "cd-" -Value Set-LocationLast -Description "Goes to last used directory."
 
-Set-Alias -Name ".." -Value Set-LocationUp -Description "Goes up a directory"
+Set-Alias -Name ".." -Value Set-LocationUp -Description "Goes up a directory."
 
-Set-Alias -Name "..." -Value Set-LocationUp2 -Description "Goes up two directories"
+Set-Alias -Name "..." -Value Set-LocationUp2 -Description "Goes up two directories."
 
-Set-Alias -Name "...." -Value Set-LocationUp3 -Description "Goes up three directories"
+Set-Alias -Name "...." -Value Set-LocationUp3 -Description "Goes up three directories."
 
-Set-Alias -Name "....." -Value Set-LocationUp4 -Description "Goes up four directories"
+Set-Alias -Name "....." -Value Set-LocationUp4 -Description "Goes up four directories."
 
-Set-Alias -Name "......" -Value Set-LocationUp5 -Description "Goes up five directories"
+Set-Alias -Name "......" -Value Set-LocationUp5 -Description "Goes up five directories."
 
 
 # Directory browsing
 # -----------------------------------------------------------------------------
 
 if (!(Get-Command "ls" -ErrorAction "Ignore")) {
-    Set-Alias -Name "ls" -Value Get-ChildItemSimple -Description "Lists visible files in wide format"
+    Set-Alias -Name "ls" -Value Get-ChildItemSimple -Description "Lists visible files in wide format."
 }
 
-Set-Alias -Name "l" -Value Get-ChildItemVisible -Description "Lists visible files in long format"
+Set-Alias -Name "l" -Value Get-ChildItemVisible -Description "Lists visible files in long format."
 
-Set-Alias -Name "ll" -Value Get-ChildItemAll -Description "Lists all files in long format"
+Set-Alias -Name "ll" -Value Get-ChildItemAll -Description "Lists all files in long format."
 
-Set-Alias -Name "lsd" -Value Get-ChildItemDirectory -Description "Lists only directories in long format"
+Set-Alias -Name "lsd" -Value Get-ChildItemDirectory -Description "Lists only directories in long format."
 
-Set-Alias -Name "lsh" -Value Get-ChildItemHidden -Description "Lists only hidden files in long format"
+Set-Alias -Name "lsh" -Value Get-ChildItemHidden -Description "Lists only hidden files in long format."
 
 
 # File management
 # -----------------------------------------------------------------------------
 
-Set-Alias -Name "cpv" -Value Copy-ItemSecure -Description "Makes an exact copy of files"
+Set-Alias -Name "cpv" -Value Copy-ItemSecure -Description "Makes an exact copy of files."
 
-Set-Alias -Name "fd" -Value Find-Directory -Description "Finds directories"
+Set-Alias -Name "fd" -Value Find-Directory -Description "Finds directories."
 
-Set-Alias -Name "ff" -Value Find-File -Description "Finds files"
+Set-Alias -Name "ff" -Value Find-File -Description "Finds files."
 
-Set-Alias -Name "mirror" -Value Copy-ItemMirror -Description "Makes an exact copy of files and folders"
+Set-Alias -Name "mirror" -Value Copy-ItemMirror -Description "Makes an exact copy of files and folders."
 
 if (!(Get-Command "touch" -ErrorAction "Ignore")) {
-    Set-Alias -Name "touch" -Value New-ItemEmpty -Description "Creates an empty file or updates its timestamp"
+    Set-Alias -Name "touch" -Value New-ItemEmpty -Description "Creates an empty file or updates its timestamp."
 }
 
 
 # General
 # -----------------------------------------------------------------------------
 
-Set-Alias -Name "alias" -Value Get-Aliases -Description "Lists aliases"
+Set-Alias -Name "alias" -Value Get-Aliases -Description "Lists aliases."
 
-Set-Alias -Name "c" -Value Clear-Host -Description "Clears screen"
+Set-Alias -Name "c" -Value Clear-Host -Description "Clears screen."
 
 if (Test-Path alias:h) {
     Remove-Item alias:h
 }
-Set-Alias -Name "h" -Value "Search-History" -Description "Displays/Searches global history"
+Set-Alias -Name "h" -Value "Search-History" -Description "Displays/Searches global history."
 
-Set-Alias -Name "hs" -Value "Search-HistorySession" -Description "Displays/Searches session history"
+Set-Alias -Name "hs" -Value "Search-HistorySession" -Description "Displays/Searches session history."
 
-Set-Alias -Name "mkcd" -Value New-ItemSetLocation -Description "Makes a directory and change to it"
-Set-Alias -Name "take" -Value New-ItemSetLocation -Description "Makes a directory and change to it"
+Set-Alias -Name "mkcd" -Value New-ItemSetLocation -Description "Makes a directory and change to it."
+Set-Alias -Name "take" -Value New-ItemSetLocation -Description "Makes a directory and change to it."
 
-Set-Alias -Name "repeat" -Value Invoke-RepeatCommand -Description "Repeats a command x times"
+Set-Alias -Name "repeat" -Value Invoke-RepeatCommand -Description "Repeats a command x times."
 
 #Set-Alias -Name "reload" -Value Start-Shell
 
@@ -85,23 +92,23 @@ Set-Alias -Name "repeat" -Value Invoke-RepeatCommand -Description "Repeats a com
 # Time
 # -----------------------------------------------------------------------------
 
-Set-Alias -Name "now" -Value Get-DateExtended -Description "Displays local date and time in ISO-8601 format YYYY-MM-DDThh:mm:ss"
+Set-Alias -Name "now" -Value Get-DateExtended -Description "Displays local date and time in ISO-8601 format YYYY-MM-DDThh:mm:ss."
 
-Set-Alias -Name "unow" -Value Get-DateExtendedUTC -Description "Displays UTC date and time in ISO-8601 format YYYY-MM-DDThh:mm:ss"
+Set-Alias -Name "unow" -Value Get-DateExtendedUTC -Description "Displays UTC date and time in ISO-8601 format YYYY-MM-DDThh:mm:ss."
 
-Set-Alias -Name "nowdate" -Value Get-CalendarDate -Description "Displays local date in YYYY-MM-DD format"
+Set-Alias -Name "nowdate" -Value Get-CalendarDate -Description "Displays local date in YYYY-MM-DD format."
 
-Set-Alias -Name "unowdate" -Value Get-CalendarDateUTC -Description "Displays UTC date in YYYY-MM-DD format"
+Set-Alias -Name "unowdate" -Value Get-CalendarDateUTC -Description "Displays UTC date in YYYY-MM-DD format."
 
-Set-Alias -Name "nowtime" -Value Get-Time -Description "Displays local time in hh:mm:ss format"
+Set-Alias -Name "nowtime" -Value Get-Time -Description "Displays local time in hh:mm:ss format."
 
-Set-Alias -Name "unowtime" -Value Get-TimeUTC -Description "Displays UTC time in hh:mm:ss format"
+Set-Alias -Name "unowtime" -Value Get-TimeUTC -Description "Displays UTC time in hh:mm:ss format."
 
-Set-Alias -Name "timestamp" -Value Get-Timestamp -Description "Displays Unix time stamp"
+Set-Alias -Name "timestamp" -Value Get-Timestamp -Description "Displays Unix time stamp."
 
-Set-Alias -Name "week" -Value Get-WeekDate -Description "Displays week number in ISO-9601 format YYYY-Www"
+Set-Alias -Name "week" -Value Get-WeekDate -Description "Displays week number in ISO-9601 format YYYY-Www."
 
-Set-Alias -Name "weekday" -Value Get-Weekday -Description "Displays weekday number"
+Set-Alias -Name "weekday" -Value Get-Weekday -Description "Displays weekday number."
 
 
 # Networking
@@ -110,51 +117,51 @@ Set-Alias -Name "weekday" -Value Get-Weekday -Description "Displays weekday numb
 if (Test-Path alias:fastping) {
     Remove-Item alias:fastping
 }
-Set-Alias -Name "fastping" -Value Invoke-FastPingSimple -Description "Pings hostname(s) 30 times in quick succession"
+Set-Alias -Name "fastping" -Value Invoke-FastPingSimple -Description "Pings hostname(s) 30 times in quick succession."
 
-Set-Alias -Name "flushdns" -Value Clear-DNSCache -Description "Flushes the DNS cache"
+Set-Alias -Name "flushdns" -Value Clear-DNSCache -Description "Flushes the DNS cache."
 
-Set-Alias -Name "ip" -Value Get-IP -Description "Gets external IP address"
+Set-Alias -Name "ip" -Value Get-IP -Description "Gets external IP address."
 
-Set-Alias -Name "ips" -Value Get-IPS -Description "Gets all IP addresses"
+Set-Alias -Name "ips" -Value Get-IPS -Description "Gets all IP addresses."
 
-Set-Alias -Name "localip" -Value Get-LocalIP -Description "Gets local IP address"
+Set-Alias -Name "localip" -Value Get-LocalIP -Description "Gets local IP address."
 
-Set-Alias -Name "GET" -Value Invoke-RestMethodGet -Description "Sends a GET http request"
+Set-Alias -Name "GET" -Value Invoke-RestMethodGet -Description "Sends a GET http request."
 
-Set-Alias -Name "HEAD" -Value Invoke-RestMethodHead -Description "Sends a HEAD http request"
+Set-Alias -Name "HEAD" -Value Invoke-RestMethodHead -Description "Sends a HEAD http request."
 
-Set-Alias -Name "POST" -Value Invoke-RestMethodPost -Description "Sends a POST http request"
+Set-Alias -Name "POST" -Value Invoke-RestMethodPost -Description "Sends a POST http request."
 
-Set-Alias -Name "PUT" -Value Invoke-RestMethodPut -Description "Sends a PUT http request"
+Set-Alias -Name "PUT" -Value Invoke-RestMethodPut -Description "Sends a PUT http request."
 
-Set-Alias -Name "DELETE" -Value Invoke-RestMethodDelete -Description "Sends a DELETE http request"
+Set-Alias -Name "DELETE" -Value Invoke-RestMethodDelete -Description "Sends a DELETE http request."
 
-Set-Alias -Name "TRACE" -Value Invoke-RestMethodTrace -Description "Sends a TRACE http request"
+Set-Alias -Name "TRACE" -Value Invoke-RestMethodTrace -Description "Sends a TRACE http request."
 
-Set-Alias -Name "OPTIONS" -Value Invoke-RestMethodOptions -Description "Sends an OPTIONS http request"
+Set-Alias -Name "OPTIONS" -Value Invoke-RestMethodOptions -Description "Sends an OPTIONS http request."
 
 
 # Power management
 # -----------------------------------------------------------------------------
 
-Set-Alias -Name "lock" -Value Invoke-Lock -Description "Locks the session"
+Set-Alias -Name "lock" -Value Invoke-Lock -Description "Locks the session."
 
-Set-Alias -Name "hibernate" -Value Invoke-Hibernate -Description "Goes to sleep"
+Set-Alias -Name "hibernate" -Value Invoke-Hibernate -Description "Goes to sleep."
 
-Set-Alias -Name "reboot" -Value Invoke-Restart -Description "Restarts the system"
+Set-Alias -Name "reboot" -Value Invoke-Restart -Description "Restarts the system."
 
-Set-Alias -Name "poweroff" -Value Invoke-PowerOff -Description "Shuts down the system"
+Set-Alias -Name "poweroff" -Value Invoke-PowerOff -Description "Shuts down the system."
 
 
 # Sysadmin
 # -----------------------------------------------------------------------------
 
-Set-Alias -Name "mnt" -Value Get-Mounts -Description "Lists drive mounts"
+Set-Alias -Name "mnt" -Value Get-Mounts -Description "Lists drive mounts."
 
-Set-Alias -Name "path" -Value Get-Path -Description "Prints each PATH entry on a separate line"
+Set-Alias -Name "path" -Value Get-Path -Description "Prints each PATH entry on a separate line."
 
-Set-Alias -Name "update" -Value Update-Packages -Description "Keeps all apps and packages up to date"
+Set-Alias -Name "update" -Value Update-Packages -Description "Keeps all apps and packages up to date."
 
 if (!(Get-Command "which" -ErrorAction "Ignore")) {
     Set-Alias -Name "which" -Value Search-Command -Description "Locates a command."
@@ -163,24 +170,24 @@ if (!(Get-Command "which" -ErrorAction "Ignore")) {
 # Applications
 # -----------------------------------------------------------------------------
 
-Set-Alias -Name "browse" -Value Start-Browser -Description "Opens file/URL in default browsers"
+Set-Alias -Name "browse" -Value Start-Browser -Description "Opens file/URL in default browsers."
 
-Set-Alias -Name "chrome" -Value Start-Chrome -Description "Opens in Google Chrome"
+Set-Alias -Name "chrome" -Value Start-Chrome -Description "Opens in Google Chrome."
 
-Set-Alias -Name "edge" -Value Start-Edge -Description "Opens in Microsoft Edge"
+Set-Alias -Name "edge" -Value Start-Edge -Description "Opens in Microsoft Edge."
 
-Set-Alias -Name "firefox" -Value Start-Firefox -Description "Opens in Mozilla Firefox"
+Set-Alias -Name "firefox" -Value Start-Firefox -Description "Opens in Mozilla Firefox."
 
-Set-Alias -Name "iexplore" -Value Start-InternetExplorer -Description "Opens in Internet Explorer"
+Set-Alias -Name "iexplore" -Value Start-InternetExplorer -Description "Opens in Internet Explorer."
 
-Set-Alias -Name "opera" -Value Start-Opera -Description "Opens in Opera"
+Set-Alias -Name "opera" -Value Start-Opera -Description "Opens in Opera."
 
-Set-Alias -Name "safari" -Value Start-Safari -Description "Opens in Safari"
+Set-Alias -Name "safari" -Value Start-Safari -Description "Opens in Safari."
 
-Set-Alias -Name "ss" -Value Enter-Starship -Description "Enters the Starship cross-shell prompt"
+Set-Alias -Name "ss" -Value Enter-Starship -Description "Enters the Starship cross-shell prompt."
 
-Set-Alias -Name "subl" -Value Start-SublimeText -Description "Opens in Sublime Text"
-Set-Alias -Name "st" -Value Start-SublimeText -Description "Opens in Sublime Text"
+Set-Alias -Name "subl" -Value Start-SublimeText -Description "Opens in Sublime Text."
+Set-Alias -Name "st" -Value Start-SublimeText -Description "Opens in Sublime Text."
 
 
 # Development

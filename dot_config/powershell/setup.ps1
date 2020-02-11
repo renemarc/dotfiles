@@ -1,11 +1,20 @@
 #
-# PowerShell Windows configuration script
+# ~/.config/powershell/setup.ps1: manually run to install PowerShell dependencies.
+#
+# On Windows, this file will also be found under:
+#   - %USERPROFILE%\Documents\PowerShell
+#   - %USERPROFILE%\Documents\WindowsPowerShell
+#
+# Use this to download and install all the requirements that improve the prompt.
+#
+# TODO: Convert this to dotfiles.ps1
 #
 
-# Changing system properties requires to be running Powershell as an admin
+# Requires that PowerShell be running with elevated privileges to be able to
+# change system properties.
 #Disabled Requires -RunAsAdministrator
 
-# Create missing $IsWindows if running Powershell 5 or below
+# Create missing $IsWindows if running Powershell 5 or below.
 if (!(Test-Path variable:global:IsWindows)) {
     Set-Variable "IsWindows" -Scope "Global" -Value ([System.Environment]::OSVersion.Platform -eq "Win32NT")
 }
@@ -15,8 +24,15 @@ if ($null -eq (Get-Variable "ColorInfo" -ErrorAction "Ignore")) {
 }
 Set-Variable -Name count -Value 0 -Scope Script
 
-# Terminates the script and counts the actions taken
 function eos {
+    <#
+    .SYNOPSIS
+        Terminates the script and counts the actions taken.
+    .INPUTS
+        None
+    .OUTPUTS
+        None
+    #>
     if ($count) {
         Write-Host "Done! $count modification(s) applied." -ForegroundColor $ColorInfo
     }
@@ -26,7 +42,7 @@ function eos {
     Remove-Variable -Name count -Scope Script
 }
 
-# Are you sure?
+# Ask for confirmation.
 $hereString = "
     This script will perform the following non-destructive adjustements to the system (if required):
         - Install package provider NuGet
@@ -49,8 +65,8 @@ Remove-Variable -Name ("confirmation", "hereString")
 # Dependencies
 #
 
-# Install NuGet package manager required to install WSL Interop and eventual others
-# https://www.nuget.org/
+# Install NuGet package manager required to install WSL Interop and others.
+# See https://www.nuget.org/
 if (Get-PackageProvider -ListAvailable -Name NuGet -ErrorAction "Ignore") {
     Write-Host "NuGet already installed, skipping." -ForegroundColor $ColorInfo
 }
@@ -62,7 +78,7 @@ else {
 
 $AllowPrerelease = ($null -ne (Get-Command Install-Module -Syntax | Select-String "AllowPrerelease"))
 
-# Install or update Powershell modules
+# Install or update Powershell modules.
 $modules = @{
     "WslInterop" = @{
         Info = "Linux commands import";
@@ -125,7 +141,6 @@ $modules = @{
         SkipPublisherCheck = $false;
     };
 }
-
 foreach ($m in ($modules.GetEnumerator() | Sort-Object -Property name)) {
     $name = $m.Name
     $info = $m.Value.Info
@@ -153,8 +168,8 @@ foreach ($m in ($modules.GetEnumerator() | Sort-Object -Property name)) {
     Remove-Variable -Name ("name", "info")
 }
 
-# Setup scoop
-# https://github.com/lukesampson/scoop
+# Setup Scoop.
+# See https://github.com/lukesampson/scoop
 if ($IsWindows) {
     if (!(Get-Command "scoop" -ErrorAction "Ignore")) {
         Invoke-Expression (New-Object System.Net.WebClient).DoanloadString('https://get.scoop.sh')
@@ -164,7 +179,7 @@ if ($IsWindows) {
         Get-Command -Name scoop -ErrorAction Stop
         Invoke-Command -ScriptBlock { scoop checkup }
 
-        # Install any missing bucket
+        # Install any missing bucket.
         $bucketList = Invoke-Command -ScriptBlock { scoop bucket list }
         $buckets = (
             "nerd-fonts",
@@ -176,7 +191,7 @@ if ($IsWindows) {
             }
         }
 
-        # Install any missing app
+        # Install any missing app.
         $appList = Invoke-Command -ScriptBlock { scoop export }
         $appList = $appList -replace "[\s].+",""
         $apps = (
@@ -202,8 +217,8 @@ if ($IsWindows) {
 # System tweaks
 #
 
-# Enable LongPaths support for file paths above 260 characters
-# https://social.msdn.microsoft.com/Forums/en-US/fc85630e-5684-4df6-ad2f-5a128de3deef
+# Enable LongPaths support for file paths above 260 characters.
+# See https://social.msdn.microsoft.com/Forums/en-US/fc85630e-5684-4df6-ad2f-5a128de3deef
 if ($IsWindows) {
     $property = 'HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem'
     $name = 'LongPathsEnabled'
@@ -217,5 +232,5 @@ if ($IsWindows) {
     }
 }
 
-# Display termination message
+# Display termination message.
 eos

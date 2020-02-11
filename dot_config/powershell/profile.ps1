@@ -1,11 +1,15 @@
 #
-# PowerShell profile
+# ~/,config/powershell/profile.ps1: executed when PowerShell starts.
+#
+# On Windows, this file will also be found under:
+#   - %USERPROFILE%\Documents\PowerShell
+#   - %USERPROFILE%\Documents\WindowsPowerShell
 #
 
 $ColorInfo = "DarkYellow"
 $ColorWarn = "DarkRed"
 
-# Import popular commands from Linux
+# Import popular commands from Linux.
 if (Get-Command Import-WslCommand -errorAction Ignore) {
     $WslCommands = @(
         "chmod",
@@ -37,12 +41,12 @@ if (Get-Command Import-WslCommand -errorAction Ignore) {
     }
 }
 
-# Load split configuration for easier maintenance
+# Load split configuration for easier maintenance.
 Push-Location (Split-Path -parent $profile)
-"functions","aliases","exports","extras" | Where-Object {Test-Path "$_.ps1"} | ForEach-Object -process {Invoke-Expression ". .\$_.ps1"}
+"functions","aliases","extras" | Where-Object {Test-Path "$_.ps1"} | ForEach-Object -process {Invoke-Expression ". .\$_.ps1"}
 Pop-Location
 
-# Add missing user paths
+# Add missing user paths.
 if (Get-Command Add-EnvPath -errorAction Ignore) {
     if ($IsWindows) {
         Add-EnvPath -Path "${Env:Programfiles}\Docker\Docker\resources\bin\" -Position "Append"
@@ -55,7 +59,7 @@ if (Get-Command Add-EnvPath -errorAction Ignore) {
     }
 }
 
-# Setup a pretty development-oriented PowerShell prompt
+# Setup a pretty development-oriented PowerShell prompt.
 $modules = (
     "posh-git",
     "oh-my-posh",
@@ -72,8 +76,11 @@ if (Get-Module -ListAvailable -Name "oh-my-posh") {
     $ThemeSettings.Colors.PromptBackgroundColor = "Blue"
     $DefaultUser = $Env:username
 }
+if (Get-Module -ListAvailable -Name "Terminal-Icons") {
+    Set-TerminalIconsColorTheme -Name "DevBlackOps"
+}
 
-# Display if/which WSL Interop commands are imported
+# Display if/which WSL Interop commands are imported.
 if ($WslImportedCommands) {
     Write-Host "Windows Subsystem for Linux (WSL) Interop enabled." -ForegroundColor $ColorInfo
     Write-Host "WSL commands available:`n`t$($WslImportedCommands | sort)" -ForegroundColor $ColorInfo
