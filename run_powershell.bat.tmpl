@@ -1,15 +1,16 @@
 {{ if eq .chezmoi.os "windows" -}}
-@REM -*-mode:bat-*- vim:ft=bat
+:: -*-mode:bat-*- vim:ft=bat
 @echo off
 setlocal ENABLEDELAYEDEXPANSION
 
-REM
-REM Copy PowerShell configuration files to final destination(s)
-REM
-REM This file is parsed and ran automatically after each `chezmoi apply`.
-REM
+::
+:: ~/.local/chezmoi/run_windows_terminal.bat: executed by chezmoi after
+:: `chezmoi apply`.
+::
+:: Copies PowerShell configuration files to final destination(s) on Windows.
+::
 
-REM Setup action process levels
+:: Setup action process levels.
 set processlevelverify=0
 set processlevelskip=1
 set processlevelcompare=2
@@ -22,12 +23,12 @@ for %%d in (%DESTINATIONS%) do (
     set DEST=%%d
     set processlevel=%processlevelverify%
 
-    REM Application has not been installed
+    :: Skip if application has not been installed.
     IF NOT EXIST !DEST! (
         set processlevel=%processlevelskip%
     )
 
-    REM Destination is a symbolic link
+    :: Skip if destination is a symbolic link.
     IF !processlevel! NEQ %processlevelskip% (
         for %%i in (!DEST!) do set attribs=%%~ai
         if "!attribs:~8,1!" == "l" (
@@ -36,17 +37,17 @@ for %%d in (%DESTINATIONS%) do (
     )
 
     IF !processlevel! NEQ %processlevelskip% (
-        REM Process each mandatory file in source
+        :: Process each mandatory file in source.
         FOR %%f IN ("%SRC%\*.ps1") DO (
             set processlevel=%processlevelverify%
             set DESTFILE="!DEST:"=!\%%~nxf"
 
-            REM File does not exist on destination
+            ::  Check if file does not exist on destination.
             IF NOT EXIST !DESTFILE! (
                 set processlevel=%processlevelcopy%
             )
 
-            REM Destination file is not a symbolic link
+            :: Check if destination file is not a symbolic link.
             IF !processlevel! LSS %processlevelcopy% (
                 dir /a !DESTFILE! | find "<SYMLINK>" > nul
                 IF !errorlevel! NEQ 0 (
@@ -54,7 +55,7 @@ for %%d in (%DESTINATIONS%) do (
                 )
             )
 
-            REM Configuration files are identical
+            :: Check if configuration files are different.
             IF !processlevel! EQU %processlevelcompare% (
                 fc /b "%%f" !DESTFILE! > nul
                 IF !errorlevel! NEQ 0 (
@@ -62,23 +63,23 @@ for %%d in (%DESTINATIONS%) do (
                 )
             )
 
-            REM Copy source file to destination
+            :: Copy source file to destination.
             IF !processlevel! EQU %processlevelcopy% (
                 xcopy /fvy "%%f" !DEST!
             )
         )
 
-        REM Process each optional file in source
+        :: Process each optional file in source.
         FOR %%g IN ("%SRC%\*.ini") DO (
             set processlevel=%processlevelverify%
             set DESTFILE="!DEST:"=!\%%~nxg"
 
-            REM File does not exist on destination
+            ::  Check if file does not exist on destination.
             IF NOT EXIST !DESTFILE! (
                 set processlevel=%processlevelcopy%
             )
 
-            REM Destination file is not a symbolic link
+            :: Check if destination file is not a symbolic link.
             IF !processlevel! LSS %processlevelcopy% (
                 dir /a !DESTFILE! | find "<SYMLINK>" > nul
                 IF !errorlevel! EQU 0 (
@@ -86,7 +87,7 @@ for %%d in (%DESTINATIONS%) do (
                 )
             )
 
-            REM Copy source file to destination
+            :: Copy source file to destination.
             IF !processlevel! EQU %processlevelcopy% (
                 xcopy /fvy "%%g" !DEST!
                 attrib +h +s !DESTFILE!
