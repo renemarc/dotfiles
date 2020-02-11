@@ -123,9 +123,9 @@ System-specific aliases are marked with <a href="#" title="macOS"></a>, <a hr
 | ✅   | ✅         | ✅  | `fastping` | Ping hostname(s) 30 times in quick succession.
 | ✅   | ✅         | ✅  | `flushdns` | Flush the DNS cache.
 | ❌   | ❌         | ❌  | `ifactive` | Show active network interfaces.
-| ✅   | ✅         | ✅  | `ip`    | Get external IP address.
 | ✅   | ✅         | ✅  | `ips`   | Get all IP addresses.
 | ✅   | ✅         | ✅  | `localip` | Get local IP address.
+| ✅   | ✅         | ✅  | `publicip` | Get external IP address.
 | ✅   | ✅         | ✅  | `GET`<br>`HEAD`<br>`POST`<br>`PUT`<br>`DELETE`<br>`TRACE`<br>`OPTIONS` | Send HTTP requests.<br>_Usage: `GET http://example.com`_
 
 <p align="right"><a href="#top" title="Back to top">🔝</a></p>

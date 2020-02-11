@@ -207,13 +207,6 @@ fi
 # Show active network interfaces
 #alias ifactive="ifconfig | pcregrep -M -o '^[^\t:]+:([^\n]|\n\t)*status: active'"
 
-# Get external IP address
-if [[ "$OSTYPE" =~ ^(cygwin|mingw|msys) ]]; then
-    alias ip="curl -s https://ipinfo.io/ip"
-else
-    alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
-fi
-
 # Get all IP addresses
 alias ips="ifconfig -a | grep -o 'inet6\? \(addr:\)\?\s\?\(\(\([0-9]\+\.\)\{3\}[0-9]\+\)\|[a-fA-F0-9:]\+\)' | awk '{ sub(/inet6? (addr:)? ?/, \"\"); print }'"
 
@@ -223,7 +216,16 @@ if [[ "$OSTYPE" =~ ^darwin ]]; then
 elif [[ "$OSTYPE" =~ ^(cygwin|mingw|msys) ]]; then
     alias localip="netstat -rn | grep -w '0.0.0.0' | awk '{ print \$4 }'"
 else
-    alias localip="command ip route get 1 | awk '{print \$NF;exit}'"
+    alias localip="ip route get 1 | awk '{print \$NF;exit}'"
+fi
+
+# Get external IP address.
+if command -v dig &> /dev/null; then
+    alias publicip="dig +short myip.opendns.com @resolver1.opendns.com"
+elif command -v curl > /dev/null; then
+    alias forecast='curl --silent --compressed --max-time 5 --url "https://ipinfo.io/ip"'
+else
+    alias forecast='wget -qO- --compression=auto --timeout=5 "https://ipinfo.io/ip"'
 fi
 
 # Send HTTP requests

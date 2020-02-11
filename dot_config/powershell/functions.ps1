@@ -963,24 +963,6 @@ function Clear-DNSCache {
     Write-Information "DNS cache flushed."
 }
 
-function Get-IP {
-    <#
-    .SYNOPSIS
-        Gets external IP address.
-    .INPUTS
-        None
-    .OUTPUTS
-        Microsoft.PowerShell.Commands.MatchInfo
-        System.Boolean
-        System.String
-    .LINK
-        Invoke-RestMethod
-    .LINK
-        https://github.com/chubin/awesome-console-services
-    #>
-    Invoke-RestMethod http://ipinfo.io/json | Select -exp ip
-}
-
 function Get-IPS {
     <#
     .SYNOPSIS
@@ -1018,6 +1000,24 @@ function Get-LocalIP {
     else {
         ipconfig getifaddr en0
     }
+}
+
+function Get-PublicIP {
+    <#
+    .SYNOPSIS
+        Gets external IP address.
+    .INPUTS
+        None
+    .OUTPUTS
+        Microsoft.PowerShell.Commands.MatchInfo
+        System.Boolean
+        System.String
+    .LINK
+        Invoke-RestMethod
+    .LINK
+        https://github.com/chubin/awesome-console-services
+    #>
+    Invoke-RestMethod http://ipinfo.io/json | Select -exp ip
 }
 
 function Invoke-RestMethodGet {

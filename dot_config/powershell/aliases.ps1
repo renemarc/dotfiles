@@ -121,11 +121,11 @@ Set-Alias -Name "fastping" -Value Invoke-FastPingSimple -Description "Pings host
 
 Set-Alias -Name "flushdns" -Value Clear-DNSCache -Description "Flushes the DNS cache."
 
-Set-Alias -Name "ip" -Value Get-IP -Description "Gets external IP address."
-
 Set-Alias -Name "ips" -Value Get-IPS -Description "Gets all IP addresses."
 
 Set-Alias -Name "localip" -Value Get-LocalIP -Description "Gets local IP address."
+
+Set-Alias -Name "publicip" -Value Get-PublicIP -Description "Gets external IP address."
 
 Set-Alias -Name "GET" -Value Invoke-RestMethodGet -Description "Sends a GET http request."
 
