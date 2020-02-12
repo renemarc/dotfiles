@@ -1,0 +1,18 @@
+# -*-mode:gitignore-*- vim:ft=gitignore
+
+# ~/.ripgreprc
+# =============================================================================
+# Configures default options for ripgrep line-oriented search tool.
+#
+# Environment variable `RIPGREP_CONFIG_PATH` must point to this file.
+# See https://github.com/BurntSushi/ripgrep/blob/master/GUIDE.md
+
+# Search hidden files and directories also.
+--hidden
+
+# Limit the length of lines printed by ripgrep.
+--max-columns=150
+--max-columns-preview
+
+# Make search case insensitive, unless an uppercase letter is used.
+--smart-case

@@ -81,6 +81,14 @@ Push-Location (Split-Path -parent $profile)
 Pop-Location
 
 
+# Varia
+# -----------------------------------------------------------------------------
+
+# Point ripgrep to its configuration file.
+# See https://github.com/BurntSushi/ripgrep/blob/master/GUIDE.md
+$Env:RIPGREP_CONFIG_PATH = "$HOME/.ripgreprc"
+
+
 # Finalization
 # -----------------------------------------------------------------------------
 

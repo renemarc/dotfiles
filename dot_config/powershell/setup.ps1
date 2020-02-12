@@ -202,6 +202,7 @@ if ($IsWindows) {
             "git",
             "heroku-cli",
             "neofetch",
+            "ripgrep",
             "starship",
             "sudo"
         )

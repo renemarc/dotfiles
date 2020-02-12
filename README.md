@@ -1,5 +1,5 @@
 <h1 align="center">
-  <a name="top">🗜️ ⚙️ 🤖 🔧</a><br/>Cross-platform, cross-shell dotfiles<br/> <sup><sub>powered by  <a href="https://www.chezmoi.io/">chezmoi</a> 🏠</sub></sup>
+  <a name="top" title="dotfiles">~/.&nbsp;📂</a><br/>Cross-platform, cross-shell dotfiles<br/> <sup><sub>powered by  <a href="https://www.chezmoi.io/">chezmoi</a> 🏠</sub></sup>
 </h1>
 
 Universal command set and colourful shell configurations for Bash, Zsh and Powershell, compatible with macOS, Windows and (partially) Linux, all managed easily using [chezmoi](https://github.com/twpayne/chezmoi).
@@ -84,6 +84,7 @@ System-specific aliases are marked with <a href="#" title="macOS"></a>, <a hr
 | ✅   | ✅         | ✅  | `fd`    | Find directory.
 | ✅   | ✅         | ✅  | `ff`    | Find file.
 | ❌   | ✅         | ❌  | `mirror` | Mirror directories.
+| ✅   | ✅         | ✅  | `rg`    | Search recursively with [ripgrep](https://github.com/BurntSushi/ripgrep).
 
 <p align="right"><a href="#top" title="Back to top">🔝</a></p>
 

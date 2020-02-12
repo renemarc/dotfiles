@@ -11,6 +11,7 @@ syntax: glob
 
 *~
 .DS_Store
+.git/
 .idea/
 .resin-sync.yml
 Thumbs.db

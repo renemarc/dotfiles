@@ -197,6 +197,15 @@ fi
 # Provide Travis CI completions.
 [ -f ${HOME}/.travis/travis.sh ] && \. ${HOME}/.travis/travis.sh
 
+
+# Varia
+# -----------------------------------------------------------------------------
+
+# Point ripgrep to its configuration file.
+# See https://github.com/BurntSushi/ripgrep/blob/master/GUIDE.md
+export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
+
+
 # Includes
 # -----------------------------------------------------------------------------
 
