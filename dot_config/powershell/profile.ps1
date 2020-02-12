@@ -14,6 +14,31 @@
 $ColorInfo = "DarkYellow"
 $ColorWarn = "DarkRed"
 
+
+# Imports
+# -----------------------------------------------------------------------------
+
+# Setup a pretty development-oriented PowerShell prompt.
+$modules = (
+    "posh-git",
+    "oh-my-posh",
+    "Terminal-Icons",
+    "FastPing"
+)
+$modules | foreach {
+    if (Get-Module -ListAvailable -Name $_) {
+        Import-Module $_
+    }
+}
+if (Get-Module -ListAvailable -Name "oh-my-posh") {
+    Set-Theme Paradox
+    $ThemeSettings.Colors.PromptBackgroundColor = "Blue"
+    $DefaultUser = $Env:username
+}
+if (Get-Module -ListAvailable -Name "Terminal-Icons") {
+    Set-TerminalIconsColorTheme -Name "DevBlackOps"
+}
+
 # Import popular commands from Linux.
 if (Get-Command Import-WslCommand -errorAction Ignore) {
     $WslCommands = @(
@@ -46,10 +71,18 @@ if (Get-Command Import-WslCommand -errorAction Ignore) {
     }
 }
 
+
+# Includes
+# -----------------------------------------------------------------------------
+
 # Load split configuration for easier maintenance.
 Push-Location (Split-Path -parent $profile)
 "functions","aliases","extras" | Where-Object {Test-Path "$_.ps1"} | ForEach-Object -process {Invoke-Expression ". .\$_.ps1"}
 Pop-Location
+
+
+# Finalization
+# -----------------------------------------------------------------------------
 
 # Add missing user paths.
 if (Get-Command Add-EnvPath -errorAction Ignore) {
@@ -62,27 +95,6 @@ if (Get-Command Add-EnvPath -errorAction Ignore) {
         Add-EnvPath -Path "/usr/local/sbin" -Position "Prepend"
         Add-EnvPath -Path "/usr/local/bin" -Position "Prepend"
     }
-}
-
-# Setup a pretty development-oriented PowerShell prompt.
-$modules = (
-    "posh-git",
-    "oh-my-posh",
-    "Terminal-Icons",
-    "FastPing"
-)
-$modules | foreach {
-    if (Get-Module -ListAvailable -Name $_) {
-        Import-Module $_
-    }
-}
-if (Get-Module -ListAvailable -Name "oh-my-posh") {
-    Set-Theme Paradox
-    $ThemeSettings.Colors.PromptBackgroundColor = "Blue"
-    $DefaultUser = $Env:username
-}
-if (Get-Module -ListAvailable -Name "Terminal-Icons") {
-    Set-TerminalIconsColorTheme -Name "DevBlackOps"
 }
 
 # Display if/which WSL Interop commands are imported.
