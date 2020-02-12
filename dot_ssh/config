@@ -1,0 +1,29 @@
+# -*-mode:ssh-config-*- vim:ft=sshconfig
+
+# ~/.ssh/config
+# =============================================================================
+# OpenSSH client configuration.
+#
+# See https://www.ssh.com/ssh/config
+
+# Skip newer or system-specific unmatched options.
+IgnoreUnknown AddKeysToAgent,UseKeychain
+
+Host *
+    # Accelerate connections by reuse an existing connections to same host.
+    ControlMaster auto
+    ControlPath ~/.ssh/controlmasters/%r@%h:%p
+    ControlPersist 5
+
+    # Allow storing passphrases in the macOS keychain.
+    # See https://developer.apple.com/library/archive/technotes/tn2449/_index.html
+    AddKeysToAgent yes
+    UseKeychain yes
+
+    # Keep the connection temporarily open by sending a data every few minutes.
+    ServerAliveCountMax 6
+    ServerAliveInterval 300
+
+    # Disable client-side roaming support for security reasons.
+    # See https://www.upguard.com/blog/fixing-the-new-openssh-roaming-bug
+    UseRoaming no
