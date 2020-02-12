@@ -1,21 +1,26 @@
-//
-// Windows Terminal
-// https://github.com/microsoft/terminal
-//
-// This file should be copied over to
-// $env:LocalAppData\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\profiles.json
-//
+// -*-mode:javascript-*- vim:ft=json
 
+// %APPDATA%/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState/profiles.json
+// ============================================================================
+// Windows Terminal configuration file.
+//
+// This file will be copied over to
+// `$env:LocalAppData\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\profiles.json`
+// after `chezmoi apply` by the script `run_windows_terminal.bat.tmpl`.
+//
 // To view the default settings, hold "alt" while clicking on the "Settings" button.
-// For documentation on these settings, see: https://aka.ms/terminal-documentation
+// See https://aka.ms/terminal-documentation
 
 {
     "$schema": "https://aka.ms/terminal-profiles-schema",
 
+    // Set default profile used when Windows Terminal is started.
     "defaultProfile": "{574e775e-4f2a-5b96-ac1e-a2962a402336}",
 
+    // Setup list of available shells.
     "profiles":
     {
+        // Define shared values for the profiles below.
         "defaults": {
             "fontFace": "SauceCodePro NF",
             "fontSize": 11,
@@ -27,6 +32,7 @@
             "backgroundImageStretchMode": "none",
             "backgroundImageAlignment": "topRight"
         },
+        // Setup list of available shells.
         "list": [
             {
                 "guid": "{574e775e-4f2a-5b96-ac1e-a2962a402336}",
@@ -83,10 +89,11 @@
         ]
     },
 
+    // Setup initial window size.
     "initialCols": 120,
     "initialRows": 35,
 
-    // Add custom color schemes to this array
+    // Add custom color schemes to this array.
     "schemes": [],
 
     // Add any keybinding overrides to this array.
