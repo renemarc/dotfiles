@@ -1,8 +1,10 @@
-# -*-mode:bash-*- vim:ft=bash
+# -*-mode:sh-*- vim:ft=bash
 
-#
-# ~/.bashrc: executed by bash for non-login shells.
+# ~/.bashrc
 # =============================================================================
+# Executed by bash for non-login shells.
+#
+# See https://www.gnu.org/software/bash/manual/html_node/index.html
 
 # If not running interactively, don't do anything.
 case $- in
@@ -207,7 +209,7 @@ unset MAILCHECK
 export SCM_CHECK=true
 
 # Set vcprompt executable path for scm advance info in prompt (demula theme).
-# https://github.com/djl/vcprompt
+# See https://github.com/djl/vcprompt
 #export VCPROMPT_EXECUTABLE=~/.vcprompt/bin/vcprompt
 
 # Make Bash-it reload itself automatically after enabling or disabling aliases,
@@ -353,13 +355,13 @@ if [ -d "/usr/local/sbin" ]; then
 fi
 
 # Remove any duplicate paths.
-# https://stackoverflow.com/questions/11650840/remove-redundant-paths-from-path-variable
+# See https://stackoverflow.com/questions/11650840/remove-redundant-paths-from-path-variable
 export PATH="$(echo "$PATH" | awk 'BEGIN{RS=":";}
 {sub(sprintf("%c$",10),"");if(A[$0]){}else{A[$0]=1;
 printf(((NR==1)?"":":")$0)}}')";
 
 # Enable Powerline
-# https://www.hanselman.com/blog/HowToMakeAPrettyPromptInWindowsTerminalWithPowerlineNerdFontsCascadiaCodeWSLAndOhmyposh.aspx
+# See https://www.hanselman.com/blog/HowToMakeAPrettyPromptInWindowsTerminalWithPowerlineNerdFontsCascadiaCodeWSLAndOhmyposh.aspx
 # GOPATH=$HOME/go
 # function _update_ps1() {
 #     PS1="$($GOPATH/bin/powerline-go -error $?)"

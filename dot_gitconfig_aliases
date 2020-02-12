@@ -1,8 +1,8 @@
-# -*-mode:ini-*- vim:ft=dosini
+# -*-mode:gitconfig-*- vim:ft=gitconfig
 
-#
-# ~/.gitconfig.alias: aliases for Git sourced by ~/.gitconfig.
-#
+# ~/.gitconfig_alias
+# =============================================================================
+# Aliases for Git sourced by `~/.gitconfig`.
 
 [alias]
     # Lists aliases.

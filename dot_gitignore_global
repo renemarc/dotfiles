@@ -2,7 +2,7 @@
 
 # ~/.gitignore_global
 # =============================================================================
-# Git exclusion list, read on every status check.
+# Used by Git to determine the files and directories to ignore globally.
 #
 # This list defines global exclusions to all local repositories.
 # See https://git-scm.com/docs/gitignore

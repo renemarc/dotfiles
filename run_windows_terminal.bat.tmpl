@@ -1,12 +1,17 @@
 {{ if eq .chezmoi.os "windows" -}}
 :: -*-mode:bat-*- vim:ft=bat
-@echo off
 
+:: ~/.local/share/chezmoi/run_windows_terminal.bat
+:: ============================================================================
+:: Runs after `chezmoi apply` to relocate Windows Terminal's configuration file.
 ::
-:: ~/.local/share/chezmoi/run_windows_terminal.bat: runs after `chezmoi apply`.
+:: This batch file copies the configuration file to its proper destination on
+:: Windows. Chezmoi will skip this script on other operating systems.
+:: See https://www.chezmoi.io/docs/how-to/
 ::
-:: Copies Windows Terminal configuration file to final destination on Windows.
-::
+:: {{- /* This file supports Go's text/template language. */ }}
+
+@echo off
 
 set SRCFILE=%USERPROFILE%\.config\windows_terminal.json
 set DESTFILE=%LOCALAPPDATA%\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\profiles.json

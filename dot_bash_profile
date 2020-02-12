@@ -1,10 +1,11 @@
-# -*-mode:bash-*- vim:ft=bash
+# -*-mode:sh-*- vim:ft=bash
 
+# ~/.bash_profile
+# =============================================================================
+# Executed by bash for login shells.
 #
-# ~/.bash_profile: executed by bash for login shells.
-#
-# This file will be read by bash instead of any existing ~/.profile
-#
+# This file will be read by bash instead of any existing `~/.profile`.
+# See https://www.gnu.org/software/bash/manual/html_node/index.html
 
 # Load configuration bulk from non-login shell.
 if [ -n "$BASH_VERSION" ]; then

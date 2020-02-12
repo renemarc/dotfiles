@@ -2,9 +2,9 @@
 
 # ~/.local/share/chezmoi/.gitignore
 # =============================================================================
-# Read by Git on every status check.
+# Used by Git to determine the files and directories to ignore in this project.
 #
-# This list defines repository-specific exclusions.
+# This list of globs defines repository-specific exclusions.
 # See https://git-scm.com/docs/gitignore
 
 *.gz

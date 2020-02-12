@@ -1,14 +1,15 @@
+# -*-mode:powershell-*- vim:ft=powershell
+
+# ~/.config/powershell/setup.ps1
+# =============================================================================
+# Idempotent manual setup script to install or update Powershell dependencies.
 #
-# ~/.config/powershell/setup.ps1: manually run to install PowerShell dependencies.
+# On Windows, this file will be copied over to these locations after
+# running `chezmoi apply` by the script `../../run_powershell.bat.tmpl`:
+#     - %USERPROFILE%\Documents\PowerShell
+#     - %USERPROFILE%\Documents\WindowsPowerShell
 #
-# On Windows, this file will also be found under:
-#   - %USERPROFILE%\Documents\PowerShell
-#   - %USERPROFILE%\Documents\WindowsPowerShell
-#
-# Use this to download and install all the requirements that improve the prompt.
-#
-# TODO: Convert this to dotfiles.ps1
-#
+# TODO: Convert this to `~/dotfiles.ps1`
 
 # Requires that PowerShell be running with elevated privileges to be able to
 # change system properties.

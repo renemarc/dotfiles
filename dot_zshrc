@@ -1,8 +1,10 @@
-# -*-mode:shell-script-*- vim:ft=shell-script
+# -*-mode:sh-*- vim:ft=shell-script
 
-#
-# ~/.zshrc: executed by zsh.
+# ~/.zshrc
 # =============================================================================
+# Executed by Z shell for interactive shells.
+#
+# See http://zsh.sourceforge.net/
 
 # Hide default user from local prompt.
 export DEFAULT_USER="${USER}"

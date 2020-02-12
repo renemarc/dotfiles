@@ -1,52 +1,49 @@
 # -*-mode:ini-*- vim:ft=dosini
 
+# ~/.local/share/chezmoi/.editorconfig
+# =============================================================================
+# Repo-specific EditorConfig file for supporting IDEs.
 #
-# EditorConfig dotfile
-#
-# Helps unifying the coding style for different editors and IDEs.
-# More info: https://EditorConfig.org
-#
+# Helps maintaining a consistent coding style between different editors.
+# See https://EditorConfig.org
 
-# Define this as the top-most EditorConfig file
+# Define this as the top-most EditorConfig file.
 root = true
 
-#
 # All files
-#
+# -----------------------------------------------------------------------------
 [*]
 
-# Set default character set
+# Set default character set.
 charset = utf-8
 
-# Set line endings to Unix style
+# Set line endings to Unix style.
 end_of_line = lf
 
-# Set width of soft tabs and number of columns used for indentation levels
+# Set width of soft tabs and number of columns used for indentation levels.
 indent_size = 4
 
-# Use soft tabs
+# Use soft tabs.
 indent_style = space
 
-# Ensure file ends with a newline when saving
+# Ensure file ends with a newline when saving.
 insert_final_newline = true
 
-# Remove any whitespace characters preceding newline characters
+# Remove any whitespace characters preceding newline characters.
 trim_trailing_whitespace = true
 
 
-#
 # Markdown
-#
+# -----------------------------------------------------------------------------
 [*.md]
 
-# Keep trailing whitespaces as they have meaning on Markdown interpretation
+# Keep trailing whitespaces as they have meaning on Markdown interpretation.
 trim_trailing_whitespace = false
 
 
-#
 # Powershell
-#
+# -----------------------------------------------------------------------------
 [*.{ps1,psd1,psm1,ps1xml}]
 
-# Set line endings to Windows style
+# Set line endings to Windows style.
 end_of_line = crlf

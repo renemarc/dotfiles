@@ -1,3 +1,11 @@
+# -*-mode:ruby-*- vim:ft=ruby
+
+# ~/.Brewfile
+# =============================================================================
+# Project dependencies installed using `brew bundle` or `~/dotfiles.sh`.
+#
+# See https://github.com/Homebrew/homebrew-bundle
+
 tap "buo/cask-upgrade"
 tap "eugenmayer/dockersync"
 tap "heroku/brew"

@@ -5,7 +5,8 @@
 # User-specific Git configuration file.
 #
 # See https://git-scm.com/docs/git-config
-# {{- /* a This file supports Go's text/template language. */ -}}
+#
+# {{- /* This file supports Go's text/template language. */ -}}
 #
 # Sources:
 #     https://delicious-insights.com/en/posts/mastering-git-submodules/
@@ -109,7 +110,7 @@
 
 [include]
     # Include aliases.
-    path = .gitconfig.aliases
+    path = .gitconfig_aliases
 
-    # Include extra configuration.
-    path = .gitconfig.local
+    # Include extra configuration (if any).
+    path = .gitconfig_local

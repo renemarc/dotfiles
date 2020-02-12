@@ -1,14 +1,14 @@
-# -*-mode:bash-*- vim:ft=bash
+# -*-mode:sh-*- vim:ft=bash
 
-#
-# ~/.bash_functions: shell functions sourced by ~/.bashrc (and ~/.zshrc).
-#
+# ~/.bash_functions
+# =============================================================================
+# Shell functions sourced by `~/.bashrc` and `~/.zshrc`.
 
 # General
 # -----------------------------------------------------------------------------
 
 # Extracts common file formats.
-# Syntax: "extract <file1>"
+# Syntax: `extract <file1>`
 # Source: https://github.com/xvoland/Extract
 # TODO extract in named folder
 function extract {
@@ -54,7 +54,7 @@ function extract {
 alias x=extract
 
 # Searches history for a string, or lists all history.
-# Syntax: "historysearch <string>"
+# Syntax: `historysearch <string>`
 function history_search() {
     if [ -z "$1" ]; then
         history
@@ -64,7 +64,7 @@ function history_search() {
 }
 
 # Searches session history for a string, or lists all session history.
-# Syntax: "historysessionsearch <string>"
+# Syntax: `historysessionsearch <string>`
 function history_session_search() {
     prefix=$(date +"$HISTTIMEFORMAT")
     offset=$((8 + ${#prefix}))
@@ -72,7 +72,7 @@ function history_session_search() {
 }
 
 # Creates a directory and changes to it.
-# Syntax: "mkcd <directory>"
+# Syntax: `mkcd <directory>`
 function mkcd() {
     if [ -z "$1" ]; then
         echo "Usage: mkcd <path>"
@@ -85,7 +85,7 @@ function mkcd() {
 alias take=mkcd
 
 # Repeats a command a set number of times.
-# Syntax: "repeat <count> <command>"
+# Syntax: `repeat <count> <command>`
 function repeat() {
     if [ -z "$1" ] || [ "$#" -lt 2 ]; then
         echo "Usage: repeat <count> <command> ..."
@@ -106,7 +106,7 @@ alias r=repeat
 # -----------------------------------------------------------------------------
 
 # Keeps all apps and packages up to date.
-# Syntax: "update [all]"
+# Syntax: `update [all]`
 function update() {
     if command -v softwarepudate &> /dev/null; then
         echo 'Checking for system updates...'
@@ -166,7 +166,7 @@ function update() {
 # -----------------------------------------------------------------------------
 
 # Opens file/URL in Microsoft Edge.
-# Syntax: "microsoft-edge <url>"
+# Syntax: `microsoft-edge <url>`
 if [[ "$OSTYPE" =~ ^(cygwin|mingw|msys) ]]; then
     function microsoft-edge() {
         start microsoft-edge:$1

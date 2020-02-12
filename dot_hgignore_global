@@ -2,7 +2,7 @@
 
 # ~/.hgignore_global
 # =============================================================================
-# Mercurial exclusion list, read on every status check.
+# Used by Mercurial to determine the files and directories to ignore globally.
 #
 # This list defines global exclusions to all local repositories.
 # See https://www.mercurial-scm.org/wiki/.hgignore

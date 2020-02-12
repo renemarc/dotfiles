@@ -1,10 +1,15 @@
+# -*-mode:powershell-*- vim:ft=powershell
+
+# ~/.config/powershell/profile.ps1
+# =============================================================================
+# Executed when PowerShell starts.
 #
-# ~/,config/powershell/profile.ps1: executed when PowerShell starts.
+# On Windows, this file will be copied over to these locations after
+# running `chezmoi apply` by the script `../../run_powershell.bat.tmpl`:
+#     - %USERPROFILE%\Documents\PowerShell
+#     - %USERPROFILE%\Documents\WindowsPowerShell
 #
-# On Windows, this file will also be found under:
-#   - %USERPROFILE%\Documents\PowerShell
-#   - %USERPROFILE%\Documents\WindowsPowerShell
-#
+# See https://docs.microsoft.com/en/powershell/module/microsoft.powershell.core/about/about_profiles
 
 $ColorInfo = "DarkYellow"
 $ColorWarn = "DarkRed"

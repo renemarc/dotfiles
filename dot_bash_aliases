@@ -1,13 +1,14 @@
-# -*-mode:bash-*- vim:ft=bash
+# -*-mode:sh-*- vim:ft=bash
 
-#
-# ~/.bash_aliases: shell aliases sourced by ~/.bashrc (and ~/.zshrc).
+# ~/.bash_aliases
+# =============================================================================
+# Shell aliases sourced by `~/.bashrc` and `~/.zshrc`.
 #
 # OSTYPE values used:
-#   darwin: macOS
-#   cygwin: Cygwin POSIX compatibility layer and Linux environment emulation for Windows
-#   mingw: MinGW Minimalist GNU for Windows
-#   msys: MinGW Lightweight shell and GNU utilities for Windows
+#     - darwin: macOS
+#     - cygwin: Cygwin POSIX-compatible environment for Windows
+#     - mingw: MinGW Minimalist GNU for Windows
+#     - msys: MinGW Lightweight shell and GNU utilities for Windows
 
 # Redefine standard commands to improve their behavior
 # -----------------------------------------------------------------------------

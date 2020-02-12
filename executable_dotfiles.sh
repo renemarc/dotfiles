@@ -1,5 +1,9 @@
 #!/bin/sh
-# -*-mode:shell-*- vim:ft=sh
+# -*-mode:sh-*- vim:ft=shell-script
+
+# ~/dotfiles.sh
+# =============================================================================
+# Idempotent manual setup script to install or update shell dependencies.
 
 set -e
 

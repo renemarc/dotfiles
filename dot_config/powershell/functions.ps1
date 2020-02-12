@@ -1,10 +1,13 @@
+# -*-mode:powershell-*- vim:ft=powershell
+
+# ~/.config/powershell/profile.ps1
+# =============================================================================
+# PowerShell functions sourced by `./profile.ps1`.
 #
-# ~/.config/powershell/functions.ps1: PowerShell functions sourced by ./profile.ps1
-#
-# On Windows, this file will also be found under:
-#   - %USERPROFILE%\Documents\PowerShell
-#   - %USERPROFILE%\Documents\WindowsPowerShell
-#
+# On Windows, this file will be copied over to these locations after
+# running `chezmoi apply` by the script `../../run_powershell.bat.tmpl`:
+#     - %USERPROFILE%\Documents\PowerShell
+#     - %USERPROFILE%\Documents\WindowsPowerShell
 
 # Create missing $IsWindows if running Powershell 5 or below.
 if (!(Test-Path variable:global:IsWindows)) {

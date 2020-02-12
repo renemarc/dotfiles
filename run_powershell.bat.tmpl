@@ -1,13 +1,18 @@
 {{ if eq .chezmoi.os "windows" -}}
 :: -*-mode:bat-*- vim:ft=bat
+
+:: ~/.local/share/chezmoi/run_powershell.bat
+:: ============================================================================
+:: Runs after `chezmoi apply` to relocate PowerShell's configuration files.
+::
+:: This batch file copies the configuration files to their proper destinations
+:: on Windows. Chezmoi will skip this script on other operating systems.
+:: See https://www.chezmoi.io/docs/how-to/
+::
+:: {{- /* This file supports Go's text/template language. */ }}
+
 @echo off
 setlocal ENABLEDELAYEDEXPANSION
-
-::
-:: ~/.local/share/chezmoi/run_powershell.bat: runs after `chezmoi apply`.
-::
-:: Copies PowerShell configuration files to final destination(s) on Windows.
-::
 
 :: Setup action process levels.
 set processlevelverify=0
