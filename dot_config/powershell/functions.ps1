@@ -2083,6 +2083,38 @@ function Set-LocationChezmoiConf {
     }
 }
 
+function Set-LocationPowershellConf {
+    <#
+    .SYNOPSIS
+        Navigates to Powershell's profile location.
+    .INPUTS
+        None
+    .OUTPUTS
+        None
+    .LINK
+        https://devblogs.microsoft.com/scripting/understanding-the-six-powershell-profiles/
+    .LINK
+        Set-Location
+    #>
+    [CmdletBinding(
+        SupportsShouldProcess=$true,
+        ConfirmImpact='Low'
+    )]
+    param()
+
+    begin {
+        $path = Split-Path -Path $Profile
+        Write-Verbose "Destination set to $path"
+    }
+
+    process {
+        if ($PSCmdlet.ShouldProcess($path, 'Go to directory')) {
+            Write-Verbose "Navigating to $path"
+            Set-Location $path
+        }
+    }
+}
+
 function Set-LocationSublimeConf {
     <#
     .SYNOPSIS

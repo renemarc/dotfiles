@@ -213,6 +213,7 @@ System-specific aliases are marked with <a href="#" title="macOS"></a>, <a hr
 | Bash | PowerShell | Zsh | Command | Description |
 |:----:|:----------:|:---:|---------|-------------|
 | ✅   | ✅         | ✅  | `chezmoiconf` | Go to [Chezmoi](https://www.chezmoi.io/)'s local configuration repo.
+| ✅   | ✅         | ✅  | `powershellconf` | Go to [Powershell](https://github.com/PowerShell/PowerShell)'s profile location.
 | ✅   | ✅         | ✅  | `sublimeconf` | Go to [Sublime Text](https://www.sublimetext.com/)'s local configuration repo.
 
 <p align="right"><a href="#top" title="Back to top">🔝</a></p>

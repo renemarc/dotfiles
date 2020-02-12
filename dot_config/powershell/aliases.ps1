@@ -250,6 +250,8 @@ Set-Alias -Name "dt" -Value Set-LocationDesktop -Description "Navigates to Deskt
 
 Set-Alias -Name "chezmoiconf" -Value Set-LocationChezmoiConf -Description "Navigates to Chezmoi's local repo."
 
+Set-Alias -Name "powershellconf" -Value Set-LocationPowershellConf -Description "Navigates to Powershell's profile location."
+
 Set-Alias -Name "sublimeconf" -Value Set-LocationSublimeConf -Description "Navigates to Sublime Text's local repo."
 
 

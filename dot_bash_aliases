@@ -412,6 +412,13 @@ else
     alias chezmoiconf="cd ${HOME}/.local/share/chezmoi"
 fi
 
+# Navigate to Powershell's profile location
+if [[ "$OSTYPE" =~ ^(cygwin|mingw|msys) ]]; then
+    alias powershellconf="cd ${HOME}/Documents/PowerShell"
+else
+    alias powershellconf="cd ${HOME}/.config/powershell"
+fi
+
 # Go to Sublime Text's local repo
 alias sublimeconf="cd ${HOME}/Library/Application\ Support/Sublime\ Text\ 3/Packages/User"
 
