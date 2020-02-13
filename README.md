@@ -42,6 +42,14 @@ Use either one or many of these, the config files will be in place and ready to 
 -  [Homebrew](https://brew.sh/)
 - ⊞ [Scoop](https://scoop.sh/)
 
+### 💾 Apps
+
+- [chezmoi](https://www.chezmoi.io/)
+- [Git](https://git-scm.com/)
+- [OpenSSH](https://www.openssh.com/)
+- [Ripgrep](https://github.com/BurntSushi/ripgrep) fast-search tool
+- [Starship 🚀](https://starship.rs) cross-shell prompt
+
 <p align="right"><a href="#top" title="Back to top">🔝</a></p>
 
 ## Cross-shell compatibility matrix 🏁
