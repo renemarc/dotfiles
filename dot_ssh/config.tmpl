@@ -5,15 +5,19 @@
 # OpenSSH client configuration.
 #
 # See https://www.ssh.com/ssh/config
+#
+# {{- /* This file supports Go's text/template language. */}}
 
 # Skip newer or system-specific unmatched options.
 IgnoreUnknown AddKeysToAgent,UseKeychain
 
 Host *
-    # Accelerate connections by reuse an existing connections to same host.
+    {{ if ne .chezmoi.os "windows" -}}
+    # Accelerate connections by reusing existing connections to the same host.
     ControlMaster auto
     ControlPath ~/.ssh/controlmasters/%r@%h:%p
     ControlPersist 5
+    {{- end -}}
 
     # Allow storing passphrases in the macOS keychain.
     # See https://developer.apple.com/library/archive/technotes/tn2449/_index.html
