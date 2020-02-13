@@ -13,28 +13,28 @@
 # Redefine standard commands to improve their behavior
 # -----------------------------------------------------------------------------
 
-# Start calculator with math support
+# Starts calculator with math support.
 alias bc='bc -l'
 
-# Make file commands verbose
+# Makes file commands verbose.
 alias cp='cp -v';
 alias mv='mv -v';
 
-# Display drives and space in human readable format
+# Displays drives and space in human readable format.
 alias df='df -h'
 
-# Colorize diff output (requires colordiff package)
+# Colorizes diff output, if possible.
 command -v colordiff &> /dev/null && alias diff='colordiff'
 
-# Prints disk usage per directory non-recursively, in human readable format
+# Prints disk usage per directory non-recursively, in human readable format.
 alias du='du -h -d1'
 
-# Colorize the `grep` output
+# Colorizes the `grep` output.
 alias grep='grep --color=auto'
 alias egrep='egrep --color=auto'
 alias fgrep='fgrep --color=auto'
 
-# Colorize listings
+# Colorizes listings.
 if ls --color &> /dev/null; then
     # GNU `ls`
     colorflag="--color=auto"
@@ -51,109 +51,107 @@ if type 'vdir' &> /dev/null; then
     alias top='vdir --color=auto'
 fi
 
-# Always use human sizes, classifications, and color output for `ls`
+# Uses human sizes, classifications, and color output for `ls`.
 alias ls="command ls -Fh ${colorflag}"
 
-# Create parent directories on demand
+# Creates parent directories on demand.
 alias mkdir='mkdir -pv'
 
-# Make mount command output pretty and human readable format
+# Makes `mount` command output pretty and with a human readable format.
 alias mount='mount | column -t'
 
-# Disable wrapping of long lines in Nano
+# Disables wrapping of long lines in Nano.
 alias nano='nano -w';
 
-# Stop ping after sending 4 ECHO_REQUEST packets
+# Stops ping after sending 4 ECHO_REQUEST packets.
 alias ping='ping -c 4'
 
-# Improve top
+# Improves top.
 if type 'atop' &> /dev/null; then
     alias top='atop'
 fi
 
-# Enable simple aliases to be sudo'ed. ("sudone"?)
-# http://www.gnu.org/software/bash/manual/bashref.html#Aliases says: "If the
-# last character of the alias value is a space or tab character, then the next
-# command word following the alias is also checked for alias expansion."
+# Enables simple aliases to be sudo'ed.
+# See http://www.gnu.org/software/bash/manual/bashref.html#Aliases
 alias sudo='sudo ';
 
-# Resume wget by default
+# Resumes `wget` by default.
 alias wget='wget -c'
 
 
 # Easier navigation
 # -----------------------------------------------------------------------------
 
-# Go to last used directory
+# Nagivates to the last used directory.
 alias cd-='cd -'
 
-# Go up a directory
+# Nagivates up a directory.
 alias cd..='cd ..'
 alias ..='cd ..'
 
-# Go up two directories
+# Nagivates up two directories.
 alias ...='cd ../../../'
 
-# Go up three directories
+# Nagivates up three directories.
 alias ....='cd ../../../../'
 
-# Go up four directories
+# Nagivates up four directories.
 alias .....='cd ../../../../'
 alias .4='cd ../../../../'
 
-# Go up five directories
+# Nagivates up five directories.
 alias .5='cd ../../../../..'
 
 
 # Directory browsing
 # -----------------------------------------------------------------------------
 
-# List visible files in long format
+# Lists visible files in long format.
 alias l="ls -l"
 
-# List all files in long format, excluding . and ..
+# Lists all files in long format, excluding `.` and `..`.
 alias ll="ls -lA"
 
-# List directories only, in long format
+# Lists directories only, in long format.
 alias lsd="ls -l | grep --color=never '^d'"
 
-# List hidden files in long format
+# Lists hidden files in long format.
 alias lsh="ls -dlA .?*"
 
 
 # File management
 # -----------------------------------------------------------------------------
 
-# Copy a file securely
+# Copies a file securely.
 alias cpv='rsync -ah --info=progress2'
 
-# Find directory
+# Finds directories.
 alias fd='find . -type d -name'
 
-# Find file
+# Finds files.
 alias ff='find . -type f -name'
 
 
 # General aliases
 # -----------------------------------------------------------------------------
 
-# Clear screen
+# Clears the console screen.
 alias c='clear'
 
-# Search history
+# Searches history.
 alias h='history_search' # see file `functions`
 alias hs='history_session_search' # see file `functions`
 
-# Set editors and defaults
+# Sets editors and defaults.
 alias edit='vim'
 alias svi='sudo vi'
 alias vi=vim
 alias vis='vim "+set si"'
 
-# Reload the shell (i.e. invoke as a login shell)
+# Reloas the shell.
 alias reload="exec ${SHELL} -l"
 
-# Reload configuration
+# Reloads the configuration.
 if [ -n "$ZSH_VERSION" ]; then
     alias resource=". ${HOME}/.zshrc"
 else
@@ -164,39 +162,39 @@ fi
 # Time
 # -----------------------------------------------------------------------------
 
-# Display local/UTC date and time in ISO-8601 format `YYYY-MM-DDThh:mm:ss`
+# Gets local/UTC date and time in ISO-8601 format `YYYY-MM-DDThh:mm:ss`.
 alias now='date +"%Y-%m-%dT%H:%M:%S"'
 alias unow='date -u +"%Y-%m-%dT%H:%M:%S"'
 
-# Display date in `YYYY-MM-DD` format
+# Gets date in `YYYY-MM-DD` format`
 alias nowdate='date +"%Y-%m-%d"'
 alias unowdate='date -u +"%Y-%m-%d"'
 
-# Display time in `hh:mm:ss` format
+# Gets time in `hh:mm:ss` format`
 alias nowtime='date +"%T"'
 alias unowtime='date -u +"%T"'
 
-# Display Unix time stamp
+# Gets Unix time stamp`
 alias timestamp='date -u +%s'
 
-# Get week number in ISO-8601 format `YYYY-Www`
+# Gets week number in ISO-8601 format `YYYY-Www`.
 alias week='date +"%Y-W%V"'
 
-# Get weekday number
+# Gets weekday number.
 alias weekday='date +"%u"'
 
 
 # Networking
 # -----------------------------------------------------------------------------
 
-# Ping hostname(s) 30 times in quick succession
+# Pings hostname(s) 30 times in quick succession.
 if [[ "$OSTYPE" =~ ^(cygwin|mingw|msys) ]]; then
     alias fastping='ping -n 30'
 else
     alias fastping='ping -c 30 -i.2'
 fi
 
-# Flush the DNS cache
+# Flushes the DNS cache.
 if [[ "$OSTYPE" =~ ^darwin ]]; then
     alias flushdns='dscacheutil -flushcache; sudo killall -HUP mDNSResponder;echo DNS cache flushed'
 elif [[ "$OSTYPE" =~ ^(cygwin|mingw|msys) ]]; then
@@ -205,13 +203,10 @@ else
     alias flushdns='sudo /etc/init.d/dns-clean restart && echo DNS cache flushed'
 fi
 
-# Show active network interfaces
-#alias ifactive="ifconfig | pcregrep -M -o '^[^\t:]+:([^\n]|\n\t)*status: active'"
-
-# Get all IP addresses
+# Gets all IP addresses.
 alias ips="ifconfig -a | grep -o 'inet6\? \(addr:\)\?\s\?\(\(\([0-9]\+\.\)\{3\}[0-9]\+\)\|[a-fA-F0-9:]\+\)' | awk '{ sub(/inet6? (addr:)? ?/, \"\"); print }'"
 
-# Get local IP address
+# Gets local IP address.
 if [[ "$OSTYPE" =~ ^darwin ]]; then
     alias localip="ipconfig getifaddr en0"
 elif [[ "$OSTYPE" =~ ^(cygwin|mingw|msys) ]]; then
@@ -220,16 +215,16 @@ else
     alias localip="ip route get 1 | awk '{print \$NF;exit}'"
 fi
 
-# Get external IP address.
+# Gets external IP address.
 if command -v dig &> /dev/null; then
     alias publicip="dig +short myip.opendns.com @resolver1.opendns.com"
 elif command -v curl > /dev/null; then
-    alias forecast='curl --silent --compressed --max-time 5 --url "https://ipinfo.io/ip"'
+    alias publicip='curl --silent --compressed --max-time 5 --url "https://ipinfo.io/ip"'
 else
-    alias forecast='wget -qO- --compression=auto --timeout=5 "https://ipinfo.io/ip"'
+    alias publicip='wget -qO- --compression=auto --timeout=5 "https://ipinfo.io/ip"'
 fi
 
-# Send HTTP requests
+# Sends HTTP requests.
 command -v lwp-request &> /dev/null && for method in GET HEAD POST PUT DELETE TRACE OPTIONS; do
     alias "${method}"="lwp-request -m '${method}'"
 done
@@ -239,7 +234,7 @@ unset method;
 # Power management
 # -----------------------------------------------------------------------------
 
-# Lock the session
+# Locks the session.
 if [[ "$OSTYPE" =~ ^darwin ]]; then
     alias lock='pmset displaysleepnow'
 elif [[ "$OSTYPE" =~ ^(cygwin|mingw|msys) ]]; then
@@ -250,7 +245,7 @@ elif command -v gnome-screensaver-command &> /dev/null; then
     alias lock='gnome-screensaver-command --lock'
 fi
 
-# Hibernate the system
+# Hibernates the system.
 if [[ "$OSTYPE" =~ ^darwin ]]; then
     alias hibernate="pmset sleep now"
 elif [[ "$OSTYPE" =~ ^(cygwin|mingw|msys) ]]; then
@@ -259,7 +254,7 @@ else
     alias hibernate="systemctl suspend"
 fi
 
-# Restart the system
+# Restarts the system.
 if [[ "$OSTYPE" =~ ^darwin ]]; then
     alias reboot="osascript -e 'tell application \"System Events\" to restart'"
 elif [[ "$OSTYPE" =~ ^(cygwin|mingw|msys) ]]; then
@@ -268,7 +263,7 @@ else
     alias reboot='sudo /sbin/reboot'
 fi
 
-# Shut down the system
+# Shuts down the system.
 if [[ "$OSTYPE" =~ ^darwin ]]; then
     alias poweroff="osascript -e 'tell application \"System Events\" to shut down'"
 elif [[ "$OSTYPE" =~ ^(cygwin|mingw|msys) ]]; then
@@ -281,7 +276,7 @@ fi
 # Sysadmin
 # -----------------------------------------------------------------------------
 
-# List drive mounts
+# Lists drive mounts.
 if [[ "$OSTYPE" =~ ^darwin ]]; then
     alias mnt='mount | grep -E ^/dev | column -t'
 elif [[ "$OSTYPE" =~ ^(cygwin|mingw|msys) ]]; then
@@ -290,17 +285,17 @@ else
     alias mnt="mount | awk -F' ' '{ printf \"%s\t%s\n\",\$1,\$3; }' | column -t | egrep ^/dev/ | sort"
 fi
 
-# Print each $PATH entry on a separate line
+# Prints each $PATH entry on a separate line.
 alias path='echo -e ${PATH//:/\\n}'
 
-# Update apps and packages
+# Updates apps and packages.
 #alias update='brew update && brew upgrade && brew cask upgrade && brew cleanup'
 
 
 # Applications
 # -----------------------------------------------------------------------------
 
-# Open file/URL (in) Browsers
+# Opens file/URL (in) browsers.
 if [[ "$OSTYPE" =~ ^darwin ]]; then
     alias browse='open'
     alias chrome='open -a Google\ Chrome'
@@ -325,7 +320,7 @@ else
     #alias safari='safari'
 fi
 
-# Enter the Starship cross-shell prompt
+# Enters the Starship cross-shell prompt.
 if [ -n "$ZSH_VERSION" ]; then
     if typeset -f prompt_powerlevel9k_teardown > /dev/null; then
         alias ss='prompt_powerlevel9k_teardown && eval "$(starship init zsh)"'
@@ -336,8 +331,8 @@ else
     alias ss='eval "$(starship init bash)"'
 fi
 
-# Open (in) Sublime Text
-# TODO: Add to path instead
+# Opens (in) Sublime Text.
+# TODO: Add to path instead.
 if [[ "$OSTYPE" =~ ^darwin ]]; then
     alias subl='/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl'
     alias st='/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl'
@@ -353,7 +348,7 @@ fi
 # Development
 # -----------------------------------------------------------------------------
 
-# Docker
+# Creates shortcuts for Docker.
 alias dk='docker'
 alias dco='docker-compose'
 # alias dwipe="docker kill $(docker ps -a -q) || docker rm $(docker ps -a -q) || docker ps -a"
@@ -361,13 +356,13 @@ alias dco='docker-compose'
 # alias dockerup='docker-compose up -d'
 # alias dockerrm='docker-compose rm --all'
 
-# Git
+# Creates shortcut for Git.
 alias g='git'
 
-# Python: activate virtual environment venv
+# Activates Python virtual environment `venv`.
 alias va='\. ./venv/bin/activate'
 
-# Python: create virtual environment venv
+# Creates Python virtual environment `venv`.
 alias ve='python3 -m venv ./venv'
 
 
@@ -375,15 +370,15 @@ alias ve='python3 -m venv ./venv'
 # -----------------------------------------------------------------------------
 
 if [[ "$OSTYPE" =~ ^darwin ]]; then
-    # Toggle display of desktop icons
+    # Toggles display of desktop icons.
     alias hidedesktop='defaults write com.apple.finder CreateDesktop -bool false && killall Finder'
     alias showdesktop='defaults write com.apple.finder CreateDesktop -bool true && killall Finder'
 
-    # Toggle hidden files in Finder
+    # Toggles hidden files in Finder.
     alias hidefiles='defaults write com.apple.finder AppleShowAllFiles -bool false && killall Finder'
     alias showfiles='defaults write com.apple.finder AppleShowAllFiles -bool true && killall Finder'
 
-    # Toggle Spotlight
+    # Toggles Spotlight.
     alias spotoff='sudo mdutil -a -i off'
     alias spoton='sudo mdutil -a -i on'
 fi
@@ -392,7 +387,7 @@ fi
 # Common paths
 # -----------------------------------------------------------------------------
 
-# User paths
+# Navigates to user paths.
 alias dl="cd ${HOME}/Downloads"
 alias docs="cd ${HOME}/Documents"
 alias dt="cd ${HOME}/Desktop"
@@ -401,7 +396,7 @@ alias dt="cd ${HOME}/Desktop"
 # Configuration paths
 # -----------------------------------------------------------------------------
 
-# Go to Chezmoi's local repo
+# Navigates to Chezmoi's local repo.
 if command -v chezmoi > /dev/null; then
     if [[ "$OSTYPE" =~ ^(cygwin|mingw|msys) ]]; then
         alias chezmoiconf="cd $(echo $(chezmoi source-path) | tr '\\/' '/' | tr -d ':' | awk '{print "/"$1}')"
@@ -412,22 +407,21 @@ else
     alias chezmoiconf="cd ${HOME}/.local/share/chezmoi"
 fi
 
-# Navigate to Powershell's profile location
+# Navigates to Powershell's profile location.
 if [[ "$OSTYPE" =~ ^(cygwin|mingw|msys) ]]; then
     alias powershellconf="cd ${HOME}/Documents/PowerShell"
 else
     alias powershellconf="cd ${HOME}/.config/powershell"
 fi
 
-# Go to Sublime Text's local repo
+# Navigates to Sublime Text's local repo.
 alias sublimeconf="cd ${HOME}/Library/Application\ Support/Sublime\ Text\ 3/Packages/User"
-
 
 
 # Custom paths
 # -----------------------------------------------------------------------------
 
-# Paths: Code
+# Navigates to custom paths.
 alias archives="cd ${HOME}/Archives"
 alias repos="cd ${HOME}/Code"
 
@@ -435,32 +429,20 @@ alias repos="cd ${HOME}/Code"
 # Varia
 # -----------------------------------------------------------------------------
 
-# Canonical hex dump; some systems have this symlinked
-command -v hd > /dev/null || alias hd="hexdump -C"
-
-# Generate hashes
+# Generates hashes.
 command -v md5sum > /dev/null || alias md5sum='md5'
 alias sha='shasum -a 256 '
 command -v sha1 > /dev/null || alias sha1='openssl sha1'
 command -v sha1sum > /dev/null || alias sha1sum='shasum'
 
-# Intuitive map function
-# For example, to list all directories that contain a certain file:
-# find . -name .gitattributes | map dirname
-alias map="xargs -n1"
-
-# Merges PDF files, preserving hyperlinks
-# Usage: `mergepdf input{1,2,3}.pdf`
-alias mergepdf='gs -q -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -sOutputFile=_merged.pdf'
-
-# Display detailed weather and forecast
+# Displays detailed weather and forecast.
 if command -v curl > /dev/null; then
     alias forecast='curl --silent --compressed --max-time 5 --url "https://wttr.in?nF"'
 else
     alias forecast='wget -qO- --compression=auto --timeout=5 "https://wttr.in?nF"'
 fi
 
-# Display current weather
+# Displays current weather.
 if command -v curl > /dev/null; then
     alias weather='curl --silent --compressed --max-time 5 --url "https://wttr.in/?format=%l:+(%C)+%c++%t+\[%h,+%w\]"'
 else
@@ -470,29 +452,40 @@ fi
 # Ideas
 # -----------------------------------------------------------------------------
 
+# Canonical hex dump.
+#command -v hd > /dev/null || alias hd="hexdump -C"
+
 #alias j='jobs -l'
 
 #alias plistbuddy='/usr/libexec/PlistBuddy'
 
-# Add an "alert" alias for long running commands.  Use like so:
+# Adds an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
 #alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
+# Shows active network interfaces.
+#alias ifactive="ifconfig | pcregrep -M -o '^[^\t:]+:([^\n]|\n\t)*status: active'"
 
-# URL-encode strings
+# Merges PDF files, preserving hyperlinks.
+# Usage: `mergepdf input{1,2,3}.pdf`
+#alias mergepdf='gs -q -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -sOutputFile=_merged.pdf'
+
+# Intuitive map function.
+# For example, to list all directories that contain a certain file:
+# find . -name .gitattributes | map dirname
+#alias map="xargs -n1"
+
+# URL-encodes strings.
 #alias urldecode='perl -pe "s/\%(\w\w)/chr hex $1/ge"'
 #alias urlencode='python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1]);"'
 
-# Get macOS Software Updates, and update installed Ruby gems, Homebrew, npm, and their installed packages
-#alias update='sudo softwareupdate -i -a; brew update; brew upgrade; brew cleanup; npm install npm -g; npm update -g; sudo gem update --system; sudo gem update; sudo gem cleanup'
-
-# Recursively delete `.DS_Store` files
+# Recursively deletes `.DS_Store` files.
 #alias cleanup="find . -type f -name '*.DS_Store' -ls -delete"
 
-# Empty the Trash on all mounted volumes and the main HDD.
+# Empties the Trash on all mounted volumes and the main HDD.
 # Also, clear Apple’s System Logs to improve shell startup speed.
 # Finally, clear download history from quarantine. https://mths.be/bum
 #alias emptytrash="sudo rm -rfv /Volumes/*/.Trashes; sudo rm -rfv ~/.Trash; sudo rm -rfv /private/var/log/asl/*.asl; sqlite3 ~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV* 'delete from LSQuarantineEvent'"
 
-# Airport CLI alias
+# Airport CLI alias.
 #alias airport='/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport'

@@ -56,12 +56,12 @@ System-specific aliases are marked with <a href="#" title="macOS"></a>, <a hr
 
 | Bash | PowerShell | Zsh | Command | Description |
 |:----:|:----------:|:---:|---------|-------------|
-| ✅   | ✅         | ✅ | `~`      | Go to user home directory.
-| ✅   | ✅         | ✅ | `cd-`    | Go to last used directory.
-| ✅   | ✅         | ✅ | `..`<br>`cd..` | Go up a directory.
-| ✅   | ✅         | ✅ | `...`    | Go up two directories.
-| ✅   | ✅         | ✅ | `....`   | Go up three directories.
-| ✅   | ✅         | ✅ | `.....`  | Go up four directories.
+| ✅   | ✅         | ✅ | `~`      | Navigates to user home directory.
+| ✅   | ✅         | ✅ | `cd-`    | Navigates to last used directory.
+| ✅   | ✅         | ✅ | `..`<br>`cd..` | Navigates up a directory.
+| ✅   | ✅         | ✅ | `...`    | Navigates up two directories.
+| ✅   | ✅         | ✅ | `....`   | Navigates up three directories.
+| ✅   | ✅         | ✅ | `.....`  | Navigates up four directories.
 
 <p align="right"><a href="#top" title="Back to top">🔝</a></p>
 
@@ -69,10 +69,10 @@ System-specific aliases are marked with <a href="#" title="macOS"></a>, <a hr
 
 | Bash | PowerShell | Zsh | Command | Description |
 |:----:|:----------:|:---:|---------|-------------|
-| ✅   | ✅         | ✅  | `l`     | List visible files in long format.
-| ✅   | ✅         | ✅  | `ll`    | List all files in long format, excluding `.` and `..`.
-| ✅   | ✅         | ✅  | `lsd`    | List only directories in long format.
-| ✅   | ✅         | ✅  | `lsh`   | List only hidden files in long format.
+| ✅   | ✅         | ✅  | `l`     | Lists visible files in long format.
+| ✅   | ✅         | ✅  | `ll`    | Lists all files in long format, excluding `.` and `..`.
+| ✅   | ✅         | ✅  | `lsd`    | Lists only directories in long format.
+| ✅   | ✅         | ✅  | `lsh`   | Lists only hidden files in long format.
 
 <p align="right"><a href="#top" title="Back to top">🔝</a></p>
 
@@ -80,11 +80,11 @@ System-specific aliases are marked with <a href="#" title="macOS"></a>, <a hr
 
 | Bash | PowerShell | Zsh | Command | Description |
 |:----:|:----------:|:---:|---------|-------------|
-| ✅   | ✅         | ✅  | `cpv`   | Copy a file securely.
-| ✅   | ✅         | ✅  | `fd`    | Find directory.
-| ✅   | ✅         | ✅  | `ff`    | Find file.
-| ❌   | ✅         | ❌  | `mirror` | Mirror directories.
-| ✅   | ✅         | ✅  | `rg`    | Search recursively with [ripgrep](https://github.com/BurntSushi/ripgrep).
+| ✅   | ✅         | ✅  | `cpv`   | Copies a file securely.
+| ✅   | ✅         | ✅  | `fd`    | Finds directories.
+| ✅   | ✅         | ✅  | `ff`    | Finds files.
+| ❌   | ✅         | ❌  | `mirror` | Mirrors directories.
+| ✅   | ✅         | ✅  | `rg`    | Searches recursively with [ripgrep](https://github.com/BurntSushi/ripgrep).
 
 <p align="right"><a href="#top" title="Back to top">🔝</a></p>
 
@@ -92,15 +92,15 @@ System-specific aliases are marked with <a href="#" title="macOS"></a>, <a hr
 
 | Bash | PowerShell | Zsh | Command | Description |
 |:----:|:----------:|:---:|---------|-------------|
-| ✅   | ✅         | ✅  | `alias` | List aliases.
-| ✅   | ✅         | ✅  | `c`     | Clear screen.
-| ✅   | ❌         | ✅  | `extract`<br>`x` | Extract common file formats.<br>_Usage: `extract solarized.zip`_
-| ✅   | ✅         | ✅  | `h`     | Display/Search global history.<br>_Usage: `h`_<br>_Usage: `h cd`_
-| ✅   | ✅         | ⚠️  | `hs`    | Display/Search session history.<br>_Usage: `hs`_<br>_Usage: `hs cd`_
-| ✅   | ✅         | ✅  | `mkcd`<br>`take` | Create directory and change to it.<br>_Usage: `mkcd foldername`_
-| ✅   | ❌         | ✅  | `reload` | Reload the shell.
-| ✅   | ✅         | ✅  | `repeat`<br>`r` | Repeat a command `x` times.<br>_Usage: `repeat 5 echo hello`_.
-| ✅   | ❌         | ✅  | `resource` | Reload configuration.
+| ✅   | ✅         | ✅  | `alias` | Lists aliases.
+| ✅   | ✅         | ✅  | `c`     | Clears the console screen.
+| ✅   | ❌         | ✅  | `extract`<br>`x` | Extracts common file formats.<br>_Usage: `extract solarized.zip`_
+| ✅   | ✅         | ✅  | `h`     | Displays/Searches global history.<br>_Usage: `h`_<br>_Usage: `h cd`_
+| ✅   | ✅         | ⚠️  | `hs`    | Displays/Searches session history.<br>_Usage: `hs`_<br>_Usage: `hs cd`_
+| ✅   | ✅         | ✅  | `mkcd`<br>`take` | Creates directory and change to it.<br>_Usage: `mkcd foldername`_
+| ✅   | ❌         | ✅  | `reload` | Reloads the shell.
+| ✅   | ✅         | ✅  | `repeat`<br>`r` | Repeats a command `x` times.<br>_Usage: `repeat 5 echo hello`_.
+| ✅   | ❌         | ✅  | `resource` | Reloads configuration.
 
 <p align="right"><a href="#top" title="Back to top">🔝</a></p>
 
@@ -108,12 +108,12 @@ System-specific aliases are marked with <a href="#" title="macOS"></a>, <a hr
 
 | Bash | PowerShell | Zsh | Command | Description |
 |:----:|:----------:|:---:|---------|-------------|
-| ✅   | ✅         | ✅  | `now`<br>`unow` | Display local/UTC date and time in [ISO 8601](https://xkcd.com/1179/) format `YYYY-MM-DDThh:mm:ss`.
-| ✅   | ✅         | ✅  | `nowdate`<br>`unowdate` | Display local/UTC date in `YYYY-MM-DD` format.
-| ✅   | ✅         | ✅  | `nowtime`<br>`unowtime` | Display local/UTC time in `hh:mm:ss` format.
-| ✅   | ✅         | ✅  | `timestamp` | Display Unix time stamp.
-| ✅   | ✅         | ✅  | `week`  | Display week number in [ISO 9601](https://en.wikipedia.org/wiki/ISO_8601#Week_dates) format `YYYY-Www`.
-| ✅   | ✅         | ✅  | `weekday` | Display weekday number.
+| ✅   | ✅         | ✅  | `now`<br>`unow` | Gets local/UTC date and time in [ISO 8601](https://xkcd.com/1179/) format `YYYY-MM-DDThh:mm:ss`.
+| ✅   | ✅         | ✅  | `nowdate`<br>`unowdate` | Gets local/UTC date in `YYYY-MM-DD` format.
+| ✅   | ✅         | ✅  | `nowtime`<br>`unowtime` | Gets local/UTC time in `hh:mm:ss` format.
+| ✅   | ✅         | ✅  | `timestamp` | Gets Unix time stamp.
+| ✅   | ✅         | ✅  | `week`  | Gets week number in [ISO 9601](https://en.wikipedia.org/wiki/ISO_8601#Week_dates) format `YYYY-Www`.
+| ✅   | ✅         | ✅  | `weekday` | Gets weekday number.
 
 <p align="right"><a href="#top" title="Back to top">🔝</a></p>
 
@@ -121,13 +121,12 @@ System-specific aliases are marked with <a href="#" title="macOS"></a>, <a hr
 
 | Bash | PowerShell | Zsh | Command | Description |
 |:----:|:----------:|:---:|---------|-------------|
-| ✅   | ✅         | ✅  | `fastping` | Ping hostname(s) 30 times in quick succession.
-| ✅   | ✅         | ✅  | `flushdns` | Flush the DNS cache.
-| ❌   | ❌         | ❌  | `ifactive` | Show active network interfaces.
-| ✅   | ✅         | ✅  | `ips`   | Get all IP addresses.
-| ✅   | ✅         | ✅  | `localip` | Get local IP address.
-| ✅   | ✅         | ✅  | `publicip` | Get external IP address.
-| ✅   | ✅         | ✅  | `GET`<br>`HEAD`<br>`POST`<br>`PUT`<br>`DELETE`<br>`TRACE`<br>`OPTIONS` | Send HTTP requests.<br>_Usage: `GET http://example.com`_
+| ✅   | ✅         | ✅  | `fastping` | Pings hostname(s) 30 times in quick succession.
+| ✅   | ✅         | ✅  | `flushdns` | Flushes the DNS cache.
+| ✅   | ✅         | ✅  | `ips`   | Gets all IP addresses.
+| ✅   | ✅         | ✅  | `localip` | Gets local IP address.
+| ✅   | ✅         | ✅  | `publicip` | Gets external IP address.
+| ✅   | ✅         | ✅  | `GET`<br>`HEAD`<br>`POST`<br>`PUT`<br>`DELETE`<br>`TRACE`<br>`OPTIONS` | Sends HTTP requests.<br>_Usage: `GET https://example.com`_
 
 <p align="right"><a href="#top" title="Back to top">🔝</a></p>
 
@@ -135,10 +134,10 @@ System-specific aliases are marked with <a href="#" title="macOS"></a>, <a hr
 
 | Bash | PowerShell | Zsh | Command | Description |
 |:----:|:----------:|:---:|---------|-------------|
-| ✅   | ✅         | ✅  | `hibernate` | Go to sleep.
-| ✅   | ✅         | ✅  | `lock`  | Lock the session.
-| ✅   | ✅         | ✅  | `poweroff` | Shut down the system.
-| ✅   | ✅         | ✅  | `reboot` | Restart the system.
+| ✅   | ✅         | ✅  | `hibernate` | Hibernates the system.
+| ✅   | ✅         | ✅  | `lock`  | Locks the session.
+| ✅   | ✅         | ✅  | `poweroff` | Shuts down the system.
+| ✅   | ✅         | ✅  | `reboot` | Restarts the system.
 
 <p align="right"><a href="#top" title="Back to top">🔝</a></p>
 
@@ -146,9 +145,9 @@ System-specific aliases are marked with <a href="#" title="macOS"></a>, <a hr
 
 | Bash | PowerShell | Zsh | Command | Description |
 |:----:|:----------:|:---:|---------|-------------|
-| ✅   | ✅         | ✅  | `mnt`   | List drive mounts.
-| ✅   | ✅         | ✅  | `path`  | Print each `$PATH` entry on a separate line.
-| ✅   | ✅         | ✅  | `update` | Keep all apps and packages up to date.
+| ✅   | ✅         | ✅  | `mnt`   | Lists drive mounts.
+| ✅   | ✅         | ✅  | `path`  | Prints each `$PATH` entry on a separate line.
+| ✅   | ✅         | ✅  | `update` | Keeps all apps and packages up to date.
 
 <p align="right"><a href="#top" title="Back to top">🔝</a></p>
 
@@ -156,15 +155,15 @@ System-specific aliases are marked with <a href="#" title="macOS"></a>, <a hr
 
 | Bash | PowerShell | Zsh | Command | Description |
 |:----:|:----------:|:---:|---------|-------------|
-| ✅   | ✅         | ✅  | `browse` | Open file/URL in default browser.<br>_Usage: `open http://example.com`_
-| ✅   | ✅         | ✅  | `chrome` | Open file/URL in [Chrome](https://www.google.com/chrome/).
-| ✅   | ✅         | ✅  | `edge` | Open file/URL in [Microsoft Edge](https://www.microsoft.com/en-us/edge).
-| ✅   | ✅         | ✅  | `firefox` | Open file/URL in [Firefox](https://www.mozilla.org/en-CA/firefox/).
-| ❔   | ✅         | ❔  | `iexplore` | Open file/URL in [Internet Explorer](https://www.microsoft.com/ie). ⊞
-| ✅   | ✅         | ✅  | `opera` | Open file/URL in [Opera](https://www.opera.com/).
-| ✅   | ✅         | ✅  | `safari` | Open file/URL in [Safari](https://www.apple.com/ca/safari/). 
-| ✅   | ✅         | ✅  | `ss`    | Enter the [Starship 🚀](https://starship.rs) cross-shell prompt.
-| ⚠️   | ✅         | ⚠️  | `subl`<br>`st`  | Open in [Sublime Text](https://www.sublimetext.com/).
+| ✅   | ✅         | ✅  | `browse` | Opens file/URL in default browser.<br>_Usage: `open https://example.com`_
+| ✅   | ✅         | ✅  | `chrome` | Opens file/URL in [Chrome](https://www.google.com/chrome/).
+| ✅   | ✅         | ✅  | `edge` | Opens file/URL in [Microsoft Edge](https://www.microsoft.com/en-us/edge).
+| ✅   | ✅         | ✅  | `firefox` | Opens file/URL in [Firefox](https://www.mozilla.org/en-CA/firefox/).
+| ❔   | ✅         | ❔  | `iexplore` | Opens file/URL in [Internet Explorer](https://www.microsoft.com/ie). ⊞
+| ✅   | ✅         | ✅  | `opera` | Opens file/URL in [Opera](https://www.opera.com/).
+| ✅   | ✅         | ✅  | `safari` | Opens file/URL in [Safari](https://www.apple.com/ca/safari/). 
+| ✅   | ✅         | ✅  | `ss`    | Enters the [Starship 🚀](https://starship.rs) cross-shell prompt.
+| ⚠️   | ✅         | ⚠️  | `subl`<br>`st`  | Opens in [Sublime Text](https://www.sublimetext.com/).
 
 <p align="right"><a href="#top" title="Back to top">🔝</a></p>
 
@@ -175,8 +174,8 @@ System-specific aliases are marked with <a href="#" title="macOS"></a>, <a hr
 | ✅   | ✅         | ✅  | `dk`    | 🐳 Alias for [`docker`](https://www.docker.com/).
 | ✅   | ✅         | ✅  | `dco`   | 🐳 Alias for [`docker-compose`](https://docs.docker.com/compose/).
 | ✅   | ✅         | ✅  | `g`     | :octocat: Alias for [`git`](https://git-scm.com/).
-| ✅   | ✅         | ✅  | `va`    | 🐍 Python: activate [virtual environment venv](https://docs.python.org/3/tutorial/venv.html).
-| ✅   | ✅         | ✅  | `ve`    | 🐍 Python: create [virtual environment venv](https://docs.python.org/3/tutorial/venv.html).
+| ✅   | ✅         | ✅  | `va`    | 🐍 Activates Python [virtual environment `venv`](https://docs.python.org/3/tutorial/venv.html).
+| ✅   | ✅         | ✅  | `ve`    | 🐍 Creates Python [virtual environment `venv`](https://docs.python.org/3/tutorial/venv.html).
 
 <p align="right"><a href="#top" title="Back to top">🔝</a></p>
 
@@ -184,9 +183,9 @@ System-specific aliases are marked with <a href="#" title="macOS"></a>, <a hr
 
 | Bash | PowerShell | Zsh | Command | Description |
 |:----:|:----------:|:---:|---------|-------------|
-| ✅   | ✅         | ✅  | `hidedesktop`<br>`showdesktop` | Toggle display of desktop icons.
-| ✅   | ✅         | ✅  | `hidefiles`<br>`showfiles` | Toggle hidden files display in [Finder](https://support.apple.com/en-ca/HT201732).
-| ✅   | ✅         | ✅  | `spotoff`<br>`spoton` | Toggle [Spotlight](https://support.apple.com/en-ca/HT204014).
+| ✅   | ✅         | ✅  | `hidedesktop`<br>`showdesktop` | Toggles display of desktop icons.
+| ✅   | ✅         | ✅  | `hidefiles`<br>`showfiles` | Toggles hidden files display in [Finder](https://support.apple.com/en-ca/HT201732).
+| ✅   | ✅         | ✅  | `spotoff`<br>`spoton` | Toggles [Spotlight](https://support.apple.com/en-ca/HT204014).
 
 <p align="right"><a href="#top" title="Back to top">🔝</a></p>
 
@@ -194,7 +193,7 @@ System-specific aliases are marked with <a href="#" title="macOS"></a>, <a hr
 
 | Bash | PowerShell | Zsh | Command | Description |
 |:----:|:----------:|:---:|---------|-------------|
-| ❔   | ✅         | ❔  | `hidefiles`<br>`showfiles` | Toggle hidden files display in [File Explorer](https://support.microsoft.com/en-ca/help/4026617/windows-10-windows-explorer-has-a-new-name).
+| ❔   | ✅         | ❔  | `hidefiles`<br>`showfiles` | Toggles hidden files display in [File Explorer](https://support.microsoft.com/en-ca/help/4026617/windows-10-windows-explorer-has-a-new-name).
 
 <p align="right"><a href="#top" title="Back to top">🔝</a></p>
 
@@ -202,9 +201,9 @@ System-specific aliases are marked with <a href="#" title="macOS"></a>, <a hr
 
 | Bash | PowerShell | Zsh | Command | Description |
 |:----:|:----------:|:---:|---------|-------------|
-| ✅   | ✅         | ✅  | `dl`    | Go to `~/Downloads`.
-| ✅   | ✅         | ✅  | `docs`  | Go to `~/Documents`.
-| ✅   | ✅         | ✅  | `dt`    | Go to `~/Desktop`.
+| ✅   | ✅         | ✅  | `dl`    | Navigates to `~/Downloads`.
+| ✅   | ✅         | ✅  | `docs`  | Navigates to `~/Documents`.
+| ✅   | ✅         | ✅  | `dt`    | Navigates to `~/Desktop`.
 
 <p align="right"><a href="#top" title="Back to top">🔝</a></p>
 
@@ -212,9 +211,9 @@ System-specific aliases are marked with <a href="#" title="macOS"></a>, <a hr
 
 | Bash | PowerShell | Zsh | Command | Description |
 |:----:|:----------:|:---:|---------|-------------|
-| ✅   | ✅         | ✅  | `chezmoiconf` | Go to [Chezmoi](https://www.chezmoi.io/)'s local configuration repo.
-| ✅   | ✅         | ✅  | `powershellconf` | Go to [Powershell](https://github.com/PowerShell/PowerShell)'s profile location.
-| ✅   | ✅         | ✅  | `sublimeconf` | Go to [Sublime Text](https://www.sublimetext.com/)'s local configuration repo.
+| ✅   | ✅         | ✅  | `chezmoiconf` | Navigates to [Chezmoi](https://www.chezmoi.io/)'s local configuration repo.
+| ✅   | ✅         | ✅  | `powershellconf` | Navigates to [Powershell](https://github.com/PowerShell/PowerShell)'s profile location.
+| ✅   | ✅         | ✅  | `sublimeconf` | Navigates to [Sublime Text](https://www.sublimetext.com/)'s local configuration repo.
 
 <p align="right"><a href="#top" title="Back to top">🔝</a></p>
 
@@ -222,8 +221,8 @@ System-specific aliases are marked with <a href="#" title="macOS"></a>, <a hr
 
 | Bash | PowerShell | Zsh | Command | Description |
 |:----:|:----------:|:---:|---------|-------------|
-| ✅   | ✅         | ✅  | `archives` | Go to `~/Archives`.
-| ✅   | ✅         | ✅  | `repos` | Go to `~/Code`.
+| ✅   | ✅         | ✅  | `archives` | Navigates to `~/Archives`.
+| ✅   | ✅         | ✅  | `repos` | Navigates to `~/Code`.
 
 <p align="right"><a href="#top" title="Back to top">🔝</a></p>
 
@@ -231,14 +230,12 @@ System-specific aliases are marked with <a href="#" title="macOS"></a>, <a hr
 
 | Bash | PowerShell | Zsh | Command | Description |
 |:----:|:----------:|:---:|---------|-------------|
-| ❔   | ❌         | ❔  | `hd`    | Canonical hex dump.
-| ✅   | ❌         | ✅  | `md5sum` | Calculate 128-bit MD5 sum hashes.
-| ✅   | ❌         | ✅  | `sha`   | Calculate SHA sum hashes.
-| ✅   | ❌         | ✅  | `sha1`  | Calculate SHA1 hashes.
-| ✅   | ❌         | ✅  | `sha1sum` | Calculate SHA1 sum hashes.
-| ❔   | ❌         | ❔  | `mergepdf` | Merge PDF files, preserving hyperlinks.
-| ✅   | ✅         | ✅  | `forecast` | 🌤️ Display [detailed weather and forecast](https://wttr.in/?n).
-| ✅   | ✅         | ✅  | `weather` | 🌤️ Display [current weather](https://wttr.in/?format=%l:+(%C)+%c++%t+[%h,+%w]).
+| ✅   | ❌         | ✅  | `md5sum` | Calculates 128-bit MD5 sum hashes.
+| ✅   | ❌         | ✅  | `sha`   | Calculates SHA sum hashes.
+| ✅   | ❌         | ✅  | `sha1`  | Calculates SHA1 hashes.
+| ✅   | ❌         | ✅  | `sha1sum` | Calculates SHA1 sum hashes.
+| ✅   | ✅         | ✅  | `forecast` | 🌤️ Displays [detailed weather and forecast](https://wttr.in/?n).
+| ✅   | ✅         | ✅  | `weather` | 🌤️ Displays [current weather](https://wttr.in/?format=%l:+(%C)+%c++%t+[%h,+%w]).
 
 <p align="right"><a href="#top" title="Back to top">🔝</a></p>
 
