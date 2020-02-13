@@ -2223,6 +2223,99 @@ function Set-LocationCode {
 # Varia
 # -----------------------------------------------------------------------------
 
+function Get-FileHashMD5 {
+    <#
+    .SYNOPSIS
+        Calculates the MD5 hash of an input.
+    .PARAMETER Path
+        Path to calculate hashes from.
+    .EXAMPLE
+        Get-FileHashMD5 file
+    .EXAMPLE
+        Get-FileHashMD5 file1,file2
+    .EXAMPLE
+        Get-FileHashMD5 *.gz
+    .INPUTS
+        System.String[]
+    .OUTPUTS
+        Microsoft.PowerShell.Commands.FileHashInfo
+    .LINK
+        Get-FileHash
+    #>
+    [CmdletBinding()]
+    param(
+        [Parameter(
+            Mandatory=$true,
+            Position=0,
+            ValueFromPipeline=$true
+        )]
+        [string]$Path
+    )
+    Get-FileHash $Path -Algorithm MD5
+}
+
+function Get-FileHashSHA1 {
+    <#
+    .SYNOPSIS
+        Calculates the SHA1 hash of an input.
+    .PARAMETER Path
+        File(s) to calculate hashes from.
+    .EXAMPLE
+        Get-FileHashSHA1 file
+    .EXAMPLE
+        Get-FileHashSHA1 file1,file2
+    .EXAMPLE
+        Get-FileHashSHA1 *.gz
+    .INPUTS
+        System.String[]
+    .OUTPUTS
+        Microsoft.PowerShell.Commands.FileHashInfo
+    .LINK
+        Get-FileHash
+    #>
+    [CmdletBinding()]
+    param(
+        [Parameter(
+            Mandatory=$true,
+            Position=0,
+            ValueFromPipeline=$true
+        )]
+        [string]$Path
+    )
+    Get-FileHash $Path -Algorithm SHA1
+}
+
+function Get-FileHashSHA256 {
+    <#
+    .SYNOPSIS
+        Calculates the SHA256 hash of an input.
+    .PARAMETER Path
+        File(s) to calculate hashes from.
+    .EXAMPLE
+        Get-FileHashSHA256 file
+    .EXAMPLE
+        Get-FileHashSHA256 file1,file2
+    .EXAMPLE
+        Get-FileHashSHA256 *.gz
+    .INPUTS
+        System.String[]
+    .OUTPUTS
+        Microsoft.PowerShell.Commands.FileHashInfo
+    .LINK
+        Get-FileHash
+    #>
+    [CmdletBinding()]
+    param(
+        [Parameter(
+            Mandatory=$true,
+            Position=0,
+            ValueFromPipeline=$true
+        )]
+        [string]$Path
+    )
+    Get-FileHash $Path -Algorithm SHA256
+}
+
 function Get-Weather {
     <#
     .SYNOPSIS

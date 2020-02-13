@@ -163,7 +163,7 @@ System-specific aliases are marked with <a href="#" title="macOS"></a>, <a hr
 | ✅   | ✅         | ✅  | `opera` | Opens file/URL in [Opera](https://www.opera.com/).
 | ✅   | ✅         | ✅  | `safari` | Opens file/URL in [Safari](https://www.apple.com/ca/safari/). 
 | ✅   | ✅         | ✅  | `ss`    | Enters the [Starship 🚀](https://starship.rs) cross-shell prompt.
-| ⚠️   | ✅         | ⚠️  | `subl`<br>`st`  | Opens in [Sublime Text](https://www.sublimetext.com/).
+| ✅   | ✅         | ✅  | `subl`<br>`st`  | Opens in [Sublime Text](https://www.sublimetext.com/).
 
 <p align="right"><a href="#top" title="Back to top">🔝</a></p>
 
@@ -230,10 +230,9 @@ System-specific aliases are marked with <a href="#" title="macOS"></a>, <a hr
 
 | Bash | PowerShell | Zsh | Command | Description |
 |:----:|:----------:|:---:|---------|-------------|
-| ✅   | ❌         | ✅  | `md5sum` | Calculates 128-bit MD5 sum hashes.
-| ✅   | ❌         | ✅  | `sha`   | Calculates SHA sum hashes.
-| ✅   | ❌         | ✅  | `sha1`  | Calculates SHA1 hashes.
-| ✅   | ❌         | ✅  | `sha1sum` | Calculates SHA1 sum hashes.
+| ✅   | ✅         | ✅  | `md5sum` | #️⃣ Calculates MD5 hashes.
+| ✅   | ✅         | ✅  | `sha1sum`  | #️⃣ Calculates SHA1 hashes.
+| ✅   | ✅         | ✅  | `sha256sum` | #️⃣ Calculates SHA256 hashes.
 | ✅   | ✅         | ✅  | `forecast` | 🌤️ Displays [detailed weather and forecast](https://wttr.in/?n).
 | ✅   | ✅         | ✅  | `weather` | 🌤️ Displays [current weather](https://wttr.in/?format=%l:+(%C)+%c++%t+[%h,+%w]).
 

@@ -266,6 +266,12 @@ Set-Alias -Name "repos" -Value Set-LocationCode -Description "Navigates to Code 
 # Varia
 # -----------------------------------------------------------------------------
 
+Set-Alias -Name "md5sum" -Value Get-FileHashMD5 -Description "Calculates the MD5 hash of an input."
+
+Set-Alias -Name "sha1sum" -Value Get-FileHashSHA1 -Description "Calculates the SHA1 hash of an input."
+
+Set-Alias -Name "sha256sum" -Value Get-FileHashSHA256 -Description "Calculates the SHA256 hash of an input."
+
 Set-Alias -Name "forecast" -Value Get-WeatherForecast -Description "Displays detailed weather and forecast."
 
 Set-Alias -Name "weather" -Value Get-WeatherCurrent -Description "Displays current weather."

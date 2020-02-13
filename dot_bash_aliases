@@ -429,11 +429,32 @@ alias repos="cd ${HOME}/Code"
 # Varia
 # -----------------------------------------------------------------------------
 
-# Generates hashes.
-command -v md5sum > /dev/null || alias md5sum='md5'
-alias sha='shasum -a 256 '
-command -v sha1 > /dev/null || alias sha1='openssl sha1'
-command -v sha1sum > /dev/null || alias sha1sum='shasum'
+# Generates MD5 hashes.
+if ! command -v md5sum > /dev/null; then
+    if command -v md5 > /dev/null; then
+        alias md5sum='md5 -r'
+    else
+        alias md5sum='openssl md5 -r'
+    fi
+fi
+
+# Generates SHA1 hashes.
+if ! command -v sha1sum > /dev/null; then
+    if command -v shasum > /dev/null; then
+        alias sha1sum='shasum -a 1 -p'
+    else
+        alias sha1sum='openssl sha1 -r'
+    fi
+fi
+
+# Generates SHA256 hashes.
+if ! command -v sha256sum > /dev/null; then
+    if command -v shasum > /dev/null; then
+        alias sha256sum='shasum -a 256 -p'
+    else
+        alias sha256sum='openssl sha256 -r'
+    fi
+fi
 
 # Displays detailed weather and forecast.
 if command -v curl > /dev/null; then
@@ -456,6 +477,10 @@ fi
 #command -v hd > /dev/null || alias hd="hexdump -C"
 
 #alias j='jobs -l'
+
+# alias sha256sum='function _f { shasum -a 256 -p ${1} | awk "{print \$1}"; }; _f'
+# alias sha256sum='function _f { openssl sha256 ${1} | awk "{print \$2}"; }; _f'
+
 
 #alias plistbuddy='/usr/libexec/PlistBuddy'
 
