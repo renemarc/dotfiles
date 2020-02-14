@@ -24,7 +24,9 @@ alias mv='mv -v';
 alias df='df -h'
 
 # Colorizes diff output, if possible.
-command -v colordiff &> /dev/null && alias diff='colordiff'
+if type 'colordiff' &> /dev/null; then
+    alias diff='colordiff'
+fi
 
 # Prints disk usage per directory non-recursively, in human readable format.
 alias du='du -h -d1'
