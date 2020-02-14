@@ -266,6 +266,11 @@ Set-Alias -Name "repos" -Value Set-LocationCode -Description "Navigates to Code 
 # Varia
 # -----------------------------------------------------------------------------
 
+Set-Alias -Name "cb" -Value Set-Clipboard -Description "Copies contents to the clipboard."
+
+Set-Alias -Name "cbpaste" -Value Get-Clipboard -Description "Pastes the contents of the clipboard."
+
+
 Set-Alias -Name "md5sum" -Value Get-FileHashMD5 -Description "Calculates the MD5 hash of an input."
 
 Set-Alias -Name "sha1sum" -Value Get-FileHashSHA1 -Description "Calculates the SHA1 hash of an input."

@@ -429,6 +429,34 @@ alias repos="cd ${HOME}/Code"
 # Varia
 # -----------------------------------------------------------------------------
 
+# Copies contents to the clipboard.
+if command -v pbcopy > /dev/null; then
+    alias cb="pbcopy < $1"
+elif command -v xclip > /dev/null; then
+    alias cb="xclip -selection clipboard < $1"
+elif command -v xsel > /dev/null; then
+    alias cb="cat $1 | xsel -ib"
+elif command -v clipboard > /dev/null; then # node.js clipboard-cli
+    alias cb="cat $1 | clipboard"
+elif command -v clip > /dev/null; then
+    alias cb="clip < $1"
+elif command -v powershell > /dev/null; then
+    alias cb="powershell -NoProfile -Command 'Set-Clipboard'"
+fi
+
+# Pastes the contents of the clipboard.
+if command -v pbpaste > /dev/null; then
+    alias cbpaste="pbpaste"
+elif command -v xclip > /dev/null; then
+    alias cbpaste="xclip -i -selection clipboard -o"
+elif command -v xsel > /dev/null; then
+    alias cbpaste="xsel -bo"
+elif command -v clipboard > /dev/null; then
+    alias cbpaste="clipboard"
+elif command -v powershell > /dev/null; then
+    alias cbpaste="powershell -NoProfile -Command 'Get-Clipboard'"
+fi
+
 # Calculates MD5 hashes.
 if ! command -v md5sum > /dev/null; then
     if command -v md5 > /dev/null; then

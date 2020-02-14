@@ -238,6 +238,8 @@ System-specific aliases are marked with <a href="#" title="macOS"></a>, <a hr
 
 | Bash | PowerShell | Zsh | Command | Description |
 |:----:|:----------:|:---:|---------|-------------|
+| ✅   | ✅         | ✅  | `cb`    | 📋 Copies contents to the clipboard.
+| ✅   | ✅         | ✅  | `cbpaste` | 📋 Pastes the contents of the clipboard.
 | ✅   | ✅         | ✅  | `md5sum` | #️⃣ Calculates MD5 hashes.
 | ✅   | ✅         | ✅  | `sha1sum`  | #️⃣ Calculates SHA1 hashes.
 | ✅   | ✅         | ✅  | `sha256sum` | #️⃣ Calculates SHA256 hashes.
