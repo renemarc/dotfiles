@@ -45,10 +45,10 @@ else
     export LSCOLORS='BxBxhxDxfxhxhxhxhxcxcx'
 fi
 if type 'dir' &> /dev/null; then
-    alias top='dir --color=auto'
+    alias dir='dir --color=auto'
 fi
 if type 'vdir' &> /dev/null; then
-    alias top='vdir --color=auto'
+    alias vdir='vdir --color=auto'
 fi
 
 # Uses human sizes, classifications, and color output for `ls`.
@@ -66,9 +66,13 @@ alias nano='nano -w';
 # Stops ping after sending 4 ECHO_REQUEST packets.
 alias ping='ping -c 4'
 
-# Improves top.
+# Improves top with better alternatives.
 if type 'atop' &> /dev/null; then
     alias top='atop'
+elif type 'htop' &> /dev/null; then
+    alias top='htop'
+elif type 'ntop' &> /dev/null; then
+    alias top='ntop'
 fi
 
 # Enables simple aliases to be sudo'ed.

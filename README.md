@@ -155,6 +155,7 @@ System-specific aliases are marked with <a href="#" title="macOS"></a>, <a hr
 |:----:|:----------:|:---:|---------|-------------|
 | ✅   | ✅         | ✅  | `mnt`   | Lists drive mounts.
 | ✅   | ✅         | ✅  | `path`  | Prints each `$PATH` entry on a separate line.
+| ✅   | ✅         | ✅  | `top`   | Monitors processes and system resources.
 | ✅   | ✅         | ✅  | `update` | Keeps all apps and packages up to date.
 
 <p align="right"><a href="#top" title="Back to top">🔝</a></p>

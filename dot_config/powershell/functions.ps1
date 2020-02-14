@@ -1399,6 +1399,23 @@ function Get-Path {
     }
 }
 
+function Get-TopProcess {
+    <#
+    .SYNOPSIS
+        Monitors processes and system resource..
+    .INPUTS
+        None
+    .OUTPUTS
+        System.Object
+    #>
+    while ($true) {
+        Clear-Host
+        # Sort by Working Set size.
+        Get-Process | Sort-Object -Descending "WS" | Select-Object -First 30 | Format-Table -Autosize
+        Start-Sleep -Seconds 2
+    }
+}
+
 function Update-Packages {
     <#
     .SYNOPSIS
