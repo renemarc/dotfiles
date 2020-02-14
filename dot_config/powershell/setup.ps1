@@ -151,33 +151,27 @@ $modules = @{
         AllowClobber = $false;
         SkipPublisherCheck = $false;
     };
-Install-Module ClipboardText -Scope CurrentUser
 }
-foreach ($m in ($modules.GetEnumerator() | Sort-Object -Property name)) {
-    $name = $m.Name
-    $info = $m.Value.Info
-
-    if (!$m.Value.Install -or (!$IsCoreCLR -and $m.Value.IsCoreCLR)) {
+($modules.GetEnumerator() | Sort-Object -Property name) | ForEach-Object {
+    if (!$_.Value.Install -or (!$IsCoreCLR -and $_.Value.IsCoreCLR)) {
         continue
     }
 
-    if (Get-Module -ListAvailable -Name $name -ErrorAction "Ignore") {
-        Write-Host "Checking for $name ($info) updates..." -ForegroundColor $ColorInfo
-        Update-Module $name
+    if (Get-Module -ListAvailable -Name $_.Name -ErrorAction "Ignore") {
+        Write-Host "Checking for $($_.Name) updates ($($_.Value.Info))..." -ForegroundColor $ColorInfo
+        Update-Module $_.Name
     }
     else {
-        Write-Host "Installing $name ($info)..." -ForegroundColor $ColorInfo
-        if ($AllowPrerelease -and $m.Value.Prerelease) {
-            Install-Module $name -Scope CurrentUser -Force:$m.Value.Force -SkipPublisherCheck:$m.Value.SkipPublisherCheck -AllowClobber:$m.Value.AllowClobber -AllowPrerelease:$m.Value.Prerelease
+        Write-Host "Installing $($_.Name) ($($_.Value.Info))..." -ForegroundColor $ColorInfo
+        if ($AllowPrerelease -and $_.Value.Prerelease) {
+            Install-Module $_.Name -Scope CurrentUser -Force:$_.Value.Force -SkipPublisherCheck:$_.Value.SkipPublisherCheck -AllowClobber:$_.Value.AllowClobber -AllowPrerelease:$_.Value.Prerelease
         }
         else {
-            Install-Module $name -Scope CurrentUser -Force:$m.Value.Force -SkipPublisherCheck:$m.Value.SkipPublisherCheck -AllowClobber:$m.Value.AllowClobber
+            Install-Module $_.Name -Scope CurrentUser -Force:$_.Value.Force -SkipPublisherCheck:$_.Value.SkipPublisherCheck -AllowClobber:$_.Value.AllowClobber
         }
-        Get-Module -ListAvailable -Name $name
+        Get-Module -ListAvailable -Name $_.Name
         $count++
     }
-
-    Remove-Variable -Name ("name", "info")
 }
 
 # Setup Scoop.
