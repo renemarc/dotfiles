@@ -141,6 +141,17 @@ $modules = @{
         AllowClobber = $false;
         SkipPublisherCheck = $false;
     };
+    "ClipboardText" = @{
+        Info = "Clipboard text support";
+        Repo = "https://github.com/mklement0/ClipboardText";
+        Install = $true;
+        Force = $false;
+        Prerelease = $false;
+        IsCoreCLR = $false;
+        AllowClobber = $false;
+        SkipPublisherCheck = $false;
+    };
+Install-Module ClipboardText -Scope CurrentUser
 }
 foreach ($m in ($modules.GetEnumerator() | Sort-Object -Property name)) {
     $name = $m.Name

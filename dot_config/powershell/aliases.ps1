@@ -265,11 +265,28 @@ Set-Alias -Name "repos" -Value Set-LocationCode -Description "Navigates to Code 
 
 # Varia
 # -----------------------------------------------------------------------------
+Set-Variable -Name ClipBoardCommand -Value $null
+if (Get-Command "Set-Clipboard" -ErrorAction "Ignore") {
+    $ClipBoardCommand = "Set-Clipboard"
+}
+elseif (Get-Command "Set-ClipboardText" -ErrorAction "Ignore") {
+    $ClipBoardCommand = "Set-ClipboardText"
+}
+if ($ClipBoardCommand) {
+    Set-Alias -Name "cb" -Value "$ClipBoardCommand" -Description "Copies contents to the clipboard."
+}
 
-Set-Alias -Name "cb" -Value Set-Clipboard -Description "Copies contents to the clipboard."
-
-Set-Alias -Name "cbpaste" -Value Get-Clipboard -Description "Pastes the contents of the clipboard."
-
+$ClipBoardCommand = $null
+if (Get-Command "Get-Clipboard" -ErrorAction "Ignore") {
+    $ClipBoardCommand = "Get-Clipboard"
+}
+elseif (Get-Command "Get-ClipboardText" -ErrorAction "Ignore") {
+    $ClipBoardCommand = "Get-ClipboardText"
+}
+if ($ClipBoardCommand) {
+    Set-Alias -Name "cbpaste" -Value "$ClipBoardCommand" -Description "Pastes the contents of the clipboard."
+}
+Remove-Variable -Name "ClipBoardCommand"
 
 Set-Alias -Name "md5sum" -Value Get-FileHashMD5 -Description "Calculates the MD5 hash of an input."
 
