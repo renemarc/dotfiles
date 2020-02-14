@@ -429,7 +429,7 @@ alias repos="cd ${HOME}/Code"
 # Varia
 # -----------------------------------------------------------------------------
 
-# Generates MD5 hashes.
+# Calculates MD5 hashes.
 if ! command -v md5sum > /dev/null; then
     if command -v md5 > /dev/null; then
         alias md5sum='md5 -r'
@@ -438,7 +438,7 @@ if ! command -v md5sum > /dev/null; then
     fi
 fi
 
-# Generates SHA1 hashes.
+# Calculates SHA1 hashes.
 if ! command -v sha1sum > /dev/null; then
     if command -v shasum > /dev/null; then
         alias sha1sum='shasum -a 1 -p'
@@ -447,7 +447,7 @@ if ! command -v sha1sum > /dev/null; then
     fi
 fi
 
-# Generates SHA256 hashes.
+# Calculates SHA256 hashes.
 if ! command -v sha256sum > /dev/null; then
     if command -v shasum > /dev/null; then
         alias sha256sum='shasum -a 256 -p'
