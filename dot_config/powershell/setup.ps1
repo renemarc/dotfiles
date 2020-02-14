@@ -194,10 +194,11 @@ if ($IsWindows) {
         # Install any missing bucket.
         $bucketList = Invoke-Command -ScriptBlock { scoop bucket list }
         $buckets = (
+            "extras",
             "nerd-fonts",
             "twpayne"
         )
-        $buckets | ForEach {
+        $buckets | ForEach-Object {
             if (!$bucketList.Contains($_)) {
                 Invoke-Command -ScriptBlock { scoop bucket add $_ }
             }
@@ -216,9 +217,10 @@ if ($IsWindows) {
             "ntop",
             "ripgrep",
             "starship",
-            "sudo"
+            "sudo",
+            "winfetch"
         )
-        $apps | ForEach {
+        $apps | ForEach-Object {
             if (!$appList.Contains($_)) {
                 Invoke-Command -ScriptBlock { scoop install $_ }
             }

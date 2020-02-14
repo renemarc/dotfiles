@@ -155,6 +155,7 @@ System-specific aliases are marked with <a href="#" title="macOS"></a>, <a hr
 |:----:|:----------:|:---:|---------|-------------|
 | ✅   | ✅         | ✅  | `mnt`   | Lists drive mounts.
 | ✅   | ✅         | ✅  | `path`  | Prints each `$PATH` entry on a separate line.
+| ✅   | ✅         | ✅  | `sysinfo` | Displays information about the system.<br>Uses either [Winfetch](https://github.com/lptstr/winfetch), [Neofetch](https://github.com/dylanaraps/neofetch), or [Screenfetch](https://github.com/KittyKatt/screenFetch).
 | ✅   | ✅         | ✅  | `top`   | Monitors processes and system resources.
 | ✅   | ✅         | ✅  | `update` | Keeps all apps and packages up to date.
 

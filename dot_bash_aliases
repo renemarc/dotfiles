@@ -292,8 +292,13 @@ fi
 # Prints each $PATH entry on a separate line.
 alias path='echo -e ${PATH//:/\\n}'
 
-# Updates apps and packages.
-#alias update='brew update && brew upgrade && brew cask upgrade && brew cleanup'
+# Displays information about the system.
+for command in winfetch neofetch screenfetch; do
+    if type $command &> /dev/null; then
+        alias sysinfo=$command
+        break
+    fi
+done
 
 
 # Applications

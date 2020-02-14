@@ -171,6 +171,13 @@ Set-Alias -Name "path" -Value Get-Path -Description "Prints each PATH entry on a
     }
 }
 
+("winfetch", "neofetch", "screenfetch") | ForEach-Object {
+    if (Get-Command $_ -ErrorAction "Ignore") {
+        Set-Alias -Name "sysinfo" -Value $_ -Description "Displays information about the system."
+        break
+    }
+}
+
 Set-Alias -Name "update" -Value Update-Packages -Description "Keeps all apps and packages up to date."
 
 if (!(Get-Command "which" -ErrorAction "Ignore")) {
