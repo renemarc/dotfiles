@@ -164,14 +164,14 @@ Set-Alias -Name "mnt" -Value Get-Mounts -Description "Lists drive mounts."
 
 Set-Alias -Name "path" -Value Get-Path -Description "Prints each PATH entry on a separate line."
 
-("ntop", "htop", "atop", "top", "Get-TopProcess") | ForEach-Object {
+foreach ($_ in ("ntop", "htop", "atop", "top", "Get-TopProcess")) {
     if (Get-Command $_ -ErrorAction "Ignore") {
         Set-Alias -Name "top" -Value $_ -Description "Monitors processes and system resources."
         break
     }
 }
 
-("winfetch", "neofetch", "screenfetch") | ForEach-Object {
+foreach ($_ in ("winfetch", "neofetch", "screenfetch")) {
     if (Get-Command $_ -ErrorAction "Ignore") {
         Set-Alias -Name "sysinfo" -Value $_ -Description "Displays information about the system."
         break
@@ -279,14 +279,14 @@ Set-Alias -Name "repos" -Value Set-LocationCode -Description "Navigates to Code 
 
 # Varia
 # -----------------------------------------------------------------------------
-("Set-Clipboard", "Set-ClipboardText") | ForEach-Object {
+foreach ($_ in ("Set-Clipboard", "Set-ClipboardText")) {
     if (Get-Command $_ -ErrorAction "Ignore") {
         Set-Alias -Name "cb" -Value $_ -Description "Copies contents to the clipboard."
         break
     }
 }
 
-("Get-Clipboard", "Get-ClipboardText") | ForEach-Object {
+foreach ($_ in ("Get-Clipboard", "Get-ClipboardText")) {
     if (Get-Command $_ -ErrorAction "Ignore") {
         Set-Alias -Name "cbpaste" -Value $_ -Description "Copies contents to the clipboard."
         break

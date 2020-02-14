@@ -25,7 +25,7 @@ $modules = (
     "Terminal-Icons",
     "FastPing"
 )
-$modules | foreach {
+$modules | ForEach-Object {
     if (Get-Module -ListAvailable -Name $_) {
         Import-Module $_
     }
@@ -59,7 +59,7 @@ if (Get-Command Import-WslCommand -errorAction Ignore) {
         ls = "-AFhl --color=auto"
     }
 
-    $WslCommands | foreach {
+    $WslCommands | ForEach-Object {
         wsl command -v $_ > null
         if ($?) {
             $WslImportedCommands += $_
