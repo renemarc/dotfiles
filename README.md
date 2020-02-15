@@ -211,7 +211,7 @@ System-specific aliases are marked with <a href="#" title="macOS"></a>, <a hr
 
 | Bash | PowerShell | Zsh | Command | Description |
 |:----:|:----------:|:---:|---------|-------------|
-| ✅   | ✅         | ✅  | `dl`    | Navigates to `~/Downloads`.
+| ✅   | ✅         | ✅  | `dls`   | Navigates to `~/Downloads`.
 | ✅   | ✅         | ✅  | `docs`  | Navigates to `~/Documents`.
 | ✅   | ✅         | ✅  | `dt`    | Navigates to `~/Desktop`.
 

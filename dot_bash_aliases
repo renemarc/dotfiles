@@ -399,7 +399,7 @@ fi
 # -----------------------------------------------------------------------------
 
 # Navigates to user paths.
-alias dl="cd ${HOME}/Downloads"
+alias dls="cd ${HOME}/Downloads"
 alias docs="cd ${HOME}/Documents"
 alias dt="cd ${HOME}/Desktop"
 

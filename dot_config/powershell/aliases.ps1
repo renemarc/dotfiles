@@ -252,7 +252,7 @@ if ($IsWindows) {
 # Common paths
 # -----------------------------------------------------------------------------
 
-Set-Alias -Name "dl" -Value Set-LocationDownloads -Description "Navigates to Downloads directory."
+Set-Alias -Name "dls" -Value Set-LocationDownloads -Description "Navigates to Downloads directory."
 
 Set-Alias -Name "docs" -Value Set-LocationDocuments -Description "Navigates to Documents directory."
 
