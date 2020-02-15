@@ -49,6 +49,7 @@ Use either one or many of these, the config files will be in place and ready to 
 - [OpenSSH](https://www.openssh.com/)
 - [Ripgrep](https://github.com/BurntSushi/ripgrep) fast-search tool
 - [Starship 🚀](https://starship.rs) cross-shell prompt
+- [tmux](https://github.com/tmux/tmux/wiki) terminal multiplexer
 
 <p align="right"><a href="#top" title="Back to top">🔝</a></p>
 

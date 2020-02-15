@@ -183,3 +183,18 @@ if command -v pip3 > /dev/null; then
         PIP_REQUIRE_VIRTUALENV="0" pip3 "$@"
     }
 fi
+
+
+# Varia
+# -----------------------------------------------------------------------------
+# Changes window name to hostname when SSHing using `tmux`.
+# See https://superuser.com/questions/249293/
+function ssh_tmux() {
+    if env | grep "TMUX_PANE" &> /dev/null; then
+        tmux rename-window -t${TMUX_PANE} "$*"
+        command ssh "$@"
+        tmux set-window-option automatic-rename "on" 1>/dev/null
+    else
+        command ssh "$@"
+    fi
+}

@@ -42,7 +42,7 @@ function import_repo() {
     else
         uuid=$(uuidgen)
     fi
-    TMPFILE=$(mktemp /tmp/dotfiles.XXXXXXXXX_${uuid}.tar.gz) || exit 1
+    TMPFILE=$(mktemp /tmp/dotfiles.${uuid}.tar.gz) || exit 1
     curl -s -L -o "$TMPFILE" "$repo" || exit 1
     chezmoi import --strip-components 1 --destination "$destination" "$TMPFILE" || exit 1
     rm -f "$TMPFILE"
@@ -108,6 +108,19 @@ function setup_prompts() {
     }
 }
 
+function setup_applications() {
+    echo "\n${BOLD}Setting up CLI applications:${RESET}\n"
+
+    # Install Tmux Plugin Manager
+    PACKAGE_NAME='Tmux Plugin Manager'
+    echo "${BLUE}Installing/updating ${PACKAGE_NAME}...${RESET}"
+    mkdir -pv $(chezmoi source-path)/dot_tmux/plugins/tpm
+    import_repo 'https://github.com/tmux-plugins/tpm/archive/master.tar.gz' "${HOME}/.tmux/plugins/tpm" || {
+        error "import of ${PACKAGE_NAME} failed"
+        exit 1
+    }
+}
+
 function setup_devtools() {
     echo "\n${BOLD}Setting up development tools:${RESET}\n"
 
@@ -154,6 +167,7 @@ function main() {
     setup_dependencies
     setup_color
     setup_prompts
+    setup_applications
     setup_devtools
     finalize_dotfiles
 
