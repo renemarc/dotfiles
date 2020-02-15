@@ -2364,8 +2364,8 @@ function Get-Weather {
         [string]$Request,
 
         [Parameter(Mandatory=$false)]
-        [PSDefaultValue(Help = '5')]
-        [int]$Timeout = 5
+        [PSDefaultValue(Help = '10')]
+        [int]$Timeout = 10
     )
 
     begin {
@@ -2398,7 +2398,7 @@ function Get-WeatherForecast {
     [CmdletBinding()]
     param()
 
-    Get-Weather 'nF'
+    Get-Weather 'F'
 }
 
 function Get-WeatherCurrent {

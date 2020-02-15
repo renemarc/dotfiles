@@ -497,16 +497,16 @@ fi
 
 # Displays detailed weather and forecast.
 if command -v curl > /dev/null; then
-    alias forecast='curl --silent --compressed --max-time 5 --url "https://wttr.in?nF"'
+    alias forecast='curl --silent --compressed --max-time 10 --url "https://wttr.in?F"'
 else
-    alias forecast='wget -qO- --compression=auto --timeout=5 "https://wttr.in?nF"'
+    alias forecast='wget -qO- --compression=auto --timeout=10 "https://wttr.in?F"'
 fi
 
 # Displays current weather.
 if command -v curl > /dev/null; then
-    alias weather='curl --silent --compressed --max-time 5 --url "https://wttr.in/?format=%l:+(%C)+%c++%t+\[%h,+%w\]"'
+    alias weather='curl --silent --compressed --max-time 10 --url "https://wttr.in/?format=%l:+(%C)+%c++%t+\[%h,+%w\]"'
 else
-    alias weather='wget -qO- --compression=auto --timeout=5 "https://wttr.in/?format=%l:+(%C)+%c++%t+\[%h,+%w\]"'
+    alias weather='wget -qO- --compression=auto --timeout=10 "https://wttr.in/?format=%l:+(%C)+%c++%t+\[%h,+%w\]"'
 fi
 
 # Ideas
