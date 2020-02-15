@@ -68,13 +68,15 @@ alias nano='nano -w';
 # Stops ping after sending 4 ECHO_REQUEST packets.
 alias ping='ping -c 4'
 
-# Improves top with better alternatives.
+# Improves top with modern alternatives.
 if type 'atop' &> /dev/null; then
     alias top='atop'
 elif type 'htop' &> /dev/null; then
     alias top='htop'
 elif type 'ntop' &> /dev/null; then
-    alias top='ntop'
+    if [[ "$OSTYPE" =~ ^(cygwin|mingw|msys) ]]; then
+        alias top='ntop'
+    fi
 fi
 
 # Enables simple aliases to be sudo'ed.

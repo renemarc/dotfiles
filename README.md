@@ -33,14 +33,14 @@ Use either one or many of these, the config files will be in place and ready to 
 ### 💻 Terminals
 
 - [Hyper](https://hyper.is/)
--  [iTerm](https://iterm2.com/)
--  [macOS Terminal](https://support.apple.com/en-ca/guide/terminal/welcome/mac)
-- ⊞ [Windows Terminal](https://www.microsoft.com/en-us/p/windows-terminal-preview/9n0dx20hk701?activetab=pivot:overviewtab)
+- <b title="macOS"></b> [iTerm](https://iterm2.com/)
+- <b title="macOS"></b> [macOS Terminal](https://support.apple.com/en-ca/guide/terminal/welcome/mac)
+- <b title="Windows">⊞</b> [Windows Terminal](https://www.microsoft.com/en-us/p/windows-terminal-preview/9n0dx20hk701?activetab=pivot:overviewtab)
 
 ### 📦 Package managers
 
--  [Homebrew](https://brew.sh/)
-- ⊞ [Scoop](https://scoop.sh/)
+- <b title="macOS"></b> [Homebrew](https://brew.sh/)
+- <b title="Windows">⊞</b> [Scoop](https://scoop.sh/)
 
 ### 💾 Apps
 
@@ -58,7 +58,7 @@ These are unified CLI commands available amongst different shells on all platfor
 
 Additional aliases are provided by [Bash-It](https://github.com/Bash-it/bash-it/tree/master/aliases/available), [Oh-My-Zsh](https://github.com/ohmyzsh/ohmyzsh/wiki/Cheatsheet) and [Powershell](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_aliases), and are listed by using the command `alias`.
 
-System-specific aliases are marked with <a href="#" title="macOS"></a>, <a href="#" title="Windows">⊞</a>, or <sup><sub><a href="#" title="Linux">🐧</a></sub></sup>.
+System-specific aliases are marked with <b title="macOS"></b>, <b title="Windows">⊞</b>, or <sub><sup><b title="Linux">🐧</b></sup></sub>.
 
 ### 🧭 Easier navigation
 
@@ -73,7 +73,7 @@ System-specific aliases are marked with <a href="#" title="macOS"></a>, <a hr
 
 <p align="right"><a href="#top" title="Back to top">🔝</a></p>
 
-### 🗃️ Directory browsing
+### 🗂️ Directory browsing
 
 | Bash | PowerShell | Zsh | Command | Description |
 |:----:|:----------:|:---:|---------|-------------|
@@ -120,7 +120,7 @@ System-specific aliases are marked with <a href="#" title="macOS"></a>, <a hr
 | ✅   | ✅         | ✅  | `nowdate`<br>`unowdate` | Gets local/UTC date in `YYYY-MM-DD` format.
 | ✅   | ✅         | ✅  | `nowtime`<br>`unowtime` | Gets local/UTC time in `hh:mm:ss` format.
 | ✅   | ✅         | ✅  | `timestamp` | Gets Unix time stamp.
-| ✅   | ✅         | ✅  | `week`  | Gets week number in [ISO 9601](https://en.wikipedia.org/wiki/ISO_8601#Week_dates) format `YYYY-Www`.
+| ✅   | ✅         | ✅  | `week`  | Gets week number in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601#Week_dates) format `YYYY-Www`.
 | ✅   | ✅         | ✅  | `weekday` | Gets weekday number.
 
 <p align="right"><a href="#top" title="Back to top">🔝</a></p>
@@ -155,8 +155,8 @@ System-specific aliases are marked with <a href="#" title="macOS"></a>, <a hr
 |:----:|:----------:|:---:|---------|-------------|
 | ✅   | ✅         | ✅  | `mnt`   | Lists drive mounts.
 | ✅   | ✅         | ✅  | `path`  | Prints each `$PATH` entry on a separate line.
-| ✅   | ✅         | ✅  | `sysinfo` | Displays information about the system.<br>Uses either [Winfetch](https://github.com/lptstr/winfetch), [Neofetch](https://github.com/dylanaraps/neofetch), or [Screenfetch](https://github.com/KittyKatt/screenFetch).
-| ✅   | ✅         | ✅  | `top`   | Monitors processes and system resources.
+| ✅   | ✅         | ✅  | `sysinfo` | Displays information about the system.<br><strong><sup>Uses either [Winfetch](https://github.com/lptstr/winfetch), [Neofetch](https://github.com/dylanaraps/neofetch), or [Screenfetch](https://github.com/KittyKatt/screenFetch).</sup></strong>
+| ✅   | ✅         | ✅  | `top`   | Monitors processes and system resources.<br><strong><sup>Uses either [atop](https://linux.die.net/man/1/atop), [htop](https://hisham.hm/htop/), [ntop](https://github.com/Nuke928/NTop) <b title="windows">⊞</b>, or native.</sup></strong>
 | ✅   | ✅         | ✅  | `update` | Keeps all apps and packages up to date.
 
 <p align="right"><a href="#top" title="Back to top">🔝</a></p>
@@ -165,13 +165,13 @@ System-specific aliases are marked with <a href="#" title="macOS"></a>, <a hr
 
 | Bash | PowerShell | Zsh | Command | Description |
 |:----:|:----------:|:---:|---------|-------------|
-| ✅   | ✅         | ✅  | `browse` | Opens file/URL in default browser.<br>_Usage: `open https://example.com`_
+| ✅   | ✅         | ✅  | `browse` | Opens file/URL in default browser.<br>_Usage: `browse https://example.com`_
 | ✅   | ✅         | ✅  | `chrome` | Opens file/URL in [Chrome](https://www.google.com/chrome/).
 | ✅   | ✅         | ✅  | `edge` | Opens file/URL in [Microsoft Edge](https://www.microsoft.com/en-us/edge).
 | ✅   | ✅         | ✅  | `firefox` | Opens file/URL in [Firefox](https://www.mozilla.org/en-CA/firefox/).
-| ❔   | ✅         | ❔  | `iexplore` | Opens file/URL in [Internet Explorer](https://www.microsoft.com/ie). ⊞
+| ❔   | ✅         | ❔  | `iexplore` | Opens file/URL in [Internet Explorer](https://www.microsoft.com/ie). <b title="Windows">⊞</b>
 | ✅   | ✅         | ✅  | `opera` | Opens file/URL in [Opera](https://www.opera.com/).
-| ✅   | ✅         | ✅  | `safari` | Opens file/URL in [Safari](https://www.apple.com/ca/safari/). 
+| ✅   | ✅         | ✅  | `safari` | Opens file/URL in [Safari](https://www.apple.com/ca/safari/). <b title="macOS"></b>
 | ✅   | ✅         | ✅  | `ss`    | Enters the [Starship 🚀](https://starship.rs) cross-shell prompt.
 | ✅   | ✅         | ✅  | `subl`<br>`st`  | Opens in [Sublime Text](https://www.sublimetext.com/).
 

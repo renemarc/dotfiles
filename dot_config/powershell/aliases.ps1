@@ -164,7 +164,7 @@ Set-Alias -Name "mnt" -Value Get-Mounts -Description "Lists drive mounts."
 
 Set-Alias -Name "path" -Value Get-Path -Description "Prints each PATH entry on a separate line."
 
-foreach ($_ in ("ntop", "htop", "atop", "top", "Get-TopProcess")) {
+foreach ($_ in ("ntop", "atop", "htop", "top", "Get-TopProcess")) {
     if (Get-Command $_ -ErrorAction "Ignore") {
         Set-Alias -Name "top" -Value $_ -Description "Monitors processes and system resources."
         break
