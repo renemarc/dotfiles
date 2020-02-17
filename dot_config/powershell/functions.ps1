@@ -1323,21 +1323,21 @@ function Add-EnvPath {
                     $persistedPaths = $persistedPaths + $Path | Where { $_ }
                 }
                 else {
-                    $persistedPaths = $Path + $persistedPaths | Where { $_ }
+                    $persistedPaths = @($Path | Where { $_ }) + $persistedPaths
                 }
                 [Environment]::SetEnvironmentVariable('Path', $persistedPaths -Join ';', $containerType)
             }
         }
 
-        $envPaths = $env:Path -Split $separator
+        $envPaths = $env:PATH -Split $separator
         if ($envPaths -NotContains $Path) {
             if ($Position -eq 'Append') {
                 $envPaths = $envPaths + $Path | Where { $_ }
             }
             else {
-                $envPaths = $Path + $envPaths | Where { $_ }
+                $envPaths = @($Path | Where { $_ }) + $envPaths
             }
-            $env:Path = $envPaths -Join $separator
+            $env:PATH = $envPaths -Join $separator
         }
     }
 }
@@ -1395,7 +1395,7 @@ function Get-Path {
     }
 
     process {
-        ${ENV:PATH}.split($separator)
+        ${Env:PATH}.split($separator)
     }
 }
 
