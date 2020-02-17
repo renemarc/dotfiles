@@ -111,6 +111,15 @@ function setup_prompts() {
 function setup_applications() {
     echo "\n${BOLD}Setting up CLI applications:${RESET}\n"
 
+    # Install Oh My Tmux
+    PACKAGE_NAME='Oh My Tmux'
+    echo "${BLUE}Installing/updating ${PACKAGE_NAME}...${RESET}"
+    import_repo 'https://github.com/gpakosz/.tmux/archive/master.tar.gz' "${HOME}/.tmux" || {
+        error "import of ${PACKAGE_NAME} failed"
+        exit 1
+    }
+    ln -s -f -v .tmux/.tmux.conf
+
     # Install Tmux Plugin Manager
     PACKAGE_NAME='Tmux Plugin Manager'
     echo "${BLUE}Installing/updating ${PACKAGE_NAME}...${RESET}"
