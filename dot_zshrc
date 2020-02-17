@@ -130,12 +130,14 @@ fi
 # You may need to manually set your language environment
 export LANG=en_US.UTF-8
 
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
+# Set preferred editor for local and remote sessions.
+if [[ -n $SSH_CONNECTION ]]; then
+    export EDITOR='vim'
+elif command -v mvim > /dev/null;
+    export EDITOR='mvim'
+else
+    export EDITOR='vim'
+fi
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -149,9 +151,6 @@ export LANG=en_US.UTF-8
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-##
-## Custom
-##
 
 # Command-line shell completions
 # -----------------------------------------------------------------------------

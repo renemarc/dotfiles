@@ -48,6 +48,15 @@ if command -v locale > /dev/null; then
     unset available_locales lang locale;
 fi;
 
+# Set preferred editor for local and remote sessions.
+if [[ -n $SSH_CONNECTION ]]; then
+    export EDITOR='vim'
+elif command -v mvim > /dev/null; then
+    export EDITOR='mvim'
+else
+    export EDITOR='vim'
+fi
+
 # Make less more friendly for non-text input files, see lesspipe.
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
