@@ -1,3 +1,24 @@
-{{/* # -*-mode:go-*- vim:ft=gotpl */ -}}
+{{/* # -*-mode:go-*- vim:ft=gotpl
 
-{{ .chezmoi.sourceDir }}/com.googlecode.iterm2.plist
+~/.config/iterm/com.googlecode.iterm2.plist
+{==============================================================================
+iTerm2 macOS Terminal Emulator preferences file template.
+
+To keep any modifications done inside iTerm2 in sync with this repo, this file
+is parsed and turned into a symbolic link pointing to
+`com.googlecode.iterm2.plist` when running `chezmoi apply`. The actual plist
+file is not copied over to the user home directory.
+
+See https://www.chezmoi.io/docs/how-to/
+
+The linked file com.googlecode.iterm2.plist is loaded by iTerm2 when the `Load
+preferences from a custom folder or URL` setting is enabled in
+`iTerm2 → General → Preferences`.
+
+See http://stratus3d.com/blog/2015/02/28/sync-iterm2-profile-with-dotfiles-repository/
+
+*/ -}}
+
+{{ .chezmoi.sourceDir }}/dot_config/iterm/com.googlecode.iterm2.plist
+
+{{- /* eof */ -}}
