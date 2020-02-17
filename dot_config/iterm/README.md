@@ -1,4 +1,4 @@
-# ~/.config/iterm/com.googlecode.iterm2.plist
+# ~/.config/iterm/
 ## iTerm2 preferences file
 
 The file [`../../com.googlecode.iterm2.plist`](../../com.googlecode.iterm2.plist) is loaded by [iTerm2](https://iterm2.com/) when the **Load preferences from a custom folder or URL** setting is enabled in **iTerm2 → General → Preferences**.
@@ -7,7 +7,4 @@ The file [`../../com.googlecode.iterm2.plist`](../../com.googlecode.iterm2.plist
 
 To keep any modifications done inside iTerm in sync with this repo, the above [`./symlink_com.googlecode.iterm2.plist.tmpl`](./symlink_com.googlecode.iterm2.plist.tmpl) is parsed and turned into a symlink when running `chezmoi apply`. 
 
-[See details about chezmoi symlinks.]https://www.chezmoi.io/docs/how-to/)
-
-
-
+[See details about chezmoi symlinks.](https://www.chezmoi.io/docs/how-to/)
