@@ -75,22 +75,13 @@ if (Get-Command Import-WslCommand -errorAction Ignore) {
 # Includes
 # -----------------------------------------------------------------------------
 
-# Load split configuration for easier maintenance.
-Push-Location (Split-Path -parent $profile)
-"functions","aliases","extras" | Where-Object {Test-Path "$_.ps1"} | ForEach-Object -process {Invoke-Expression ". .\$_.ps1"}
-Pop-Location
+# Determine user profile parent directory.
+$ProfilePath=Split-Path -parent $profile
 
-
-# Varia
-# -----------------------------------------------------------------------------
-
-# Point ripgrep to its configuration file.
-# See https://github.com/BurntSushi/ripgrep/blob/master/GUIDE.md
-$Env:RIPGREP_CONFIG_PATH = "$HOME/.ripgreprc"
-
-
-# Finalization
-# -----------------------------------------------------------------------------
+# Load functions declarations from separate configuration file.
+if (Test-Path $ProfilePath/functions.ps1) {
+    . $ProfilePath/functions.ps1
+}
 
 # Add missing user paths.
 if (Get-Command Add-EnvPath -errorAction Ignore) {
@@ -104,6 +95,30 @@ if (Get-Command Add-EnvPath -errorAction Ignore) {
         Add-EnvPath -Path "/usr/local/bin" -Position "Prepend"
     }
 }
+
+# Load alias definitions from separate configuration file.
+if (Test-Path $ProfilePath/aliases.ps1) {
+    . $ProfilePath/aliases.ps1
+}
+
+# Load custom code from separate configuration file.
+if (Test-Path $ProfilePath/extras.ps1) {
+    . $ProfilePath/extras.ps1
+}
+
+
+# Varia
+# -----------------------------------------------------------------------------
+
+# Point ripgrep to its configuration file.
+# See https://github.com/BurntSushi/ripgrep/blob/master/GUIDE.md
+$Env:RIPGREP_CONFIG_PATH = "$HOME/.ripgreprc"
+
+
+# Finalization
+# -----------------------------------------------------------------------------
+
+
 
 # Display if/which WSL Interop commands are imported.
 if ($WslImportedCommands) {
