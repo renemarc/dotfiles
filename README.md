@@ -10,13 +10,13 @@ Universal command set and colourful shell configurations for Bash, Zsh and Power
 
 ## Project goals ⚽
 
-- Unified set of aliases and commands
-- Familiar feel and creature comforts across environments
-- Cross-platform file management toolset
-- Easy access to common paths
-- Shortcuts to popular cross-platform apps
-- System-agnostic `update` and `dotfiles` install commands
-- A pretty interface 💃
+- Unified set of aliases and commands.
+- Familiar feel and creature comforts across environments.
+- Cross-platform file management toolset.
+- Easy access to common paths.
+- Shortcuts to popular cross-platform apps.
+- System-agnostic `update` and `dotfiles` install commands.
+- A pretty interface! 💃
 
 <p align="right"><a href="#top" title="Back to top">🔝</a></p>
 
@@ -26,30 +26,31 @@ Use either one or many of these, the config files will be in place and ready to 
 
 ### 🐚 Shells
 
-- Bash (extended with [Bash-It](https://github.com/Bash-it/bash-it)) on macOS.
-- [PowerShell 5+](https://github.com/PowerShell/PowerShell) (extended with [Oh-My-Posh](https://github.com/JanDeDobbeleer/oh-my-posh), [WSL Interopt](https://github.com/mikebattista/PowerShell-WSL-Interop) and others) on macOS/Windows.
-- Zsh (extended with [Oh-My-Zsh](https://ohmyz.sh/), [Powerlevel10K](https://github.com/romkatv/powerlevel10k) and others) on macOS.
+- [Bash](https://www.gnu.org/software/bash/) <sub><sup><b title="Linux">🐧</b></sup></sub><b title="macOS"></b>, enhanced with [Bash-It](https://github.com/Bash-it/bash-it).
+- [PowerShell 5.1+](https://github.com/PowerShell/PowerShell) <sub><sup><b title="Linux">🐧</b></sup></sub><b title="macOS"></b><b title="Windows">⊞</b>, enhanced with [Oh-My-Posh](https://github.com/JanDeDobbeleer/oh-my-posh), [Terminal Icons](https://github.com/devblackops/Terminal-Icons), [WSL Interopt](https://github.com/mikebattista/PowerShell-WSL-Interop), and others.
+- [Z shell](http://zsh.sourceforge.net/) <sub><sup><b title="Linux">🐧</b></sup></sub><b title="macOS"></b>, enhanced with [Oh-My-Zsh](https://ohmyz.sh/), [Powerlevel10K](https://github.com/romkatv/powerlevel10k), and others.
 
 ### 💻 Terminals
 
-- [Hyper](https://hyper.is/)
-- <b title="macOS"></b> [iTerm](https://iterm2.com/)
-- <b title="macOS"></b> [macOS Terminal](https://support.apple.com/en-ca/guide/terminal/welcome/mac)
-- <b title="Windows">⊞</b> [Windows Terminal](https://www.microsoft.com/en-us/p/windows-terminal-preview/9n0dx20hk701?activetab=pivot:overviewtab)
+- [Hyper](https://hyper.is/) <sub><sup><b title="Linux">🐧</b></sup></sub><b title="macOS"></b><b title="Windows">⊞</b>
+- [iTerm2](https://iterm2.com/) <b title="macOS"></b>
+- [macOS Terminal](https://support.apple.com/en-ca/guide/terminal/welcome/mac) <b title="macOS"></b>
+- [Windows Terminal](https://www.microsoft.com/en-us/p/windows-terminal-preview/9n0dx20hk701) <b title="Windows">⊞</b>
 
 ### 📦 Package managers
 
-- <b title="macOS"></b> [Homebrew](https://brew.sh/)
-- <b title="Windows">⊞</b> [Scoop](https://scoop.sh/)
+- [Homebrew](https://brew.sh/) <b title="macOS"></b>
+- [Scoop](https://scoop.sh/) <b title="Windows">⊞</b>
 
-### 💾 Apps
+### 💾 Universal apps <sup><sub><b title="Linux">🐧</b></sub></sup><b title="macOS"></b><b title="Windows">⊞</b>
 
-- [chezmoi](https://www.chezmoi.io/)
-- [Git](https://git-scm.com/)
-- [OpenSSH](https://www.openssh.com/)
-- [Ripgrep](https://github.com/BurntSushi/ripgrep) fast-search tool
-- [Starship 🚀](https://starship.rs) cross-shell prompt
-- [tmux](https://github.com/tmux/tmux/wiki) terminal multiplexer
+- [chezmoi](https://www.chezmoi.io/) dotfiles manager.
+- [Git](https://git-scm.com/) version-control system.
+- [GNU Wget](https://www.gnu.org/software/wget/) HTTP/FTP file downloader.
+- [OpenSSH](https://www.openssh.com/) secure networking utilities.
+- [Ripgrep](https://github.com/BurntSushi/ripgrep) fast-search tool.
+- [Starship 🚀](https://starship.rs) cross-shell prompt.
+- [tmux](https://github.com/tmux/tmux/wiki) terminal multiplexer, enhanced with [Oh-My-Tmux](https://github.com/gpakosz/.tmux).
 
 <p align="right"><a href="#top" title="Back to top">🔝</a></p>
 

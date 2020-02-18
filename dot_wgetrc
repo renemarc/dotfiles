@@ -1,0 +1,63 @@
+# -*-mode:conf-*- vim:ft=wgetrc
+
+# ~/.wgetrc
+# =============================================================================
+# Configures startup options for GNU Wget HTTP/FTP file downloader.
+#
+# See https://www.gnu.org/software/wget/manual/html_node/Wgetrc-Commands.html
+# See https://www.gnu.org/software/wget/manual/html_node/Sample-Wgetrc.html
+#
+# Sources:
+# https://github.com/mathiasbynens/dotfiles
+
+# Global settings
+# -----------------------------------------------------------------------------
+# Think well before you change them, since they may reduce wget's
+# functionality, and make it behave contrary to the documentation.
+
+# Set number of retries per URL, like `-t n`.
+tries = 5
+
+
+# Local settings
+# -----------------------------------------------------------------------------
+
+# Add a `.html` extension to `text/html` or `application/xhtml+xml` files that
+# lack one, or a `.css` extension to `text/css` files that lack one, like `-E`.
+adjust_extension = on
+
+# Set the connect timeout, like `--connect-timeout`.
+connect_timeout = 15
+
+# Force continuation of preexistent partially retrieved files, like `--c`.
+continue = on
+
+# Set the DNS timeout—, like `--dns-timeout`.
+dns_timeout = 60
+
+# Follow FTP links from HTML files by default, like`--follow-ftp`.
+follow_ftp = on
+
+# Use UTF-8 as the default system encoding, like `--local-encoding`.
+local_encoding = UTF-8
+
+# Disallow retrieving outside the directory hierarchy, like `--no-parent`.
+no_parent = on
+
+# Set the read (and write) timeout, like `--read-timeout=n`.
+read_timeout = 60
+
+# Consider `connection refused` a transient error, like `--retry-connrefused`.
+retry_connrefused = on
+
+# Do not download `/robots.txt` and ignore `<meta name="robots"> tags`.
+robots = off
+
+# Use the server-provided last modification date, like `-N`.
+timestamping = on
+
+# Use the last component of a redirection URL for the local file name.
+trust_server_names = on
+
+# Define user agent identification header, like `--user-agent=string`.
+user_agent = Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:72.0) Gecko/20100101 Firefox/72.0
