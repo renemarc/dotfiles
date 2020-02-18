@@ -20,12 +20,16 @@
     # Detect whitespace errors when applying a patch.
     whitespace = fix
 
+[commit]
+    # Specify template file for new commit messages.
+    template = ~/.gitmessage.txt
+
 [core]
     # Disable line endings output conversion.
     autocrlf = input
 
-    # Select a comment character that does not conflict with previous comments.
-    commentChar = auto
+    # Set comment character to something that allows mentioning issue numbers.
+    commentChar = ";"
 
     # Store global exclusions into a custom file.
     excludesfile = ~/.gitignore_global
