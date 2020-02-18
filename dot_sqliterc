@@ -1,0 +1,19 @@
+# -*-mode:sql-*- vim:ft=dosini
+
+# ~/.sqliterc
+# =============================================================================
+# Configures default options for SQLite3 client.
+#
+# See https://www.sqlite.org/cli.html
+
+# Show column name headers.
+.header on
+
+# Set output mode to `column` (Default `list`).
+.mode column
+
+# Set text string for NULL values (Default ``).
+.nullvalue NULL
+
+# Show execution time after each query.
+.timer on

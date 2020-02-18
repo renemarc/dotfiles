@@ -49,6 +49,7 @@ Use either one or many of these, the config files will be in place and ready to 
 - [GNU Wget](https://www.gnu.org/software/wget/) HTTP/FTP file downloader.
 - [OpenSSH](https://www.openssh.com/) secure networking utilities.
 - [Ripgrep](https://github.com/BurntSushi/ripgrep) fast-search tool.
+- [SQLite3](https://www.sqlite.org/cli.html) database client.
 - [Starship 🚀](https://starship.rs) cross-shell prompt.
 - [tmux](https://github.com/tmux/tmux/wiki) terminal multiplexer, enhanced with [Oh-My-Tmux](https://github.com/gpakosz/.tmux).
 
