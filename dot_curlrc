@@ -1,0 +1,28 @@
+# -*-mode:curlrc-*- vim:ft=dosini
+
+# ~/.curlrc
+# =============================================================================
+# Configures startup options for cURL.
+#
+# See https://ec.haxx.se/cmdline/cmdline-configfile
+
+# Set the maximum time in seconds to allow cURL's connection to take.
+connect-timeout = 15
+
+# Follow `Location:` headers and 3XX response codes.
+location
+
+# Set the previous URL automatically when following a `Location:` header.
+referer = ";auto"
+
+# Use the server-provided timestamp, if any.
+remote-time
+
+# Retry the transfer if a transient error occurs.
+retry = 5
+
+# Consider connections refused as transient errors.
+retry-connrefused
+
+# Define the user agent identification header.
+user-agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:72.0) Gecko/20100101 Firefox/72.0"

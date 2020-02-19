@@ -1,0 +1,17 @@
+{{- /* # -*-mode:go-*- vim:ft=gotpl */ -}}
+{{ if eq .chezmoi.os "windows" -}}
+{{- /*
+~/_curlrc
+===============================================================================
+Configures startup options for cURL on Windows.
+
+Windows expects the cURL config file to be named `_curlrc`. To avoid duplicating
+the configuration text, this file is parsed and turned into a symbolic link
+pointing to `.curlrc` on Windows when running `chezmoi apply`.
+
+See https://www.chezmoi.io/docs/how-to/
+*/ -}}
+
+{{ .chezmoi.homedir }}/.curlrc
+
+{{- end -}}

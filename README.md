@@ -45,6 +45,7 @@ Use either one or many of these, the config files will be in place and ready to 
 ### 💾 Universal apps <sup><sub><b title="Linux">🐧</b></sub></sup><b title="macOS"></b><b title="Windows">⊞</b>
 
 - [chezmoi](https://www.chezmoi.io/) dotfiles manager: [`.chezmoi.toml`](./.chezmoi.toml.tmpl)
+- [cURL](https://curl.haxx.se/) data transfer tool: [`.curlrc`](./dot_curlrc)
 - [Git](https://git-scm.com/) version-control system: [`.gitconfig`](./dot_gitconfig.tmpl)
 - [GNU Wget](https://www.gnu.org/software/wget/) HTTP/FTP file downloader: [`.wgetrc`](./dot_wgetrc)
 - [OpenSSH](https://www.openssh.com/) secure networking utilities: [`.ssh/config`](./dot_ssh/config.tmpl)
