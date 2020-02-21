@@ -361,10 +361,6 @@ fi
 # Creates shortcuts for Docker.
 alias dk='docker'
 alias dco='docker-compose'
-# alias dwipe="docker kill $(docker ps -a -q) || docker rm $(docker ps -a -q) || docker ps -a"
-# alias dockerstop='docker-compose stop'
-# alias dockerup='docker-compose up -d'
-# alias dockerrm='docker-compose rm --all'
 
 # Creates shortcut for Git.
 alias g='git'
@@ -507,48 +503,3 @@ if command -v curl > /dev/null; then
 else
     alias weather='wget -qO- --compression=auto --timeout=10 "https://wttr.in/?format=%l:+(%C)+%c++%t+\[%h,+%w\]"'
 fi
-
-# Ideas
-# -----------------------------------------------------------------------------
-
-# Canonical hex dump.
-#command -v hd > /dev/null || alias hd="hexdump -C"
-
-#alias j='jobs -l'
-
-# alias sha256sum='function _f { shasum -a 256 -p ${1} | awk "{print \$1}"; }; _f'
-# alias sha256sum='function _f { openssl sha256 ${1} | awk "{print \$2}"; }; _f'
-
-
-#alias plistbuddy='/usr/libexec/PlistBuddy'
-
-# Adds an "alert" alias for long running commands.  Use like so:
-#   sleep 10; alert
-#alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
-
-# Shows active network interfaces.
-#alias ifactive="ifconfig | pcregrep -M -o '^[^\t:]+:([^\n]|\n\t)*status: active'"
-
-# Merges PDF files, preserving hyperlinks.
-# Usage: `mergepdf input{1,2,3}.pdf`
-#alias mergepdf='gs -q -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -sOutputFile=_merged.pdf'
-
-# Intuitive map function.
-# For example, to list all directories that contain a certain file:
-# find . -name .gitattributes | map dirname
-#alias map="xargs -n1"
-
-# URL-encodes strings.
-#alias urldecode='perl -pe "s/\%(\w\w)/chr hex $1/ge"'
-#alias urlencode='python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1]);"'
-
-# Recursively deletes `.DS_Store` files.
-#alias cleanup="find . -type f -name '*.DS_Store' -ls -delete"
-
-# Empties the Trash on all mounted volumes and the main HDD.
-# Also, clear Apple’s System Logs to improve shell startup speed.
-# Finally, clear download history from quarantine. https://mths.be/bum
-#alias emptytrash="sudo rm -rfv /Volumes/*/.Trashes; sudo rm -rfv ~/.Trash; sudo rm -rfv /private/var/log/asl/*.asl; sqlite3 ~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV* 'delete from LSQuarantineEvent'"
-
-# Airport CLI alias.
-#alias airport='/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport'

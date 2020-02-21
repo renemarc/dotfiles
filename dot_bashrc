@@ -33,21 +33,6 @@ shopt -s no_empty_cmd_completion;
 # Do not overwrite files when redirecting using ">" (override this with ">|").
 set -o noclobber;
 
-# Prefer English and use UTF-8.
-if command -v locale > /dev/null; then
-    printf -v available_locales ' %s ' $(locale -a);
-    for lang in en_US en_GB en_CA en; do
-        for locale in "$lang".{UTF-8,utf8}; do
-            if [[ "$available_locales" =~ " $locale " ]]; then
-                export LC_ALL="$locale";
-                export LANG="$lang";
-                break 2;
-            fi;
-        done;
-    done;
-    unset available_locales lang locale;
-fi;
-
 # Set preferred editor for local and remote sessions.
 if [[ -n $SSH_CONNECTION ]]; then
     export EDITOR='vim'
@@ -377,12 +362,3 @@ export PATH="$(echo "$PATH" | awk 'BEGIN{RS=":";}
 {sub(sprintf("%c$",10),"");if(A[$0]){}else{A[$0]=1;
 printf(((NR==1)?"":":")$0)}}')";
 
-# Enable Powerline
-# See https://www.hanselman.com/blog/HowToMakeAPrettyPromptInWindowsTerminalWithPowerlineNerdFontsCascadiaCodeWSLAndOhmyposh.aspx
-# GOPATH=$HOME/go
-# function _update_ps1() {
-#     PS1="$($GOPATH/bin/powerline-go -error $?)"
-# }
-# if [ "$TERM" != "linux" ] && [ -f "$GOPATH/bin/powerline-go" ]; then
-#     PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
-# fi
