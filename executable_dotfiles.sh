@@ -129,6 +129,15 @@ function setup_applications() {
         exit 1
     }
 
+
+    # Install Nano syntax highlighting files
+    PACKAGE_NAME='Nano syntax highlighting'
+    echo "${BLUE}Installing/updating ${PACKAGE_NAME}...${RESET}"
+    import_repo 'https://github.com/scopatz/nanorc/archive/master.tar.gz' "${HOME}/.nano" || {
+        error "import of ${PACKAGE_NAME} failed"
+        exit 1
+    }
+
     # Install Ultimate Vim Configuration
     PACKAGE_NAME='Ultimate vimrc'
     echo "${BLUE}Installing/updating ${PACKAGE_NAME}...${RESET}"

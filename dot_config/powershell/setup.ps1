@@ -208,10 +208,12 @@ if ($IsWindows) {
             "git",
             "heroku-cli",
             "neofetch",
+            "nano",
             "ntop",
             "ripgrep",
             "starship",
             "sudo",
+            "vim"
             "winfetch"
         )
         $apps | ForEach-Object {
