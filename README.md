@@ -46,9 +46,10 @@ Use either one or many of these, the config files will be in place and ready to 
 
 - [chezmoi](https://www.chezmoi.io/) dotfiles manager: [`~/.chezmoi.toml`](./.chezmoi.toml.tmpl)
 - [cURL](https://curl.haxx.se/) data transfer tool: [`~/.curlrc`](./dot_curlrc)
-- [Git](https://git-scm.com/) version-control system: [`~/.gitconfig`](./dot_gitconfig.tmpl)
+- [Git :octocat:](https://git-scm.com/) version-control system: [`~/.gitconfig`](./dot_gitconfig.tmpl)
 - [GNU Nano 4.x+](https://www.nano-editor.org/) text editor: [`~/.nanorc`](./dot_nanorc) _<sup>enhanced with [**Improved Nano Syntax Highlighting Files**](https://github.com/scopatz/nanorc)!</sup>_
 - [GNU Wget](https://www.gnu.org/software/wget/) HTTP/FTP file downloader: [`~/.wgetrc`](./dot_wgetrc)
+- [Micro](https://micro-editor.github.io/) text editor: [`~/.config/micro/`](./dot_config/micro)
 - [OpenSSH](https://www.openssh.com/) secure networking utilities: [`~/.ssh/config`](./dot_ssh/config.tmpl)
 - [Ripgrep](https://github.com/BurntSushi/ripgrep) fast-search tool: [`~/.ripgreprc`](./dot_ripgreprc)
 - [SQLite3](https://www.sqlite.org/cli.html) database client: [`~/.sqliterc`](./dot_sqliterc)

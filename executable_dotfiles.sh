@@ -129,7 +129,6 @@ function setup_applications() {
         exit 1
     }
 
-
     # Install Nano syntax highlighting files
     PACKAGE_NAME='Nano syntax highlighting'
     echo "${BLUE}Installing/updating ${PACKAGE_NAME}...${RESET}"
@@ -145,6 +144,22 @@ function setup_applications() {
         error "import of ${PACKAGE_NAME} failed"
         exit 1
     }
+
+    # Install micro plugins
+    if command -v micro; then
+        echo "${BLUE}Installing/updating micro plugins...${RESET}"
+        plugins = (
+            'filemanager'
+            'go'
+            'manipulator'
+            'misspell'
+            'wc'
+        )
+        for i in "${plugins[@]}"
+        do
+            micro -plugin install $i
+        done
+    fi
 }
 
 function setup_devtools() {

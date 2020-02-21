@@ -208,6 +208,7 @@ if ($IsWindows) {
             "git",
             "heroku-cli",
             "less",
+            "micro",
             "nano",
             "neofetch",
             "ntop",
