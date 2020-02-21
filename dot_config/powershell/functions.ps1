@@ -1750,7 +1750,16 @@ function Invoke-Venv {
     .LINK
         https://docs.python.org/3/tutorial/venv.html
     #>
-    . ./venv/bin/activate
+    $paths = (
+        "./.venv/bin/activate",
+        "./venv/bin/activate"
+    )
+    foreach ($_ in $paths) {
+        if (Test-Path $_) {
+            . $_
+            break
+        }
+    }
 }
 
 function Initialize-Venv {

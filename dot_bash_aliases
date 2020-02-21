@@ -370,10 +370,10 @@ alias dco='docker-compose'
 alias g='git'
 
 # Activates Python virtual environment `venv`.
-alias va='\. ./venv/bin/activate'
+alias va='if [ -d ./.venv ]; then \. ./.venv/bin/activate; elif [ -d ./venv ]; then \. ./venv/bin/activate; fi'
 
 # Creates Python virtual environment `venv`.
-alias ve='python3 -m venv ./venv'
+alias ve='python3 -m venv ./.venv'
 
 
 # macOS
