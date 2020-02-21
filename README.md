@@ -26,34 +26,34 @@ Use either one or many of these, the config files will be in place and ready to 
 
 ### 🐚 Shells
 
-- [Bash](https://www.gnu.org/software/bash/) <sub><sup><b title="Linux">🐧</b></sup></sub><b title="macOS"></b> (enhanced with [Bash-It](https://github.com/Bash-it/bash-it)): [`.bashrc`](./dot_bashrc)
-- [PowerShell 5.1+](https://github.com/PowerShell/PowerShell) <sub><sup><b title="Linux">🐧</b></sup></sub><b title="macOS"></b><b title="Windows">⊞</b> (enhanced with [Oh-My-Posh](https://github.com/JanDeDobbeleer/oh-my-posh), [Terminal Icons](https://github.com/devblackops/Terminal-Icons), and others): [`.config/powershell/`](./dot_config/powershell/)
-- [Z shell](http://zsh.sourceforge.net/) <sub><sup><b title="Linux">🐧</b></sup></sub><b title="macOS"></b> (enhanced with [Oh-My-Zsh](https://ohmyz.sh/), [Powerlevel10K](https://github.com/romkatv/powerlevel10k), and others): [`.zshrc`](./dot_zshrc)
+- [Bash](https://www.gnu.org/software/bash/) <sub><sup><b title="Linux">🐧</b></sup></sub><b title="macOS"></b>: [`~/.bashrc`](./dot_bashrc) _<sup>enhanced with [**Bash-It**](https://github.com/Bash-it/bash-it)!</sup>_
+- [PowerShell 5.1+](https://github.com/PowerShell/PowerShell) <sub><sup><b title="Linux">🐧</b></sup></sub><b title="macOS"></b><b title="Windows">⊞</b>: [`~/.config/powershell/`](./dot_config/powershell/) _<sup>enhanced with [**Oh-My-Posh**](https://github.com/JanDeDobbeleer/oh-my-posh), [**Terminal Icons**](https://github.com/devblackops/Terminal-Icons), and others!</sup>_
+- [Z shell](http://zsh.sourceforge.net/) <sub><sup><b title="Linux">🐧</b></sup></sub><b title="macOS"></b>: [`~/.zshrc`](./dot_zshrc) _<sup>enhanced with [**Oh-My-Zsh**](https://ohmyz.sh/), [**Powerlevel10K**](https://github.com/romkatv/powerlevel10k), and others!</sup>_
 
 ### 💻 Terminals
 
-- [Hyper](https://hyper.is/) <sub><sup><b title="Linux">🐧</b></sup></sub><b title="macOS"></b><b title="Windows">⊞</b>: [`.hyper.js`](./dot_hyper.js.tmpl)
-- [iTerm2](https://iterm2.com/) <b title="macOS"></b>: [`.config/iterm/`](./dot_config/iterm)
+- [Hyper](https://hyper.is/) <sub><sup><b title="Linux">🐧</b></sup></sub><b title="macOS"></b><b title="Windows">⊞</b>: [`~/.hyper.js`](./dot_hyper.js.tmpl)
+- [iTerm2](https://iterm2.com/) <b title="macOS"></b>: [`~/.config/iterm/`](./dot_config/iterm)
 - [macOS Terminal](https://support.apple.com/en-ca/guide/terminal/welcome/mac) <b title="macOS"></b>
-- [Windows Terminal](https://www.microsoft.com/en-us/p/windows-terminal-preview/9n0dx20hk701) <b title="Windows">⊞</b>: [`.config/windows_terminal/`](./dot_config/windows_terminal)
+- [Windows Terminal](https://www.microsoft.com/en-us/p/windows-terminal-preview/9n0dx20hk701) <b title="Windows">⊞</b>: [`~/.config/windows_terminal/`](./dot_config/windows_terminal)
 
 ### 📦 Package managers
 
-- [Homebrew](https://brew.sh/) <b title="macOS"></b>: [`.Brewfile`](./dot_Brewfile)
+- [Homebrew](https://brew.sh/) <b title="macOS"></b>: [`~/.Brewfile`](./dot_Brewfile)
 - [Scoop](https://scoop.sh/) <b title="Windows">⊞</b>
 
 ### 💾 Universal apps <sup><sub><b title="Linux">🐧</b></sub></sup><b title="macOS"></b><b title="Windows">⊞</b>
 
-- [chezmoi](https://www.chezmoi.io/) dotfiles manager: [`.chezmoi.toml`](./.chezmoi.toml.tmpl)
-- [cURL](https://curl.haxx.se/) data transfer tool: [`.curlrc`](./dot_curlrc)
-- [Git](https://git-scm.com/) version-control system: [`.gitconfig`](./dot_gitconfig.tmpl)
-- [GNU Wget](https://www.gnu.org/software/wget/) HTTP/FTP file downloader: [`.wgetrc`](./dot_wgetrc)
-- [OpenSSH](https://www.openssh.com/) secure networking utilities: [`.ssh/config`](./dot_ssh/config.tmpl)
-- [Ripgrep](https://github.com/BurntSushi/ripgrep) fast-search tool: [`.ripgreprc`](./dot_ripgreprc)
-- [SQLite3](https://www.sqlite.org/cli.html) database client: [`.sqliterc`](./dot_sqliterc)
-- [Starship 🚀](https://starship.rs) cross-shell prompt: [`.config/starship.toml`](./dot_config/starship.toml)
-- [tmux](https://github.com/tmux/tmux/wiki) terminal multiplexer (enhanced with [Oh-My-Tmux](https://github.com/gpakosz/.tmux)): [`.tmux.conf.local`](./dot_tmux.conf.local)
-- [Vim](https://www.vim.org/) text editor (enhanced with [Ultimate vimrc](https://github.com/amix/vimrc)): [`.vimrc`](./dot_vimrc)
+- [chezmoi](https://www.chezmoi.io/) dotfiles manager: [`~/.chezmoi.toml`](./.chezmoi.toml.tmpl)
+- [cURL](https://curl.haxx.se/) data transfer tool: [`~/.curlrc`](./dot_curlrc)
+- [Git](https://git-scm.com/) version-control system: [`~/.gitconfig`](./dot_gitconfig.tmpl)
+- [GNU Wget](https://www.gnu.org/software/wget/) HTTP/FTP file downloader: [`~/.wgetrc`](./dot_wgetrc)
+- [OpenSSH](https://www.openssh.com/) secure networking utilities: [`~/.ssh/config`](./dot_ssh/config.tmpl)
+- [Ripgrep](https://github.com/BurntSushi/ripgrep) fast-search tool: [`~/.ripgreprc`](./dot_ripgreprc)
+- [SQLite3](https://www.sqlite.org/cli.html) database client: [`~/.sqliterc`](./dot_sqliterc)
+- [Starship 🚀](https://starship.rs) cross-shell prompt: [`~/.config/starship.toml`](./dot_config/starship.toml)
+- [tmux](https://github.com/tmux/tmux/wiki) terminal multiplexer: [`~/.tmux.conf.local`](./dot_tmux.conf.local) _<sup>enhanced with [**Oh-My-Tmux**](https://github.com/gpakosz/.tmux)!</sup>_
+- [Vim](https://www.vim.org/) text editor: [`~/.vimrc`](./dot_vimrc) _<sup>enhanced with [**Ultimate vimrc**](https://github.com/amix/vimrc)!</sup>_
 
 <p align="right"><a href="#top" title="Back to top">🔝</a></p>
 
