@@ -207,13 +207,16 @@ if ($IsWindows) {
             "Delugia-Nerd-Font-Complete",
             "git",
             "heroku-cli",
-            "neofetch",
+            "less",
             "nano",
+            "neofetch",
             "ntop",
             "ripgrep",
+            "sqlite",
             "starship",
             "sudo",
-            "vim"
+            "vim",
+            "wget",
             "winfetch"
         )
         $apps | ForEach-Object {

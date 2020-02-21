@@ -42,7 +42,16 @@ else
     export EDITOR='vim'
 fi
 
-# Make less more friendly for non-text input files, see lesspipe.
+# Configure less:
+#   F: automatically exit if the entire file can be displayed in first screen.
+#   I: case-insensitive search.
+#   R: Show ANSI colors.
+#   S: Truncate long lines.
+#   X: Prevent clearing the screen when exiting.
+# See: https://relentlesscoding.com/2019/01/06/make-less-options-permanent-or-the-missing-lessrc/
+export LESS="FIRSX"
+
+# Make less more friendly for non-text input files.
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
 
