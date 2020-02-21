@@ -1,0 +1,22 @@
+" -*-mode:vim-*- vim:ft=vim
+
+" ~/.vimrc
+" =============================================================================
+" Configures default options for text editor Vim.
+"
+" See https://github.com/vim/vim
+
+
+" Load Ultimate vimrc.
+" See https://github.com/amix/vimrc
+try
+set runtimepath+=~/.vim_runtime
+source ~/.vim_runtime/vimrcs/basic.vim
+source ~/.vim_runtime/vimrcs/filetypes.vim
+source ~/.vim_runtime/vimrcs/plugins_config.vim
+source ~/.vim_runtime/vimrcs/extended.vim
+catch
+endtry
+
+" Check spelling and wrap lines at 72 columns for git commit messages.
+autocmd Filetype gitcommit setlocal spell textwidth=72

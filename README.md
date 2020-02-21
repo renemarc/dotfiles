@@ -53,6 +53,7 @@ Use either one or many of these, the config files will be in place and ready to 
 - [SQLite3](https://www.sqlite.org/cli.html) database client: [`.sqliterc`](./dot_sqliterc)
 - [Starship 🚀](https://starship.rs) cross-shell prompt: [`.config/starship.toml`](./dot_config/starship.toml)
 - [tmux](https://github.com/tmux/tmux/wiki) terminal multiplexer (enhanced with [Oh-My-Tmux](https://github.com/gpakosz/.tmux)): [`.tmux.conf.local`](./dot_tmux.conf.local)
+- [Vim](https://www.vim.org/) text editor (enhanced with [Ultimate vimrc](https://github.com/amix/vimrc)): [`.vimrc`](./dot_vimrc)
 
 <p align="right"><a href="#top" title="Back to top">🔝</a></p>
 

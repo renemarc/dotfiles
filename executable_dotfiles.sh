@@ -128,6 +128,14 @@ function setup_applications() {
         error "import of ${PACKAGE_NAME} failed"
         exit 1
     }
+
+    # Install Ultimate Vim Configuration
+    PACKAGE_NAME='Ultimate vimrc'
+    echo "${BLUE}Installing/updating ${PACKAGE_NAME}...${RESET}"
+    import_repo 'https://github.com/amix/vimrc/archive/master.tar.gz' "${HOME}/.vim_runtime" || {
+        error "import of ${PACKAGE_NAME} failed"
+        exit 1
+    }
 }
 
 function setup_devtools() {
