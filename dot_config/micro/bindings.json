@@ -5,5 +5,7 @@
 // Micro text editor key bindings file.
 
 {
-    "Alt-/": "lua:comment.comment"
+    "Alt-/": "lua:comment.comment",
+    "F5": "lua:wc.wordCount",
+    "F6": "command-edit:gorename "
 }
