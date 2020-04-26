@@ -8,6 +8,11 @@ Universal command set and colourful shell configurations for Bash, Zsh and Power
     <p><strong>Be sure to <a href="#" title="star">⭐️</a> or <a href="#" title="fork">🔱</a> this repo if you find it useful! 😃</strong></p>
 </div>
 
+[![Code Climate maintainability][badge-codeclimate-maintainability]][link-codeclimate-maintainability]
+[![CodeFactor rating][badge-codefactor]][link-codefactor]
+[![License][badge-license]][link-license]
+[![Tweet][badge-twitter]][link-twitter]
+
 ## Project goals ⚽
 
 - Unified set of aliases and commands.
@@ -269,3 +274,16 @@ System-specific aliases are marked with <b title="macOS"></b>, <b title="Wind
 <p align="right"><a href="#top" title="Back to top">🔝</a></p>
 
 <p align="center"><strong>Don't forget to <a href="#" title="star">⭐️</a> or <a href="#" title="fork">🔱</a> this repo! 😃<br/><sub>Assembled with <b title="love">❤️</b> in Montréal.</sub></strong></p>
+
+[badge-codeclimate-maintainability]:https://img.shields.io/codeclimate/maintainability/renemarc/home-assistant-config.svg?logo=code-climate&cacheSeconds=300
+
+[badge-codefactor]:https://img.shields.io/codefactor/grade/github/renemarc/home-assistant-config?logo=codefactor&logoColor=white&cacheSeconds=300
+
+[badge-license]:https://img.shields.io/github/license/renemarc/home-assistant-config.svg?logo=data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZD0iTTE3LjgsMjBDMTcuNCwyMS4yIDE2LjMsMjIgMTUsMjJINUMzLjMsMjIgMiwyMC43IDIsMTlWMThINUwxNC4yLDE4QzE0LjYsMTkuMiAxNS43LDIwIDE3LDIwSDE3LjhNMTksMkMyMC43LDIgMjIsMy4zIDIyLDVWNkgyMFY1QzIwLDQuNCAxOS42LDQgMTksNEMxOC40LDQgMTgsNC40IDE4LDVWMThIMTdDMTYuNCwxOCAxNiwxNy42IDE2LDE3VjE2SDVWNUM1LDMuMyA2LjMsMiA4LDJIMTlNOCw2VjhIMTVWNkg4TTgsMTBWMTJIMTRWMTBIOFoiIGZpbGw9IiNmZmZmZmYiIC8+PC9zdmc+Cg==&maxAge=86400
+
+[badge-twitter]:https://img.shields.io/twitter/url/http/shields.io.svg?style=social&maxAge=86400
+
+[link-codeclimate-maintainability]:https://codeclimate.com/github/renemarc/dotfiles
+[link-codefactor]:https://www.codefactor.io/repository/github/renemarc/dotfiles
+[link-license]:LICENSE.txt
+[link-twitter]:https://twitter.com/intent/tweet?text=Cross-platform%2C%20cross-shell%20%23dotfiles%20using%20%23chezmoi&url=https://github.com/renemarc/dotfiles&via=renemarc&hashtags=Bash,PowerShell,ZSH

@@ -8,6 +8,7 @@
 # See https://www.chezmoi.io/docs/reference/#chezmoiignore
 
 *.gz
+LICENSE
 README.md
 com.googlecode.iterm2.plist
 
