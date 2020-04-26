@@ -1,3 +1,4 @@
+
 ; HEADER: <type>(<scope>): <subject>, 50 chars --|
 
 ; BODY: optional, 72 chars --------------------------------------------|
