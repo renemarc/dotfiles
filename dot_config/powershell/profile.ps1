@@ -60,13 +60,15 @@ if (Get-Command Import-WslCommand -errorAction Ignore) {
     }
 
     $WslCommands | ForEach-Object {
-        wsl command -v $_ > null
-        if ($?) {
-            $WslImportedCommands += $_
-            Import-WslCommand "$_"
-        }
-        else {
-            $Global:Error.RemoveAt($Global:Error.Count - 1)
+        if (! Get-Command $_ -errorAction Ignore) {
+            wsl command -v $_ > null
+            if ($?) {
+                $WslImportedCommands += $_
+                Import-WslCommand "$_"
+            }
+            else {
+                $Global:Error.RemoveAt($Global:Error.Count - 1)
+            }
         }
     }
 }
