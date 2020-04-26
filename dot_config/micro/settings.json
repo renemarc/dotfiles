@@ -1,3 +1,9 @@
+// -*-mode:javascript-*- vim:ft=json
+
+// ~/.micro/settings.json
+// ============================================================================
+// Micro text editor configuration file.
+
 {
     "autoclose": true,
     "autoindent": true,
