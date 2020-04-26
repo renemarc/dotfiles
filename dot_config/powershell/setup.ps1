@@ -223,6 +223,7 @@ if ($IsWindows) {
         $apps | ForEach-Object {
             if (!$appList.Contains($_)) {
                 Invoke-Command -ScriptBlock { scoop install $_ }
+                $count++
             }
         }
     }
