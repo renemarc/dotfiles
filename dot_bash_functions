@@ -41,7 +41,7 @@ function extract {
             *.zpaq)      zpaq x ./"$n"      ;;
             *.arc)         arc e ./"$n"       ;;
             *.cso)       ciso 0 ./"$n" ./"$n.iso" && \
-                              extract $n.iso && \rm -f $n ;;
+                              extract "$n".iso && \rm -f "$n" ;;
             *)
                          echo "extract: '$n' - unknown archive method"
                          return 1
@@ -66,11 +66,11 @@ function history_search() {
 }
 
 # Searches session history for a string, or lists all session history.
-# Syntax: `historysessionsearch <string>`
+# Syntax: `history_session_search <string>`
 function history_session_search() {
     prefix=$(date +"$HISTTIMEFORMAT")
     offset=$((8 + ${#prefix}))
-    comm -23 <(history | cut -c ${offset}-) ${HISTFILE:-"~/.bash_history"} | grep "$1"
+    comm -23 <(history | cut -c ${offset}-) "${HISTFILE:-'~/.bash_history'}" | grep "$1"
 }
 
 # Creates a directory and changes to it.
@@ -82,7 +82,7 @@ function mkcd() {
         return 0
     fi
 
-    mkdir -p -- "$@" && cd -P -- "$_";
+    mkdir -p -- "$@" && cd -P -- "$_" || exit;
 }
 alias take=mkcd
 
@@ -171,7 +171,7 @@ function update() {
 # Syntax: `microsoft-edge <url>`
 if [[ "$OSTYPE" =~ ^(cygwin|mingw|msys) ]]; then
     function microsoft-edge() {
-        start microsoft-edge:$1
+        start microsoft-edge:"$1"
     }
 fi
 

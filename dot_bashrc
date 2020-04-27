@@ -6,6 +6,9 @@
 #
 # See https://www.gnu.org/software/bash/manual/html_node/index.html
 
+# shellcheck shell=bash
+# shellcheck source=/dev/null
+
 # If not running interactively, don't do anything.
 case $- in
     *i*) ;;
@@ -92,7 +95,8 @@ export LSCOLORS=GxFxCxDxBxegedabagaced;
 
 # Enable color support of ls.
 if [ -x /usr/bin/dircolors ]; then
-    test -r ${HOME}/.dircolors && eval "$(dircolors -b ${HOME}/.dircolors)" || eval "$(dircolors -b)"
+    # shellcheck disable=SC2015
+    test -r "$HOME"/.dircolors && eval "$(dircolors -b "$HOME"/.dircolors)" || eval "$(dircolors -b)"
 fi
 
 # Enable colored GCC warnings and errors.
@@ -110,7 +114,7 @@ case "$TERM" in
     xterm-color|*-256color) color_prompt=yes;;
 esac
 
-if [ -n "$force_color_prompt" ]; then
+if [ -n "${force_color_prompt:?}" ]; then
     if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
         # We have color support; assume it's compliant with Ecma-48
         # (ISO/IEC-6429). Lack of such support is extremely rare, and such
@@ -138,6 +142,7 @@ if [ "$color_prompt" = yes ]; then
     # Date style
     PS1="\n\[\033[31m\][\D{%d %b}, \t] ${debian_chroot:+($debian_chroot)}\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h:\[\033[33;1m\]\w\[\033[m\]\$ ";
     SUDO_PS1="\n[\D{%d %b}, \t] ${debian_chroot:+($debian_chroot)}\[\e[90;01;41m\]\u@\h\[\e[0m\]:\$PWD\$ ";
+    export SUDO_PS1
 else
     # Basic style
     PS1="${debian_chroot:+($debian_chroot)}\u@\h:\w\$ "
@@ -162,12 +167,13 @@ esac
 # Set Xterm/screen/Tmux title with only a short hostname.
 # Uncomment this (or set SHORT_HOSTNAME to something else),
 # Will otherwise fall back on $HOSTNAME.
-export SHORT_HOSTNAME=$(hostname -s)
+SHORT_HOSTNAME=$(hostname -s)
+export SHORT_HOSTNAME
 
 # Set Xterm/screen/Tmux title with only a short username.
 # Uncomment this (or set SHORT_USER to something else),
 # Will otherwise fall back on $USER.
-export SHORT_USER=${USER:0:8}
+export SHORT_USER="${USER:0:8}"
 
 # Set Xterm/screen/Tmux title with shortened command and directory.
 # Uncomment this to set.
@@ -244,18 +250,19 @@ fi
 
 # Provide known hosts completions.
 # See http://surniaulula.com/2012/09/20/autocomplete-ssh-hostnames/
+# shellcheck disable=SC2063
 _complete_hosts () {
     COMPREPLY=()
     cur="${COMP_WORDS[COMP_CWORD]}"
-    host_list=`{
-        for c in /etc/ssh_config /etc/ssh/ssh_config ${HOME}/.ssh/config
-            do [ -r $c ] && sed -n -e 's/^Host[[:space:]]//p' -e 's/^[[:space:]]*HostName[[:space:]]//p' $c
+    host_list=$({
+        for c in /etc/ssh_config /etc/ssh/ssh_config "$HOME"/.ssh/config
+            do [ -r "$c" ] && sed -n -e 's/^Host[[:space:]]//p' -e 's/^[[:space:]]*HostName[[:space:]]//p' "$c"
         done
-        for k in /etc/ssh_known_hosts /etc/ssh/ssh_known_hosts ${HOME}/.ssh/known_hosts
-            do [ -r $k ] && egrep -v '^[#\[]' $k|cut -f 1 -d ' '|sed -e 's/[,:].*//g'
+        for k in /etc/ssh_known_hosts /etc/ssh/ssh_known_hosts "$HOME"/.ssh/known_hosts
+            do [ -r "$k" ] && grep -E -v '^[#\[]' "$k"|cut -f 1 -d ' '|sed -e 's/[,:].*//g'
         done
-        sed -n -e 's/^[0-9][0-9\.]*//p' /etc/hosts; }|tr ' ' '\n'|grep -v '*'`
-    COMPREPLY=( $(compgen -W "${host_list}" -- $cur))
+        sed -n -e 's/^[0-9][0-9\.]*//p' /etc/hosts; }|tr ' ' '\n'|grep -v '*')
+    COMPREPLY=("$(compgen -W "$host_list" -- "$cur")")
     return 0
 }
 for h in host ping ssh sshs telnet
@@ -315,7 +322,7 @@ if command -v ruby > /dev/null && command -v gem > /dev/null; then
 fi
 
 # Provide Travis CI completions.
-[ -f ${HOME}/.travis/travis.sh ] && \. ${HOME}/.travis/travis.sh
+[ -f "$HOME"/.travis/travis.sh ] && \. "$HOME"/.travis/travis.sh
 
 # Register Acquia Dev Desktop
 if [ -d "/Applications/DevDesktop" ]; then
@@ -342,18 +349,18 @@ export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
 # -----------------------------------------------------------------------------
 
 # Load functions declarations from separate configuration file.
-if [ -f $HOME/.bash_functions ]; then
-    \. $HOME/.bash_functions
+if [ -f "$HOME"/.bash_functions ]; then
+    \. "$HOME"/.bash_functions
 fi
 
 # Load alias definitions from separate configuration file.
-if [ -f $HOME/.bash_aliases ]; then
-    \. $HOME/.bash_aliases
+if [ -f "$HOME"/.bash_aliases ]; then
+    \. "$HOME"/.bash_aliases
 fi
 
 # Load custom code from separate configuration file.
-if [ -f $HOME/.bash_extras ]; then
-    \. $HOME/.bash_extras
+if [ -f "$HOME"/.bash_extras ]; then
+    \. "$HOME"/.bash_extras
 fi
 
 
@@ -367,7 +374,7 @@ fi
 
 # Remove any duplicate paths.
 # See https://stackoverflow.com/questions/11650840/remove-redundant-paths-from-path-variable
-export PATH="$(echo "$PATH" | awk 'BEGIN{RS=":";}
+PATH="$(echo "$PATH" | awk 'BEGIN{RS=":";}
 {sub(sprintf("%c$",10),"");if(A[$0]){}else{A[$0]=1;
 printf(((NR==1)?"":":")$0)}}')";
-
+export PATH

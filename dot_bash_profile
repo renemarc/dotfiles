@@ -7,6 +7,9 @@
 # This file will be read by bash instead of any existing `~/.profile`.
 # See https://www.gnu.org/software/bash/manual/html_node/index.html
 
+# shellcheck shell=bash
+# shellcheck source=/dev/null
+
 # Load configuration bulk from non-login shell.
 if [ -n "$BASH_VERSION" ]; then
     if [ -f "$HOME/.bashrc" ]; then
