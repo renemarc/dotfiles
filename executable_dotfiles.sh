@@ -12,58 +12,58 @@ command_exists() {
 }
 
 error() {
-    echo ${RED}"Error: $@"${RESET} >&2
+    printf -- "%sError: $*%s\n" >&2 "$RED" "$RESET"
 }
 
-function setup_color() {
+setup_color() {
     # Only use colors if connected to a terminal
     if [ -t 1 ]; then
         RED=$(printf '\033[31m')
         GREEN=$(printf '\033[32m')
-        YELLOW=$(printf '\033[33m')
+        # YELLOW=$(printf '\033[33m')
         BLUE=$(printf '\033[34m')
         BOLD=$(printf '\033[1m')
         RESET=$(printf '\033[m')
     else
         RED=""
         GREEN=""
-        YELLOW=""
+        # YELLOW=""
         BLUE=""
         BOLD=""
         RESET=""
     fi
 }
 
-function import_repo() {
+import_repo() {
     repo=$1
     destination=$2
-    if [[ "$OSTYPE" =~ ^cygwin|mingw|msys ]]; then
+    if uname | grep -Eq '^(cygwin|mingw|msys)'; then
         uuid=$(powershell -NoProfile -Command "[guid]::NewGuid().ToString()")
     else
         uuid=$(uuidgen)
     fi
-    TMPFILE=$(mktemp /tmp/dotfiles.${uuid}.tar.gz) || exit 1
+    TMPFILE=$(mktemp /tmp/dotfiles."${uuid}".tar.gz) || exit 1
     curl -s -L -o "$TMPFILE" "$repo" || exit 1
     chezmoi import --strip-components 1 --destination "$destination" "$TMPFILE" || exit 1
     rm -f "$TMPFILE"
 }
 
-function setup_dependencies() {
-    echo "\n${BOLD}Setting up dependencies:${RESET}\n"
+setup_dependencies() {
+    printf -- "\n%sSetting up dependencies:%s\n\n" "$BOLD" "$RESET"
 
     # Install Homebrew packages
     if command -v brew > /dev/null; then
-        echo "${BLUE}Installing/updating apps using Homebrew...${RESET}"
+        printf -- "%sInstalling/updating apps using Homebrew...%s\n" "$BLUE" "$RESET"
         brew bundle --global
     fi
 }
 
-function setup_prompts() {
-    echo "\n${BOLD}Setting up shell frameworks:${RESET}\n"
+setup_prompts() {
+    printf -- "\n%sSetting up shell frameworks:%s\n\n" "$BOLD" "$RESET"
 
     # Install Bash-it
     PACKAGE_NAME='Bash-it'
-    echo "${BLUE}Installing/updating ${PACKAGE_NAME}...${RESET}"
+    printf -- "%sInstalling/updating %s...%s\n" "$BLUE" "$PACKAGE_NAME" "$RESET"
     import_repo 'https://github.com/Bash-it/bash-it/archive/master.tar.gz' "${HOME}/.bash-it" || {
         error "import of ${PACKAGE_NAME} failed"
         exit 1
@@ -71,7 +71,9 @@ function setup_prompts() {
 
     # Install Oh My Zsh
     PACKAGE_NAME='Oh My Zsh'
-    echo "${BLUE}Installing/updating ${PACKAGE_NAME}...${RESET}"
+    printf -- "%sInstalling/updating %s...%s\n" "$BLUE" "$PACKAGE_NAME" "$RESET"
+    CHEZMOIPATH=$(chezmoi source-path)
+    rm -rf "$CHEZMOIPATH"/dot_oh-my-zsh/plugins
     import_repo 'https://github.com/robbyrussell/oh-my-zsh/archive/master.tar.gz' "${HOME}/.oh-my-zsh" || {
         error "import of ${PACKAGE_NAME} failed"
         exit 1
@@ -79,14 +81,14 @@ function setup_prompts() {
 
     # Install Zsh plugins
     PACKAGE_NAME='zsh-autosuggestions'
-    echo "${BLUE}Installing/updating Zsh plugin: ${PACKAGE_NAME}...${RESET}"
+    printf -- "%sInstalling/updating Zsh plugin: %s...%s\n" "$BLUE" "$PACKAGE_NAME" "$RESET"
     import_repo 'https://github.com/zsh-users/zsh-autosuggestions/archive/master.tar.gz' "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/zsh-autosuggestions" || {
         error "import of ${PACKAGE_NAME} failed"
         exit 1
     }
 
     PACKAGE_NAME='zsh-syntax-highlighting'
-    echo "${BLUE}Installing/updating Zsh plugin: ${PACKAGE_NAME}...${RESET}"
+    printf -- "%sInstalling/updating Zsh plugin: %s...%s\n" "$BLUE" "$PACKAGE_NAME" "$RESET"
     import_repo 'https://github.com/zsh-users/zsh-syntax-highlighting/archive/master.tar.gz' "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting" || {
         error "import of ${PACKAGE_NAME} failed"
         exit 1
@@ -94,36 +96,37 @@ function setup_prompts() {
 
     # Install Zsh themes
     PACKAGE_NAME='Powerlevel9k'
-    echo "${BLUE}Installing/updating Zsh theme: ${PACKAGE_NAME}...${RESET}"
+    printf -- "%sInstalling/updating Zsh theme: %s...%s\n" "$BLUE" "$PACKAGE_NAME" "$RESET"
     import_repo 'https://github.com/Powerlevel9k/powerlevel9k/archive/master.tar.gz' "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/themes/powerlevel9k" || {
         error "import of ${PACKAGE_NAME} failed"
         exit 1
     }
 
     PACKAGE_NAME='Powerlevel10k'
-    echo "${BLUE}Installing/updating Zsh theme: ${PACKAGE_NAME}...${RESET}"
+    printf -- "%sInstalling/updating Zsh theme: %s...%s\n" "$BLUE" "$PACKAGE_NAME" "$RESET"
     import_repo 'https://github.com/romkatv/powerlevel10k/archive/master.tar.gz' "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/themes/powerlevel10k" || {
         error "import of ${PACKAGE_NAME} failed"
         exit 1
     }
 }
 
-function setup_applications() {
-    echo "\n${BOLD}Setting up CLI applications:${RESET}\n"
+setup_applications() {
+    printf -- "\n%sSetting up CLI applications:%s\n\n" "$BOLD" "$RESET"
 
     # Install Oh My Tmux
     PACKAGE_NAME='Oh My Tmux'
-    echo "${BLUE}Installing/updating ${PACKAGE_NAME}...${RESET}"
+    printf -- "%sInstalling/updating %s...%s\n" "$BLUE" "$PACKAGE_NAME" "$RESET"
     import_repo 'https://github.com/gpakosz/.tmux/archive/master.tar.gz' "${HOME}/.tmux" || {
         error "import of ${PACKAGE_NAME} failed"
         exit 1
     }
-    ln -s -f -v .tmux/.tmux.conf
+    ln -s -f -v .tmux/.tmux.conf "$HOME"
 
     # Install Tmux Plugin Manager
     PACKAGE_NAME='Tmux Plugin Manager'
-    echo "${BLUE}Installing/updating ${PACKAGE_NAME}...${RESET}"
-    mkdir -pv $(chezmoi source-path)/dot_tmux/plugins/tpm
+    printf -- "%sInstalling/updating %s...%s\n" "$BLUE" "$PACKAGE_NAME" "$RESET"
+    CHEZMOIPATH=$(chezmoi source-path)
+    mkdir -pv "$CHEZMOIPATH"/dot_tmux/plugins/tpm
     import_repo 'https://github.com/tmux-plugins/tpm/archive/master.tar.gz' "${HOME}/.tmux/plugins/tpm" || {
         error "import of ${PACKAGE_NAME} failed"
         exit 1
@@ -131,7 +134,9 @@ function setup_applications() {
 
     # Install Nano syntax highlighting files
     PACKAGE_NAME='Nano syntax highlighting'
-    echo "${BLUE}Installing/updating ${PACKAGE_NAME}...${RESET}"
+    CHEZMOIPATH=$(chezmoi source-path)
+    rm -rf "$CHEZMOIPATH"/dot_nano/nanorc
+    printf -- "%sInstalling/updating %s...%s\n" "$BLUE" "$PACKAGE_NAME" "$RESET"
     import_repo 'https://github.com/scopatz/nanorc/archive/master.tar.gz' "${HOME}/.nano" || {
         error "import of ${PACKAGE_NAME} failed"
         exit 1
@@ -139,7 +144,7 @@ function setup_applications() {
 
     # Install Ultimate Vim Configuration
     PACKAGE_NAME='Ultimate vimrc'
-    echo "${BLUE}Installing/updating ${PACKAGE_NAME}...${RESET}"
+    printf -- "%sInstalling/updating %s...%s\n" "$BLUE" "$PACKAGE_NAME" "$RESET"
     import_repo 'https://github.com/amix/vimrc/archive/master.tar.gz' "${HOME}/.vim_runtime" || {
         error "import of ${PACKAGE_NAME} failed"
         exit 1
@@ -147,23 +152,29 @@ function setup_applications() {
 
     # Install micro plugins
     if command -v micro; then
-        echo "${BLUE}Installing/updating micro plugins...${RESET}"
-        plugins = (
-            'filemanager'
-            'go'
-            'manipulator'
-            'misspell'
-            'wc'
-        )
-        for i in "${plugins[@]}"
-        do
-            micro -plugin install $i
-        done
+        printf -- "%sInstalling/updating micro plugins...%s\n" "$BLUE" "$RESET"
+        OUT_OF_DATE='installed but out-of-date'
+        if  micro -plugin install filemanager | tee -a /dev/tty | grep -q "$OUT_OF_DATE"; then
+            micro -plugin update  filemanager
+        fi
+        if  micro -plugin install manipulator | tee -a /dev/tty | grep -q "$OUT_OF_DATE"; then
+            micro -plugin update  manipulator
+        fi
+        if  micro -plugin install misspell | tee -a /dev/tty | grep -q "$OUT_OF_DATE"; then
+            micro -plugin update  misspell
+        fi
+        if  micro -plugin install misspell | tee -a /dev/tty | grep -q "$OUT_OF_DATE"; then
+            micro -plugin update  misspell
+        fi
+        if  micro -plugin install wc | tee -a /dev/tty | grep -q "$OUT_OF_DATE"; then
+            micro -plugin update  wc
+        fi
     fi
 }
 
-function setup_devtools() {
-    echo "\n${BOLD}Setting up development tools:${RESET}\n"
+# shellcheck source=/dev/null
+setup_devtools() {
+    printf -- "\n%sSetting up development tools:%s\n\n" "$BOLD" "$RESET"
 
     command_exists git || {
         error "git is not installed"
@@ -171,7 +182,7 @@ function setup_devtools() {
     }
 
     # Install NVM
-    echo "${BLUE}Installing/updating Node Version Manager...${RESET}"
+    printf -- "%sInstalling/updating Node Version Manager...%s\n" "$BLUE" "$RESET"
     export NVM_DIR="$HOME/.nvm" && (
         NVM_NEW=false
         if [ ! -d "$NVM_DIR" ]; then
@@ -179,26 +190,27 @@ function setup_devtools() {
             NVM_NEW=true
         fi
         cd "$NVM_DIR"
-        if [ ! NVM_NEW ]; then
+        if [ ! $NVM_NEW ]; then
             git fetch --tags origin
         fi
-        git checkout `git describe --abbrev=0 --tags --match "v[0-9]*" $(git rev-list --tags --max-count=1)`
+        HASH=$(git describe --abbrev=0 --tags --match "v[0-9]*" "$(git rev-list --tags --max-count=1)")
+        git checkout "$HASH"
     ) && \. "$NVM_DIR/nvm.sh" && \. "$NVM_DIR/bash_completion"
 
     # Install Node.js
-    echo "${BLUE}Installing/updating Node.js...${RESET}"
+    printf -- "%sInstalling/updating Node.js...%s\n" "$BLUE" "$RESET"
     nvm install node
 }
 
-function finalize_dotfiles() {
-    echo "\n${BOLD}Finalizing dotfiles:${RESET}\n"
+finalize_dotfiles() {
+    printf -- "\n%sFinalizing dotfiles:%s\n\n" "$BOLD" "$RESET"
 
-    echo "${BLUE}Updating dotfiles at destination...${RESET}"
+    printf -- "%sUpdating dotfiles at destination...%s\n" "$BLUE" "$RESET"
     chezmoi apply
 }
 
-function main() {
-    echo "\n${BOLD}Dotfiles setup script${RESET}"
+main() {
+    printf -- "\n%sDotfiles setup script%s\n" "$BOLD" "$RESET"
 
     command_exists chezmoi || {
         error "chezmoi is not installed"
@@ -212,7 +224,7 @@ function main() {
     setup_devtools
     finalize_dotfiles
 
-    echo "\n${GREEN}Done!${RESET}\n"
+    printf -- "\n%sDone.%s\n\n" "$GREEN" "$RESET"
 
     # if [ -n "`$SHELL -c 'echo $ZSH_VERSION'`" ]; then
     #    [ -s "$HOME/.zshrc" ] && \. "$HOME/.zshrc"
