@@ -6,6 +6,10 @@
 #
 # See http://zsh.sourceforge.net/
 
+# shellcheck shell=bash
+# shellcheck source=/dev/null
+# shellcheck disable=SC2034
+
 # Hide default user from local prompt.
 export DEFAULT_USER="${USER}"
 
@@ -115,11 +119,11 @@ fi
 
 # Load theme Powerlevel10K
 if test "${ZSH_THEME#*powerlevel10k}" != "$ZSH_THEME"; then
-    [ -f $HOME/.p10k.zsh ] && \. $HOME/.p10k.zsh
+    [ -f "$HOME"/.p10k.zsh ] && \. "$HOME"/.p10k.zsh
 fi
 
 # Load Oh My Zsh
-. $ZSH/oh-my-zsh.sh
+. "$ZSH"/oh-my-zsh.sh
 
 # User configuration
 
@@ -133,8 +137,8 @@ export LANG=en_US.UTF-8
 # Set preferred editor for local and remote sessions.
 if [[ -n $SSH_CONNECTION ]]; then
     export EDITOR='vim'
-elif command -v mvim > /dev/null;
-    export EDITOR='mvim'; then
+elif command -v mvim > /dev/null; then
+    export EDITOR='mvim';
 else
     export EDITOR='vim'
 fi
@@ -194,7 +198,7 @@ if command -v ruby > /dev/null && command -v gem > /dev/null; then
 fi
 
 # Provide Travis CI completions.
-[ -f ${HOME}/.travis/travis.sh ] && \. ${HOME}/.travis/travis.sh
+[ -f "$HOME"/.travis/travis.sh ] && \. "$HOME"/.travis/travis.sh
 
 
 # Varia
@@ -209,16 +213,16 @@ export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
 # -----------------------------------------------------------------------------
 
 # Load cross-compatible Bash functions declarations from separate file.
-if [ -f $HOME/.bash_functions ]; then
-    \. $HOME/.bash_functions
+if [ -f "$HOME"/.bash_functions ]; then
+    \. "$HOME"/.bash_functions
 fi
 
 # Load cross-compatible Bash alias definitions from separate file.
-if [ -f $HOME/.bash_aliases ]; then
-    \. $HOME/.bash_aliases
+if [ -f "$HOME"/.bash_aliases ]; then
+    \. "$HOME"/.bash_aliases
 fi
 
 # Load cross-compatible Bash custom code from separate file.
-if [ -f $HOME/.bash_extras ]; then
-    \. $HOME/.bash_extras
+if [ -f "$HOME"/.bash_extras ]; then
+    \. "$HOME"/.bash_extras
 fi
