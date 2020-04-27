@@ -4,6 +4,8 @@
 # =============================================================================
 # Shell functions sourced by `~/.bashrc` and `~/.zshrc`.
 
+# shellcheck shell=bash
+
 # General
 # -----------------------------------------------------------------------------
 
@@ -183,3 +185,30 @@ if command -v pip3 > /dev/null; then
         PIP_REQUIRE_VIRTUALENV="0" pip3 "$@"
     }
 fi
+
+
+# Varia
+# -----------------------------------------------------------------------------
+
+# Copies contents to the clipboard.
+function cb() {
+    if [ -z "$1" ]; then
+        echo "Usage: cb <path>"
+        echo "Help: cb copies a file contents to the clipboard."
+        return 0
+    fi
+
+    if command -v pbcopy > /dev/null; then
+        pbcopy < "$1"
+    elif command -v xclip > /dev/null; then
+        xclip -selection clipboard < "$1"
+    elif command -v xsel > /dev/null; then
+        xsel -ib < "$1"
+    elif command -v clipboard > /dev/null; then # node.js clipboard-cli
+        clipboard < "$1"
+    elif command -v clip > /dev/null; then
+        clip < "$1"
+    elif command -v powershell > /dev/null; then
+        powershell -NoProfile -Command "Set-Clipboard"
+    fi
+}

@@ -10,6 +10,8 @@
 #     - mingw: MinGW Minimalist GNU for Windows
 #     - msys: MinGW Lightweight shell and GNU utilities for Windows
 
+# shellcheck shell=bash
+
 # Redefine standard commands to improve their behavior
 # -----------------------------------------------------------------------------
 
@@ -54,7 +56,7 @@ if type 'vdir' &> /dev/null; then
 fi
 
 # Uses human sizes, classifications, and color output for `ls`.
-alias ls="command ls -Fh ${colorflag}"
+alias ls='command ls -Fh ${colorflag}'
 
 # Creates parent directories on demand.
 alias mkdir='mkdir -pv'
@@ -154,13 +156,13 @@ alias vi=vim
 alias vis='vim "+set si"'
 
 # Reloas the shell.
-alias reload="exec ${SHELL} -l"
+alias reload='exec $SHELL -l'
 
 # Reloads the configuration.
 if [ -n "$ZSH_VERSION" ]; then
-    alias resource=". ${HOME}/.zshrc"
+    alias resource='. $HOME/.zshrc'
 else
-    alias resource=". ${HOME}/.bash_profile"
+    alias resource='. $HOME/.bash_profile'
 fi
 
 
@@ -215,6 +217,7 @@ alias ips="ifconfig -a | grep -o 'inet6\? \(addr:\)\?\s\?\(\(\([0-9]\+\.\)\{3\}[
 if [[ "$OSTYPE" =~ ^darwin ]]; then
     alias localip="ipconfig getifaddr en0"
 elif [[ "$OSTYPE" =~ ^(cygwin|mingw|msys) ]]; then
+    # shellcheck disable=SC2142
     alias localip="netstat -rn | grep -w '0.0.0.0' | awk '{ print \$4 }'"
 else
     alias localip="ip route get 1 | awk '{print \$NF;exit}'"
@@ -222,7 +225,7 @@ fi
 
 # Gets external IP address.
 if command -v dig &> /dev/null; then
-    alias publicip="dig +short myip.opendns.com @resolver1.opendns.com"
+    alias publicip='dig +short myip.opendns.com @resolver1.opendns.com'
 elif command -v curl > /dev/null; then
     alias publicip='curl --silent --compressed --max-time 5 --url "https://ipinfo.io/ip"'
 else
@@ -231,7 +234,8 @@ fi
 
 # Sends HTTP requests.
 command -v lwp-request &> /dev/null && for method in GET HEAD POST PUT DELETE TRACE OPTIONS; do
-    alias "${method}"="lwp-request -m '${method}'"
+    #shellcheck disable=SC2139
+    alias $method="lwp-request -m '$method'"
 done
 unset method;
 
@@ -287,6 +291,7 @@ if [[ "$OSTYPE" =~ ^darwin ]]; then
 elif [[ "$OSTYPE" =~ ^(cygwin|mingw|msys) ]]; then
     alias mnt='mount | sed "s/Program Files/Program-Files/i" | column -t'
 else
+    # shellcheck disable=SC2142
     alias mnt="mount | awk -F' ' '{ printf \"%s\t%s\n\",\$1,\$3; }' | column -t | egrep ^/dev/ | sort"
 fi
 
@@ -296,7 +301,7 @@ alias path='echo -e ${PATH//:/\\n}'
 # Displays information about the system.
 for command in winfetch neofetch screenfetch; do
     if type $command &> /dev/null; then
-        alias sysinfo=$command
+        alias sysinfo='$command'
         break
     fi
 done
@@ -332,6 +337,7 @@ fi
 
 # Enters the Starship cross-shell prompt.
 if [ -n "$ZSH_VERSION" ]; then
+    # shellcheck disable=SC2034
     if typeset -f prompt_powerlevel9k_teardown > /dev/null; then
         alias ss='prompt_powerlevel9k_teardown && eval "$(starship init zsh)"'
     else
@@ -394,9 +400,9 @@ fi
 # -----------------------------------------------------------------------------
 
 # Navigates to user paths.
-alias dls="cd ${HOME}/Downloads"
-alias docs="cd ${HOME}/Documents"
-alias dt="cd ${HOME}/Desktop"
+alias dls='cd $HOME/Downloads'
+alias docs='cd $HOME/Documents'
+alias dt='cd $HOME/Desktop'
 
 
 # Configuration paths
@@ -405,60 +411,45 @@ alias dt="cd ${HOME}/Desktop"
 # Navigates to Chezmoi's local repo.
 if command -v chezmoi > /dev/null; then
     if [[ "$OSTYPE" =~ ^(cygwin|mingw|msys) ]]; then
-        alias chezmoiconf="cd $(echo $(chezmoi source-path) | tr '\\/' '/' | tr -d ':' | awk '{print "/"$1}')"
+        alias chezmoiconf="cd \"$(echo \"$(chezmoi source-path)\" | tr '\\/' '/' | tr -d ':' | awk '{print "/"$1}')\""
     else
-        alias chezmoiconf="cd $(chezmoi source-path)"
+        alias chezmoiconf='cd $(chezmoi source-path)'
     fi
 else
-    alias chezmoiconf="cd ${HOME}/.local/share/chezmoi"
+    alias chezmoiconf='cd $HOME/.local/share/chezmoi'
 fi
 
 # Navigates to Powershell's profile location.
 if [[ "$OSTYPE" =~ ^(cygwin|mingw|msys) ]]; then
-    alias powershellconf="cd ${HOME}/Documents/PowerShell"
+    alias powershellconf='cd $HOME/Documents/PowerShell'
 else
-    alias powershellconf="cd ${HOME}/.config/powershell"
+    alias powershellconf='cd $HOME/.config/powershell'
 fi
 
 # Navigates to Sublime Text's local repo.
-alias sublimeconf="cd ${HOME}/Library/Application\ Support/Sublime\ Text\ 3/Packages/User"
+alias sublimeconf='cd $HOME/Library/Application\ Support/Sublime\ Text\ 3/Packages/User'
 
 
 # Custom paths
 # -----------------------------------------------------------------------------
 
 # Navigates to custom paths.
-alias archives="cd ${HOME}/Archives"
-alias repos="cd ${HOME}/Code"
+alias archives='cd $HOME/Archives'
+alias repos='cd $HOME/Code'
 
 
 # Varia
 # -----------------------------------------------------------------------------
 
-# Copies contents to the clipboard.
-if command -v pbcopy > /dev/null; then
-    alias cb="pbcopy < $1"
-elif command -v xclip > /dev/null; then
-    alias cb="xclip -selection clipboard < $1"
-elif command -v xsel > /dev/null; then
-    alias cb="cat $1 | xsel -ib"
-elif command -v clipboard > /dev/null; then # node.js clipboard-cli
-    alias cb="cat $1 | clipboard"
-elif command -v clip > /dev/null; then
-    alias cb="clip < $1"
-elif command -v powershell > /dev/null; then
-    alias cb="powershell -NoProfile -Command 'Set-Clipboard'"
-fi
-
 # Pastes the contents of the clipboard.
 if command -v pbpaste > /dev/null; then
-    alias cbpaste="pbpaste"
+    alias cbpaste='pbpaste'
 elif command -v xclip > /dev/null; then
-    alias cbpaste="xclip -i -selection clipboard -o"
+    alias cbpaste='xclip -i -selection clipboard -o'
 elif command -v xsel > /dev/null; then
-    alias cbpaste="xsel -bo"
+    alias cbpaste='xsel -bo'
 elif command -v clipboard > /dev/null; then
-    alias cbpaste="clipboard"
+    alias cbpaste='clipboard'
 elif command -v powershell > /dev/null; then
     alias cbpaste="powershell -NoProfile -Command 'Get-Clipboard'"
 fi
