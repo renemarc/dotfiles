@@ -128,6 +128,9 @@
     # Sets upstream remote.
     set-upstream = remote set-url upstream
 
+    # Displays repo disk consumption
+    size = git count-objects -v --human-readable
+
     # Pulls remota and auto-updates local submodules.
     spull = !git pull && git submodule sync --recursive && git submodule update --init --recursive
 
