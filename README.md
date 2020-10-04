@@ -2,8 +2,8 @@
     <a name="top" title="dotfiles">~/.&nbsp;📂</a><br/>Cross-platform, cross-shell dotfiles<br/> <sup><sub>powered by  <a href="https://www.chezmoi.io/">chezmoi</a> 🏠</sub></sup>
 </h1>
 
+[![Codacy rating][badge-codacy]][link-codacy]
 [![CodeFactor rating][badge-codefactor]][link-codefactor]
-[![Code Climate maintainability][badge-codeclimate-maintainability]][link-codeclimate-maintainability]
 [![License][badge-license]][link-license]
 [![Tweet][badge-twitter]][link-twitter]
 
@@ -275,7 +275,7 @@ System-specific aliases are marked with <b title="macOS"></b>, <b title="Wind
 
 <p align="center"><strong>Don't forget to <a href="#" title="star">⭐️</a> or <a href="#" title="fork">🔱</a> this repo! 😃<br/><sub>Assembled with <b title="love">❤️</b> in Montréal.</sub></strong></p>
 
-[badge-codeclimate-maintainability]:https://img.shields.io/codeclimate/maintainability/renemarc/dotfiles.svg?logo=code-climate&cacheSeconds=300
+[badge-codacy]:https://api.codacy.com/project/badge/Grade/65f1bdc49197445d980074f133a9acc8
 
 [badge-codefactor]:https://img.shields.io/codefactor/grade/github/renemarc/dotfiles?logo=codefactor&logoColor=white&cacheSeconds=300
 
@@ -283,7 +283,7 @@ System-specific aliases are marked with <b title="macOS"></b>, <b title="Wind
 
 [badge-twitter]:https://img.shields.io/twitter/url/http/shields.io.svg?style=social&maxAge=86400
 
-[link-codeclimate-maintainability]:https://codeclimate.com/github/renemarc/dotfiles
+[link-codacy]:https://www.codacy.com/manual/renemarc/dotfiles
 [link-codefactor]:https://www.codefactor.io/repository/github/renemarc/dotfiles
 [link-license]:LICENSE.txt
 [link-twitter]:https://twitter.com/intent/tweet?text=Cross-platform%2C%20cross-shell%20%23dotfiles%20using%20%23chezmoi&url=https://github.com/renemarc/dotfiles&via=renemarc&hashtags=Bash,PowerShell,ZSH
