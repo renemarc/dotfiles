@@ -5,6 +5,7 @@
 [![Codacy rating][badge-codacy]][link-codacy]
 [![CodeFactor rating][badge-codefactor]][link-codefactor]
 [![License][badge-license]][link-license]
+[![Repo analytics][badge-analytics]][link-analytics]
 [![Tweet][badge-twitter]][link-twitter]
 
 Universal command set and colourful shell configurations for Bash, Zsh and Powershell, compatible with macOS, Windows and (partially) Linux, all managed easily using [chezmoi](https://github.com/twpayne/chezmoi).
@@ -275,6 +276,8 @@ System-specific aliases are marked with <b title="macOS"></b>, <b title="Wind
 
 <p align="center"><strong>Don't forget to <a href="#" title="star">⭐️</a> or <a href="#" title="fork">🔱</a> this repo! 😃<br/><sub>Assembled with <b title="love">❤️</b> in Montréal.</sub></strong></p>
 
+[badge-analytics]:https://img.shields.io/badge/repo%20analytics-public-informational?logo=data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZD0iTTIxIDhDMTkuNSA4IDE4LjcgOS40IDE5LjEgMTAuNUwxNS41IDE0LjFDMTUuMiAxNCAxNC44IDE0IDE0LjUgMTQuMUwxMS45IDExLjVDMTIuMyAxMC40IDExLjUgOSAxMCA5QzguNiA5IDcuNyAxMC40IDguMSAxMS41TDMuNSAxNkMyLjQgMTUuNyAxIDE2LjUgMSAxOEMxIDE5LjEgMS45IDIwIDMgMjBDNC40IDIwIDUuMyAxOC42IDQuOSAxNy41TDkuNCAxMi45QzkuNyAxMyAxMC4xIDEzIDEwLjQgMTIuOUwxMyAxNS41QzEyLjcgMTYuNSAxMy41IDE4IDE1IDE4QzE2LjUgMTggMTcuMyAxNi42IDE2LjkgMTUuNUwyMC41IDExLjlDMjEuNiAxMi4yIDIzIDExLjQgMjMgMTBDMjMgOC45IDIyLjEgOCAyMSA4TTE1IDlMMTUuOSA2LjlMMTggNkwxNS45IDUuMUwxNSAzTDE0LjEgNS4xTDEyIDZMMTQuMSA2LjlMMTUgOU0zLjUgMTFMNCA5TDYgOC41TDQgOEwzLjUgNkwzIDhMMSA4LjVMMyA5TDMuNSAxMVoiIGZpbGw9IiNmZmZmZmYiIC8+PC9zdmc+&maxAge=86400
+
 [badge-codacy]:https://api.codacy.com/project/badge/Grade/65f1bdc49197445d980074f133a9acc8
 
 [badge-codefactor]:https://img.shields.io/codefactor/grade/github/renemarc/dotfiles?logo=codefactor&logoColor=white&cacheSeconds=300
@@ -283,6 +286,7 @@ System-specific aliases are marked with <b title="macOS"></b>, <b title="Wind
 
 [badge-twitter]:https://img.shields.io/twitter/url/http/shields.io.svg?style=social&maxAge=86400
 
+[link-analytics]:https://repo-analytics.github.io/renemarc/dotfiles
 [link-codacy]:https://www.codacy.com/manual/renemarc/dotfiles
 [link-codefactor]:https://www.codefactor.io/repository/github/renemarc/dotfiles
 [link-license]:LICENSE.txt
