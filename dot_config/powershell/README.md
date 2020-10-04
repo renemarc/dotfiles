@@ -2,7 +2,7 @@
 
 ## Prettify the prompt
 
-Let's make the prompt pretty and Git-oriented with [Oh-My-Posh](https://github.com/dahlbyk/posh-git) and [Posh-Git](https://github.com/JanDeDobbeleer/oh-my-posh):
+Let's make the prompt pretty and Git-oriented with [Oh-My-Posh](https://github.com/JanDeDobbeleer/oh-my-posh) and [Posh-Git](https://github.com/dahlbyk/posh-git):
 
 ```sh
 Install-Module posh-git -Scope CurrentUser
