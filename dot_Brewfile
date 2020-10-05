@@ -15,56 +15,58 @@ tap "homebrew/core"
 tap "homebrew/services"
 tap "twpayne/taps"
 
-brew "adminer"
-brew "autoconf"
-brew "bash"
-brew "bash-completion"
-brew "colordiff"
-brew "direnv"
-brew "flake8"
-brew "fswatch"
-brew "geoip"
-brew "htop"
-#brew "graphicsmagick"
-#brew "imagemagick"
-brew "jpegoptim"
-brew "less"
-brew "lesspipe"
-brew "mariadb"
-brew "micro"
-brew "nano"
-brew "npm"
-#brew "optipng"
-brew "tidy-html5"
-brew "neofetch"
-brew "php-code-sniffer"
-brew "phplint"
-brew "phpmd"
-brew "phpunit"
-brew "pipenv"
-brew "postgresql", restart_service: true
-brew "pyenv"
-brew "pyenv-virtualenv"
-brew "ruby-build"
-brew "rbenv"
-brew "ripgrep"
-brew "rsync"
-brew "screenfetch"
-brew "starship"
-brew "telnet"
-brew "tmuxinator"
-brew "travis"
-brew "unison"
-brew "wget"
-brew "zlib"
-brew "eugenmayer/dockersync/unox"
-brew "heroku/brew/heroku"
-brew "twpayne/taps/chezmoi"
+brew "adminer"                              # Database management in PHP
+brew "asdf"                                 # Extendable version manager
+brew "autoconf"                             # Configuration shell script maker
+brew "bash"                                 # Bourne again shell
+brew "bash-completion"                      # Autocompletions for `bash`
+brew "colordiff"                            # Colour-highlighted diff output
+brew "direnv"                               # Directory specific env variables
+brew "flake8"                               # Python style guide enforcer
+brew "fswatch"                              # File change monitor
+brew "geoip"                                # Geographic IP lookup
+brew "gnupg"                                # GNU privacy guard
+brew "htop"                                 # Interactive system-monitor
+#brew "graphicsmagick"                      # GraphicsMagick image processor
+#brew "imagemagick"                         # ImageMagick image processor
+brew "jpegoptim"                            # JPEG compressor/optimizer
+brew "less"                                 # Terminal pager
+brew "lesspipe"                             # Input filter for `less`
+brew "mariadb"                              # MariaDB RDBMS
+brew "micro"                                # Micro text editor
+brew "nano"                                 # Nano text editor
+brew "npm"                                  # Node package manager
+#brew "optipng"                             # PNG compressor/optimizer
+brew "tidy-html5"                           # HTML corrector
+brew "neofetch"                             # System information tool
+brew "php-code-sniffer"                     # PHP coding standard validator
+brew "phplint"                              # PHP code quality checker
+brew "phpmd"                                # PHP mess detector
+brew "phpunit"                              # PHP unit testig framework
+brew "pipenv"                               # Python packaging tool
+brew "postgresql", restart_service: true    # PostgreSQL RDBMS
+brew "pyenv"                                # Python version manager
+brew "pyenv-virtualenv"                     # virtualenv and conda manager
+brew "ruby-build"                           # Ruby version managger
+brew "rbenv"                                # Ruby environment manager
+brew "ripgrep"                              # Recursive Regex search tool
+brew "rsync"                                # File transfer and sync tool
+brew "screenfetch"                          # Screenshot information tool
+brew "starship"                             # Starship cross-shell prompt
+brew "telnet"                               # Virtual terminal client
+brew "tmuxinator"                           # Tmux session controller
+brew "travis"                               # Travis CI client
+brew "unison"                               # Unison file synchronizer
+brew "wget"                                 # Web content downloader
+brew "zlib"                                 # Lossless data-compression library
+brew "eugenmayer/dockersync/unox"           # Docker sync daemon
+brew "heroku/brew/heroku"                   # Heroku CLI
+brew "twpayne/taps/chezmoi"                 # Chezmoi dotfiles manager
 
-cask "android-platform-tools"
-cask "font-dejavusansmono-nerd-font-mono"
-cask "font-firacode-nerd-font"
-cask "font-hack-nerd-font-mono"
-cask "font-meslo-nerd-font-mono"
-cask "font-sourcecodepro-nerd-font-mono"
-cask "powershell"
+cask "android-platform-tools"               # Android SDK platform-tools
+cask "font-dejavusansmono-nerd-font-mono"   # DejaVu Sans Mono Nerd Font
+cask "font-firacode-nerd-font"              # Fira Code Nerd Font
+cask "font-hack-nerd-font-mono"             # Hack Mono Nerd Font
+cask "font-meslo-nerd-font-mono"            # Meslo Mono Nerd Font
+cask "font-sourcecodepro-nerd-font-mono"    # Source Code Pro Mono Nerd Font
+cask "powershell"                           # Cross-platform shell
