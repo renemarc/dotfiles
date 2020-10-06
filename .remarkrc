@@ -1,0 +1,8 @@
+{
+  "plugins": [
+    "remark-preset-lint-recommended",
+    ["remark-stringify", {
+        "looseTable": true
+    }]
+  ]
+}
