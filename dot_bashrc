@@ -294,6 +294,17 @@ fi
 # Development environments
 # -----------------------------------------------------------------------------
 
+# Enable ASDF Extendable version manager (https://asdf-vm.com).
+# This should replace all language-secific version managers.
+ASDF_DIR="${ASDF_DIR:-$HOME/.asdf}"
+if [[ ! -d $ASDF_DIR ]] && type brew &> /dev/null; then
+    ASDF_DIR="$(brew --prefix asdf)"
+fi
+[ -s "$ASDF_DIR/asdf.sh" ] && \. "$ASDF_DIR/asdf.sh"
+
+# Provide ASDF completions (already loaded if using Homebrew).
+[ -s "$ASDF_DIR/completions/asdf.bash" ] && \. "$ASDF_DIR/completions/asdf.bash"
+
 # Enable Node Version Manager.
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"

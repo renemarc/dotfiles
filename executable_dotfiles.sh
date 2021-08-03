@@ -181,6 +181,39 @@ setup_devtools() {
         exit 1
     }
 
+    # Install ASDF Versionn Manager
+    # https://asdf-vm.com/
+    if ! command -v brew > /dev/null;; then
+        printf -- "%sInstalling/updating ASDF Extendable Version Manager...%s\n" "$BLUE" "$RESET"
+        export ASDF_DIR="${ASDF_DIR:-$HOME/.asdf}" && (
+            ASDF_NEW=false
+            if [ ! -d "$ASDF_DIR" ]; then
+                git clone https://github.com/asdf-vm/asdf.git "$NVM_DIR"
+                ASDF_NEW=true
+            fi
+            cd "$ASDF_DIR"
+            if [ $ASDF_NEW ]; then
+                git checkout "$(git describe --abbrev=0 --tags)"
+            else
+                asdf update
+            fi
+        ) && \. "$ASDF_DIR/nvm.sh" && ([ -z "$BASH_VERSION" ] || \. "$ASDF_DIR/completions/asdf.bash")
+    fi
+
+    printf -- "%sInstalling/updating ASDF plugins...%s\n" "$BLUE" "$RESET"
+    asdf plugin add golang
+    asdf plugin add nodejs
+    asdf plugin add php
+    asdf plugin add python
+    asdf plugin add ruby
+    asdf plugin update --all
+
+    printf -- "%sImporting PGP keyrings for ASDF plugins...%s\n" "$BLUE" "$RESET"
+    "$HOME"/.asdf/plugins/nodejs/bin/import-release-team-keyring
+
+    asdf install golang latest
+    asdf install nodejs latest
+
     # Install NVM
     printf -- "%sInstalling/updating Node Version Manager...%s\n" "$BLUE" "$RESET"
     export NVM_DIR="$HOME/.nvm" && (
