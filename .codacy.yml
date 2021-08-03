@@ -1,0 +1,8 @@
+---
+languages:
+  bash:
+    extensions:
+      - 'dot_bash_aliases'
+exclude_paths:
+  - '.*git/.*'
+  - '.*node_modules/.*'
