@@ -60,7 +60,7 @@ if (Get-Command Import-WslCommand -errorAction Ignore) {
     }
 
     $WslCommands | ForEach-Object {
-        if (! Get-Command $_ -errorAction Ignore) {
+        if (!(Get-Command $_ -errorAction Ignore)) {
             wsl command -v $_ > null
             if ($?) {
                 $WslImportedCommands += $_
